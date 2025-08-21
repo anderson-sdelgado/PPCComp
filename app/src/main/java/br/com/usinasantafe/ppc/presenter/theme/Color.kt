@@ -1,4 +1,4 @@
-package br.com.usinasantafe.ppc.ui.theme
+package br.com.usinasantafe.ppc.presenter.theme
 
 import androidx.compose.ui.graphics.Color
 

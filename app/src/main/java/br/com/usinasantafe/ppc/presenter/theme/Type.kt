@@ -1,4 +1,4 @@
-package br.com.usinasantafe.ppc.ui.theme
+package br.com.usinasantafe.ppc.presenter.theme
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle
