@@ -26,4 +26,22 @@
     <string name="text_status_send">Existe dados para serem enviado</string>
     <string name="text_status_sending">Dados estão sendo enviados</string>
     <string name="text_status_sent">Não existe dados para serens enviados</string>
+    <string name="text_title_password">SENHA</string>
+    <string name="text_password_invalid">SENHA INVÁLIDA!</string>
+    <string name="text_title_config">CONFIGURAÇÃO</string>
+    <string name="text_number">NRO APARELHO</string>
+    <string name="text_pattern_save">SALVAR</string>
+    <string name="text_msg_recovery">Recuperando dados da tabela \"%1$s\" do Web Service.</string>
+    <string name="text_msg_clean">Limpando a tabela \"%1$s\".</string>
+    <string name="text_msg_save">Salvando dados na tabela \"%1$s\".</string>
+    <string name="text_msg_get_token">Enviando dados de Token</string>
+    <string name="text_msg_save_token">Salvando dados de Token</string>
+    <string name="text_msg_finish_update_initial">Ajuste iniciais finalizado com sucesso!</string>
+    <string name="text_msg_finish_update_completed">Atualização de dados realizado com sucesso!</string>
+    <string name="text_msg_check_data">Checando Dados relativos a tela.</string>
+    <string name="text_field_empty_config">CAMPO VAZIO! POR FAVOR, PREENCHA TODOS OS CAMPOS PARA SALVAR AS CONFIGURAÇÕES E ATUALIZAR TODAS AS BASES DE DADOS.</string>
+    <string name="text_recover_token">FALHA DE RECUPERACAO DE TOKEN! POR FAVOR ENTRE EM CONTATO COM TI. %1$s</string>
+    <string name="text_update_failure">FALHA DE ATUALIZAÇÃO DE DADOS! POR FAVOR ENTRE EM CONTATO COM TI. %1$s</string>
+    <string name="text_config_success">CONFIGURAÇÃO REALIZADA COM SUCESSO!</string>
+    <string name="text_flow_inexistent">FLUXO INEXISTENTE. POR FAVOR ENTRAR EM CONTATO COM A TI.</string>
 </resources>

@@ -6,9 +6,13 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import br.com.usinasantafe.ppc.presenter.Routes.CONFIG_ROUTE
 import br.com.usinasantafe.ppc.presenter.Routes.INITIAL_MENU_ROUTE
+import br.com.usinasantafe.ppc.presenter.Routes.PASSWORD_ROUTE
 import br.com.usinasantafe.ppc.presenter.Routes.SPLASH_ROUTE
+import br.com.usinasantafe.ppc.presenter.view.configuration.config.ConfigScreen
 import br.com.usinasantafe.ppc.presenter.view.configuration.initial.InitialMenuScreen
+import br.com.usinasantafe.ppc.presenter.view.configuration.password.PasswordScreen
 import br.com.usinasantafe.ppc.presenter.view.splash.SplashScreen
 
 @Composable
@@ -41,8 +45,29 @@ fun NavigationGraph(
 
         composable(INITIAL_MENU_ROUTE) {
             InitialMenuScreen(
-                onNavPassword = {},
+                onNavPassword = {
+                    navActions.navigateToPassword()
+                },
                 onNavHeaderList = {}
+            )
+        }
+
+        composable(PASSWORD_ROUTE) {
+            PasswordScreen(
+                onNavInitialMenu = {
+                    navActions.navigateToInitialMenu()
+                },
+                onNavConfig = {
+                    navActions.navigateToConfig()
+                }
+            )
+        }
+
+        composable(CONFIG_ROUTE)  {
+            ConfigScreen(
+                onNavInitialMenu = {
+                    navActions.navigateToInitialMenu()
+                }
             )
         }
 
