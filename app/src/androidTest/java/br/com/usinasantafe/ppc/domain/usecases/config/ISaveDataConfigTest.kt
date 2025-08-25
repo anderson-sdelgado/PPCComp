@@ -29,6 +29,29 @@ class ISaveDataConfigTest {
     }
 
     @Test
+    fun check_return_failure_if_input_data_is_incorrect() =
+        runTest {
+            val result = usecase(
+                number = "16997417840a",
+                password = "12345",
+                version = "1.00",
+                idServ = 1
+            )
+            assertEquals(
+                result.isFailure,
+                true
+            )
+            assertEquals(
+                result.exceptionOrNull()!!.message,
+                "ISaveDataConfig"
+            )
+            assertEquals(
+                result.exceptionOrNull()!!.cause.toString(),
+                "java.lang.NumberFormatException: For input string: \"16997417840a\""
+            )
+        }
+
+    @Test
     fun check_return_if_not_have_data() =
         runTest {
             val resultHasBefore = configSharedPreferencesDatasource.has()
@@ -58,7 +81,7 @@ class ISaveDataConfigTest {
                 number = "16997417840",
                 password = "12345",
                 version = "1.00",
-                idBD = 1
+                idServ = 1
             )
             assertEquals(
                 result.isSuccess,
@@ -94,29 +117,6 @@ class ISaveDataConfigTest {
             assertEquals(
                 config.version,
                 "1.00"
-            )
-        }
-
-    @Test
-    fun check_return_failure_if_input_data_is_incorrect() =
-        runTest {
-            val result = usecase(
-                number = "16997417840a",
-                password = "12345",
-                version = "1.00",
-                idBD = 1
-            )
-            assertEquals(
-                result.isFailure,
-                true
-            )
-            assertEquals(
-                result.exceptionOrNull()!!.message,
-                "ISaveDataConfig"
-            )
-            assertEquals(
-                result.exceptionOrNull()!!.cause.toString(),
-                "java.lang.NumberFormatException: For input string: \"16997417840a\""
             )
         }
 

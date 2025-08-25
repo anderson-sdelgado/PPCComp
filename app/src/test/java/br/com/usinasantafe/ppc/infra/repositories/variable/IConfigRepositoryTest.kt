@@ -2,21 +2,27 @@ package br.com.usinasantafe.ppc.infra.repositories.variable
 
 import br.com.usinasantafe.ppc.domain.entities.variable.Config
 import br.com.usinasantafe.ppc.domain.errors.resultFailure
+import br.com.usinasantafe.ppc.infra.datasource.retrofit.variable.ConfigRetrofitDatasource
 import br.com.usinasantafe.ppc.infra.datasource.sharedpreferences.ConfigSharedPreferencesDatasource
+import br.com.usinasantafe.ppc.infra.models.retrofit.variable.ConfigRetrofitModelInput
+import br.com.usinasantafe.ppc.infra.models.retrofit.variable.ConfigRetrofitModelOutput
 import br.com.usinasantafe.ppc.infra.models.sharedpreferences.ConfigSharedPreferencesModel
+import br.com.usinasantafe.ppc.utils.FlagUpdate
 import br.com.usinasantafe.ppc.utils.StatusSend
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import org.mockito.Mockito.mock
 import org.mockito.kotlin.whenever
-import kotlin.text.get
 
 class IConfigRepositoryTest {
 
     private val configSharedPreferencesDatasource = mock<ConfigSharedPreferencesDatasource>()
+    private val configRetrofitDatasource = mock<ConfigRetrofitDatasource>()
+
     private val repository = IConfigRepository(
-        configSharedPreferencesDatasource = configSharedPreferencesDatasource
+        configSharedPreferencesDatasource = configSharedPreferencesDatasource,
+        configRetrofitDatasource = configRetrofitDatasource
     )
 
     @Test
@@ -173,7 +179,7 @@ class IConfigRepositoryTest {
                         number = 16997417840,
                         password = "12345",
                         version = "1.00",
-                        idBD = 1
+                        idServ = 1
                     )
                 )
             ).thenReturn(
@@ -188,7 +194,7 @@ class IConfigRepositoryTest {
                     number = 16997417840,
                     password = "12345",
                     version = "1.00",
-                    idBD = 1
+                    idServ = 1
                 )
             )
             assertEquals(
@@ -214,7 +220,7 @@ class IConfigRepositoryTest {
                         number = 16997417840,
                         password = "12345",
                         version = "1.00",
-                        idBD = 1
+                        idServ = 1
                     )
                 )
             ).thenReturn(
@@ -225,7 +231,7 @@ class IConfigRepositoryTest {
                     number = 16997417840,
                     password = "12345",
                     version = "1.00",
-                    idBD = 1
+                    idServ = 1
                 )
             )
             assertEquals(
@@ -237,5 +243,121 @@ class IConfigRepositoryTest {
                 true
             )
         }
+
+    @Test
+    fun `send - Check return failure if have error in ConfigRetrofitDatasource recoverToken`() =
+        runTest {
+            val retrofitModelOutput = ConfigRetrofitModelOutput(
+                number = 16997417840,
+                version = "1.00"
+            )
+            val entity = Config(
+                number = 16997417840,
+                version = "1.00"
+            )
+            whenever(
+                configRetrofitDatasource.recoverToken(
+                    retrofitModelOutput = retrofitModelOutput
+                )
+            ).thenReturn(
+                resultFailure(
+                    "IConfigRetrofitDatasource.recoverToken",
+                    "-",
+                    Exception()
+                )
+            )
+            val result = repository.send(entity)
+            assertEquals(
+                result.isFailure,
+                true
+            )
+            assertEquals(
+                result.exceptionOrNull()!!.message,
+                "IConfigRepository.send -> IConfigRetrofitDatasource.recoverToken"
+            )
+            assertEquals(
+                result.exceptionOrNull()!!.cause.toString(),
+                "java.lang.Exception"
+            )
+        }
+
+    @Test
+    fun `send - Check return correct if function execute successfully`() =
+        runTest {
+            val retrofitModelOutput = ConfigRetrofitModelOutput(
+                number = 16997417840,
+                version = "1.00"
+            )
+            val retrofitModelInput = ConfigRetrofitModelInput(
+                idServ = 1
+            )
+            val entity = Config(
+                number = 16997417840,
+                version = "1.00"
+            )
+            whenever(
+                configRetrofitDatasource.recoverToken(
+                    retrofitModelOutput = retrofitModelOutput
+                )
+            ).thenReturn(
+                Result.success(retrofitModelInput)
+            )
+            val result = repository.send(entity)
+            assertEquals(
+                result.isSuccess,
+                true
+            )
+            assertEquals(
+                result.getOrNull()!!,
+                Config(
+                    idServ = 1
+                )
+            )
+        }
+
+    @Test
+    fun `setFlagUpdate - Check return failure if have failure in execution ConfigSharedPreferencesDatasource setFlagUpdate`() =
+        runTest {
+            whenever(
+                configSharedPreferencesDatasource.setFlagUpdate(FlagUpdate.UPDATED)
+            ).thenReturn(
+                resultFailure(
+                    "IConfigSharedPreferencesDatasource.setFlagUpdate",
+                    "-",
+                    Exception()
+                )
+            )
+            val result = repository.setFlagUpdate(FlagUpdate.UPDATED)
+            assertEquals(
+                result.isFailure,
+                true
+            )
+            assertEquals(
+                result.exceptionOrNull()!!.message,
+                "IConfigRepository.setFlagUpdate -> IConfigSharedPreferencesDatasource.setFlagUpdate"
+            )
+            assertEquals(
+                result.exceptionOrNull()!!.cause.toString(),
+                "java.lang.Exception"
+            )
+        }
+
+    @Test
+    fun `setFlagUpdate - Check return true is execution successfully`() = runTest {
+        whenever(
+            configSharedPreferencesDatasource.setFlagUpdate(FlagUpdate.UPDATED)
+        ).thenReturn(
+            Result.success(true)
+        )
+        val result = repository.setFlagUpdate(FlagUpdate.UPDATED)
+        assertEquals(
+            result.isSuccess,
+            true
+        )
+        assertEquals(
+            result.getOrNull()!!,
+            true
+        )
+    }
 
 }

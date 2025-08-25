@@ -7,7 +7,7 @@ import br.com.usinasantafe.ppc.utils.StatusSend
 data class ConfigSharedPreferencesModel(
     var number: Long? = null,
     var password: String? = null,
-    var idBD: Int? = null,
+    var idServ: Int? = null,
     var version: String? = null,
     var statusSend: StatusSend = StatusSend.STARTED,
     var flagUpdate: FlagUpdate = FlagUpdate.OUTDATED,
@@ -19,7 +19,7 @@ fun ConfigSharedPreferencesModel.sharedPreferencesModelToEntity(): Config {
             password = password,
             number = number,
             version = version,
-            idBD = idBD,
+            idServ = idServ,
             statusSend = statusSend,
             flagUpdate = flagUpdate,
         )
@@ -32,7 +32,7 @@ fun Config.entityToSharedPreferencesModel(): ConfigSharedPreferencesModel {
             password = password,
             number = number,
             version = version,
-            idBD = idBD,
+            idServ = idServ,
             statusSend = statusSend,
             flagUpdate = flagUpdate,
         )

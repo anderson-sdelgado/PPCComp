@@ -6,6 +6,7 @@ import br.com.usinasantafe.ppc.domain.errors.resultFailure
 import br.com.usinasantafe.ppc.infra.datasource.sharedpreferences.ConfigSharedPreferencesDatasource
 import br.com.usinasantafe.ppc.infra.models.sharedpreferences.ConfigSharedPreferencesModel
 import br.com.usinasantafe.ppc.utils.BASE_SHARE_PREFERENCES_TABLE_CONFIG
+import br.com.usinasantafe.ppc.utils.FlagUpdate
 import br.com.usinasantafe.ppc.utils.getClassAndMethod
 import com.google.gson.Gson
 import javax.inject.Inject
@@ -82,6 +83,33 @@ class IConfigSharedPreferencesDatasource @Inject constructor(
                 )
             )
         } catch (e: Exception){
+            return resultFailure(
+                context = getClassAndMethod(),
+                cause = e
+            )
+        }
+    }
+
+    override suspend fun setFlagUpdate(flagUpdate: FlagUpdate): Result<Boolean> {
+        try {
+            val resultConfig = get()
+            if (resultConfig.isFailure) {
+                return resultFailure(
+                    context = getClassAndMethod(),
+                    cause = resultConfig.exceptionOrNull()!!
+                )
+            }
+            val model = resultConfig.getOrNull()!!
+            model.flagUpdate = flagUpdate
+            val resultSave = save(model)
+            if (resultSave.isFailure) {
+                return resultFailure(
+                    context = getClassAndMethod(),
+                    cause = resultSave.exceptionOrNull()!!
+                )
+            }
+            return Result.success(true)
+        } catch (e: Exception) {
             return resultFailure(
                 context = getClassAndMethod(),
                 cause = e

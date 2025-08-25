@@ -195,7 +195,7 @@ class ConfigViewModel @Inject constructor(
             number = number,
             password = password,
             version = version,
-            idBD = config.idBD!!,
+            idServ = config.idServ!!,
         )
         if (resultSave.isFailure) {
             val error = resultSave.exceptionOrNull()!!

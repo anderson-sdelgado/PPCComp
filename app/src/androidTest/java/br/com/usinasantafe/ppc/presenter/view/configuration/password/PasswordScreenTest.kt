@@ -15,7 +15,6 @@ import br.com.usinasantafe.ppc.utils.waitUntilTimeout
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import kotlinx.coroutines.test.runTest
-import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -87,7 +86,7 @@ class PasswordScreenTest {
             ConfigSharedPreferencesModel(
                 number = 16997417840,
                 password = "123456",
-                idBD = 1,
+                idServ = 1,
                 version = "1.0",
                 flagUpdate = FlagUpdate.UPDATED
             )

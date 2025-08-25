@@ -5,13 +5,13 @@
       <SelectionState runConfigName="app">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
-      <SelectionState runConfigName="check_return_if_not_have_data()">
+      <SelectionState runConfigName="check_return_failure_if_not_have_data()">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
-      <SelectionState runConfigName="check_return_when_have_data()">
+      <SelectionState runConfigName="check_return_failure_if_config_data_internal_have_field_empty()">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
-      <SelectionState runConfigName="check_return_failure_if_input_data_is_incorrect()">
+      <SelectionState runConfigName="check_return_true_and_data_returned()">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
     </selectionStates>

@@ -6,7 +6,7 @@ import br.com.usinasantafe.ppc.utils.StatusSend
 data class Config(
     var number: Long? = null,
     var password: String? = null,
-    var idBD: Int? = null,
+    var idServ: Int? = null,
     var version: String? = null,
     var statusSend: StatusSend = StatusSend.STARTED,
     val flagUpdate: FlagUpdate = FlagUpdate.OUTDATED,

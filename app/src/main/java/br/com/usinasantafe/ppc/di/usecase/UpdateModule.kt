@@ -15,4 +15,5 @@ interface UpdateModule {
     @Singleton
     fun bindUpdateTableColab(usecase: IUpdateTableColab): UpdateTableColab
 
+
 }

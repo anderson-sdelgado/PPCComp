@@ -3,15 +3,20 @@ package br.com.usinasantafe.ppc.infra.repositories.variable
 import br.com.usinasantafe.ppc.domain.entities.variable.Config
 import br.com.usinasantafe.ppc.domain.errors.resultFailure
 import br.com.usinasantafe.ppc.domain.repositories.variable.ConfigRepository
+import br.com.usinasantafe.ppc.infra.datasource.retrofit.variable.ConfigRetrofitDatasource
 import br.com.usinasantafe.ppc.infra.datasource.sharedpreferences.ConfigSharedPreferencesDatasource
+import br.com.usinasantafe.ppc.infra.models.retrofit.variable.entityToRetrofitModel
+import br.com.usinasantafe.ppc.infra.models.retrofit.variable.retrofitToEntity
 import br.com.usinasantafe.ppc.infra.models.sharedpreferences.entityToSharedPreferencesModel
 import br.com.usinasantafe.ppc.infra.models.sharedpreferences.sharedPreferencesModelToEntity
+import br.com.usinasantafe.ppc.utils.FlagUpdate
 import br.com.usinasantafe.ppc.utils.getClassAndMethod
 import javax.inject.Inject
 import kotlin.text.get
 
 class IConfigRepository @Inject constructor(
-    private val configSharedPreferencesDatasource: ConfigSharedPreferencesDatasource
+    private val configSharedPreferencesDatasource: ConfigSharedPreferencesDatasource,
+    private val configRetrofitDatasource: ConfigRetrofitDatasource
 ): ConfigRepository {
 
     override suspend fun hasConfig(): Result<Boolean> {
@@ -73,7 +78,36 @@ class IConfigRepository @Inject constructor(
     }
 
     override suspend fun send(entity: Config): Result<Config> {
-        TODO("Not yet implemented")
+        try {
+            val result = configRetrofitDatasource.recoverToken(
+                entity.entityToRetrofitModel()
+            )
+            if(result.isFailure) {
+                return resultFailure(
+                    context = getClassAndMethod(),
+                    cause = result.exceptionOrNull()!!
+                )
+            }
+            val configRetrofitModel = result.getOrNull()!!
+            val entity = configRetrofitModel.retrofitToEntity()
+            return Result.success(entity)
+        } catch (e: Exception) {
+            return resultFailure(
+                context = getClassAndMethod(),
+                cause = e
+            )
+        }
+    }
+
+    override suspend fun setFlagUpdate(flagUpdate: FlagUpdate): Result<Boolean> {
+        val result = configSharedPreferencesDatasource.setFlagUpdate(flagUpdate)
+        if (result.isFailure) {
+            return resultFailure(
+                context = getClassAndMethod(),
+                cause = result.exceptionOrNull()!!
+            )
+        }
+        return result
     }
 
 }

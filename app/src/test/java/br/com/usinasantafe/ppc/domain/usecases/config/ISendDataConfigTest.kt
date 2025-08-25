@@ -92,7 +92,7 @@ class ISendDataConfigTest {
                         number = 16997417840,
                         password = "12345",
                         version = "1.00",
-                        idBD = 1
+                        idServ = 1
                     )
                 )
             )
@@ -111,7 +111,7 @@ class ISendDataConfigTest {
                     number = 16997417840,
                     password = "12345",
                     version = "1.00",
-                    idBD = 1
+                    idServ = 1
                 )
             )
         }
