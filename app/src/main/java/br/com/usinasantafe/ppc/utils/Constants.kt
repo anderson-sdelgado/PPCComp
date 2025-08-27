@@ -17,8 +17,9 @@ const val TB_HEADER = "tb_header"
 const val TB_RESP = "tb_resp"
 
 const val WEB_ALL_COLAB = "colab.php"
-const val WEB_ALL_COMPONENT = "component.php"
-const val WEB_ALL_SERVICE = "service.php"
+const val WEB_ALL_HARVESTER = "harvester.php"
+const val WEB_ALL_PLOT = "plot.php"
+const val WEB_ALL_SECTION = "section.php"
 
 const val WEB_SAVE_TOKEN = "find-token.php"
 const val WEB_GET_COLAB_BY_REG = "colab-by-reg.php"

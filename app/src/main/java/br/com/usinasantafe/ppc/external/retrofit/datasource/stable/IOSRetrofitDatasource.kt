@@ -1,4 +1,4 @@
-package br.com.usinasantafe.ppc.external.room.dao.stable
+package br.com.usinasantafe.ppc.external.retrofit.datasource.stable
 
 import br.com.usinasantafe.ppc.infra.datasource.retrofit.stable.OSRetrofitDatasource
 import javax.inject.Inject
