@@ -1,8 +1,8 @@
 package br.com.usinasantafe.ppc.domain.usecases.update
 
-import br.com.usinasantafe.ppc.domain.entities.stable.Harvester
+import br.com.usinasantafe.ppc.domain.entities.stable.Section
 import br.com.usinasantafe.ppc.domain.errors.resultFailure
-import br.com.usinasantafe.ppc.domain.repositories.stable.HarvesterRepository
+import br.com.usinasantafe.ppc.domain.repositories.stable.SectionRepository
 import br.com.usinasantafe.ppc.domain.usecases.config.GetToken
 import br.com.usinasantafe.ppc.presenter.model.ResultUpdateModel
 import br.com.usinasantafe.ppc.utils.Errors
@@ -16,13 +16,13 @@ import org.junit.Test
 import org.mockito.Mockito.mock
 import org.mockito.kotlin.whenever
 
-class IUpdateTableHarvesterTest {
+class IUpdateTableSectionTest {
 
     private val getToken = mock<GetToken>()
-    private val harvesterRepository = mock<HarvesterRepository>()
-    private val usecase = IUpdateTableHarvester(
+    private val sectionRepository = mock<SectionRepository>()
+    private val usecase = IUpdateTableSection(
         getToken = getToken,
-        harvesterRepository = harvesterRepository
+        sectionRepository = sectionRepository
     )
 
     @Test
@@ -51,7 +51,7 @@ class IUpdateTableHarvesterTest {
                 ResultUpdateModel(
                     flagProgress = true,
                     levelUpdate = LevelUpdate.RECOVERY,
-                    tableUpdate = "tb_harvester",
+                    tableUpdate = "tb_section",
                     currentProgress = updatePercentage(1f, 1f, 7f)
                 )
             )
@@ -62,14 +62,14 @@ class IUpdateTableHarvesterTest {
                     errors = Errors.UPDATE,
                     flagDialog = true,
                     flagFailure = true,
-                    failure = "IUpdateTableHarvester -> GetToken -> java.lang.Exception",
+                    failure = "IUpdateTableSection -> GetToken -> java.lang.Exception",
                     currentProgress = 1f,
                 )
             )
         }
 
     @Test
-    fun `Check return failure if have error in HarvesterRepository listAll`() =
+    fun `Check return failure if have error in SectionRepository listAll`() =
         runTest {
             whenever(
                 getToken()
@@ -77,12 +77,12 @@ class IUpdateTableHarvesterTest {
                 Result.success("token")
             )
             whenever(
-                harvesterRepository.listAll(
+                sectionRepository.listAll(
                     token = "token"
                 )
             ).thenReturn(
                 resultFailure(
-                    "IHarvesterRepository.listAll",
+                    "ISectionRepository.listAll",
                     "-",
                     Exception()
                 )
@@ -101,7 +101,7 @@ class IUpdateTableHarvesterTest {
                 ResultUpdateModel(
                     flagProgress = true,
                     levelUpdate = LevelUpdate.RECOVERY,
-                    tableUpdate = "tb_harvester",
+                    tableUpdate = "tb_section",
                     currentProgress = updatePercentage(1f, 1f, 7f)
                 )
             )
@@ -112,14 +112,14 @@ class IUpdateTableHarvesterTest {
                     errors = Errors.UPDATE,
                     flagDialog = true,
                     flagFailure = true,
-                    failure = "IUpdateTableHarvester -> IHarvesterRepository.listAll -> java.lang.Exception",
+                    failure = "IUpdateTableSection -> ISectionRepository.listAll -> java.lang.Exception",
                     currentProgress = 1f,
                 )
             )
         }
 
     @Test
-    fun `Check return failure if have error in HarvesterRepository deleteAll`() =
+    fun `Check return failure if have error in SectionRepository deleteAll`() =
         runTest {
             whenever(
                 getToken()
@@ -127,23 +127,24 @@ class IUpdateTableHarvesterTest {
                 Result.success("token")
             )
             whenever(
-                harvesterRepository.listAll(
+                sectionRepository.listAll(
                     token = "token"
                 )
             ).thenReturn(
                 Result.success(
                     listOf(
-                        Harvester(
-                            nroHarvester = 1
+                        Section(
+                            idSection = 1,
+                            codSection = 1
                         )
                     )
                 )
             )
             whenever(
-                harvesterRepository.deleteAll()
+                sectionRepository.deleteAll()
             ).thenReturn(
                 resultFailure(
-                    "IHarvesterRepository.deleteAll",
+                    "ISectionRepository.deleteAll",
                     "-",
                     Exception()
                 )
@@ -162,7 +163,7 @@ class IUpdateTableHarvesterTest {
                 ResultUpdateModel(
                     flagProgress = true,
                     levelUpdate = LevelUpdate.RECOVERY,
-                    tableUpdate = "tb_harvester",
+                    tableUpdate = "tb_section",
                     currentProgress = updatePercentage(1f, 1f, 7f)
                 )
             )
@@ -171,7 +172,7 @@ class IUpdateTableHarvesterTest {
                 ResultUpdateModel(
                     flagProgress = true,
                     levelUpdate = LevelUpdate.CLEAN,
-                    tableUpdate = "tb_harvester",
+                    tableUpdate = "tb_section",
                     currentProgress = updatePercentage(2f, 1f, 7f)
                 )
             )
@@ -182,18 +183,19 @@ class IUpdateTableHarvesterTest {
                     errors = Errors.UPDATE,
                     flagDialog = true,
                     flagFailure = true,
-                    failure = "IUpdateTableHarvester -> IHarvesterRepository.deleteAll -> java.lang.Exception",
+                    failure = "IUpdateTableSection -> ISectionRepository.deleteAll -> java.lang.Exception",
                     currentProgress = 1f,
                 )
             )
         }
 
     @Test
-    fun `Check return failure if have error in HarvesterRepository addAll`() =
+    fun `Check return failure if have error in SectionRepository addAll`() =
         runTest {
             val entityList = listOf(
-                Harvester(
-                    nroHarvester = 1
+                Section(
+                    idSection = 1,
+                    codSection = 1
                 )
             )
             whenever(
@@ -202,22 +204,22 @@ class IUpdateTableHarvesterTest {
                 Result.success("token")
             )
             whenever(
-                harvesterRepository.listAll(
+                sectionRepository.listAll(
                     token = "token"
                 )
             ).thenReturn(
                 Result.success(entityList)
             )
             whenever(
-                harvesterRepository.deleteAll()
+                sectionRepository.deleteAll()
             ).thenReturn(
                 Result.success(true)
             )
             whenever(
-                harvesterRepository.addAll(entityList)
+                sectionRepository.addAll(entityList)
             ).thenReturn(
                 resultFailure(
-                    "IHarvesterRepository.addAll",
+                    "ISectionRepository.addAll",
                     "-",
                     Exception()
                 )
@@ -236,7 +238,7 @@ class IUpdateTableHarvesterTest {
                 ResultUpdateModel(
                     flagProgress = true,
                     levelUpdate = LevelUpdate.RECOVERY,
-                    tableUpdate = "tb_harvester",
+                    tableUpdate = "tb_section",
                     currentProgress = updatePercentage(1f, 1f, 7f)
                 )
             )
@@ -245,7 +247,7 @@ class IUpdateTableHarvesterTest {
                 ResultUpdateModel(
                     flagProgress = true,
                     levelUpdate = LevelUpdate.CLEAN,
-                    tableUpdate = "tb_harvester",
+                    tableUpdate = "tb_section",
                     currentProgress = updatePercentage(2f, 1f, 7f)
                 )
             )
@@ -254,7 +256,7 @@ class IUpdateTableHarvesterTest {
                 ResultUpdateModel(
                     flagProgress = true,
                     levelUpdate = LevelUpdate.SAVE,
-                    tableUpdate = "tb_harvester",
+                    tableUpdate = "tb_section",
                     currentProgress = updatePercentage(3f, 1f, 7f)
                 )
             )
@@ -265,7 +267,7 @@ class IUpdateTableHarvesterTest {
                     errors = Errors.UPDATE,
                     flagDialog = true,
                     flagFailure = true,
-                    failure = "IUpdateTableHarvester -> IHarvesterRepository.addAll -> java.lang.Exception",
+                    failure = "IUpdateTableSection -> ISectionRepository.addAll -> java.lang.Exception",
                     currentProgress = 1f,
                 )
             )
@@ -275,8 +277,9 @@ class IUpdateTableHarvesterTest {
     fun `Check return correct if process execute successfully`() =
         runTest {
             val entityList = listOf(
-                Harvester(
-                    nroHarvester = 1
+                Section(
+                    idSection = 1,
+                    codSection = 1
                 )
             )
             whenever(
@@ -285,19 +288,19 @@ class IUpdateTableHarvesterTest {
                 Result.success("token")
             )
             whenever(
-                harvesterRepository.listAll(
+                sectionRepository.listAll(
                     token = "token"
                 )
             ).thenReturn(
                 Result.success(entityList)
             )
             whenever(
-                harvesterRepository.deleteAll()
+                sectionRepository.deleteAll()
             ).thenReturn(
                 Result.success(true)
             )
             whenever(
-                harvesterRepository.addAll(entityList)
+                sectionRepository.addAll(entityList)
             ).thenReturn(
                 Result.success(true)
             )
@@ -315,7 +318,7 @@ class IUpdateTableHarvesterTest {
                 ResultUpdateModel(
                     flagProgress = true,
                     levelUpdate = LevelUpdate.RECOVERY,
-                    tableUpdate = "tb_harvester",
+                    tableUpdate = "tb_section",
                     currentProgress = updatePercentage(1f, 1f, 7f)
                 )
             )
@@ -324,7 +327,7 @@ class IUpdateTableHarvesterTest {
                 ResultUpdateModel(
                     flagProgress = true,
                     levelUpdate = LevelUpdate.CLEAN,
-                    tableUpdate = "tb_harvester",
+                    tableUpdate = "tb_section",
                     currentProgress = updatePercentage(2f, 1f, 7f)
                 )
             )
@@ -333,7 +336,7 @@ class IUpdateTableHarvesterTest {
                 ResultUpdateModel(
                     flagProgress = true,
                     levelUpdate = LevelUpdate.SAVE,
-                    tableUpdate = "tb_harvester",
+                    tableUpdate = "tb_section",
                     currentProgress = updatePercentage(3f, 1f, 7f)
                 )
             )
