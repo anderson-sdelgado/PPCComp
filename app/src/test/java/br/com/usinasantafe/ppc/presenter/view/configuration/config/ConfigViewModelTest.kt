@@ -8,6 +8,9 @@ import br.com.usinasantafe.ppc.domain.usecases.config.SaveDataConfig
 import br.com.usinasantafe.ppc.domain.usecases.config.SendDataConfig
 import br.com.usinasantafe.ppc.domain.usecases.config.SetFinishUpdateAllTable
 import br.com.usinasantafe.ppc.domain.usecases.update.UpdateTableColab
+import br.com.usinasantafe.ppc.domain.usecases.update.UpdateTableHarvester
+import br.com.usinasantafe.ppc.domain.usecases.update.UpdateTablePlot
+import br.com.usinasantafe.ppc.domain.usecases.update.UpdateTableSection
 import br.com.usinasantafe.ppc.presenter.model.ConfigScreenModel
 import br.com.usinasantafe.ppc.presenter.model.ResultUpdateModel
 import br.com.usinasantafe.ppc.utils.Errors
@@ -35,8 +38,11 @@ class ConfigViewModelTest {
     private val saveDataConfig = mock<SaveDataConfig>()
     private val setFinishUpdateAllTable = mock<SetFinishUpdateAllTable>()
     private val updateTableColab = mock<UpdateTableColab>()
+    private val updateTableHarvester = mock<UpdateTableHarvester>()
+    private val updateTablePlot = mock<UpdateTablePlot>()
+    private val updateTableSection = mock<UpdateTableSection>()
 
-    private val qtdTable = 1f
+    private val qtdTable = 4f
     private val sizeAll = (qtdTable * 3) + 1f
     private var contWhenever = 0f
     private var contResult = 0f
@@ -47,7 +53,10 @@ class ConfigViewModelTest {
         sendDataConfig = sendDataConfig,
         saveDataConfig = saveDataConfig,
         setFinishUpdateAllTable = setFinishUpdateAllTable,
-        updateTableColab = updateTableColab
+        updateTableColab = updateTableColab,
+        updateTableHarvester = updateTableHarvester,
+        updateTablePlot = updateTablePlot,
+        updateTableSection = updateTableSection
     )
 
     @Test
@@ -399,6 +408,168 @@ class ConfigViewModelTest {
         }
 
     @Test
+    fun `update - Check return failure if have error in UpdateTableHarvester`() =
+        runTest {
+            val qtdBefore = 1f
+            wheneverSuccessColab()
+            whenever(
+                updateTableHarvester(
+                    sizeAll = sizeAll,
+                    count = (qtdBefore + 1)
+                )
+            ).thenReturn(
+                flowOf(
+                    ResultUpdateModel(
+                        flagProgress = true,
+                        levelUpdate = LevelUpdate.RECOVERY,
+                        tableUpdate = "tb_harvester",
+                        currentProgress = percentage(((qtdBefore * 3) + 1), sizeAll)
+                    ),
+                    ResultUpdateModel(
+                        errors = Errors.UPDATE,
+                        flagDialog = true,
+                        flagFailure = true,
+                        failure = "CleanHarvester -> java.lang.NullPointerException",
+                    )
+                )
+            )
+            val result = viewModel.updateAllDatabase().toList()
+            checkResultUpdateColab(result)
+            assertEquals(
+                result.count(),
+                ((qtdBefore * 3) + 2).toInt()
+            )
+            assertEquals(
+                result[(qtdBefore * 3).toInt()],
+                ConfigState(
+                    flagProgress = true,
+                    levelUpdate = LevelUpdate.RECOVERY,
+                    tableUpdate = "tb_harvester",
+                    currentProgress = percentage(((qtdBefore * 3) + 1), sizeAll)
+                )
+            )
+            assertEquals(
+                result[((qtdBefore * 3) + 1).toInt()],
+                ConfigState(
+                    errors = Errors.UPDATE,
+                    flagDialog = true,
+                    flagFailure = true,
+                    failure = "ConfigViewModel.updateAllDatabase -> CleanHarvester -> java.lang.NullPointerException",
+                )
+            )
+        }
+
+    @Test
+    fun `update - Check return failure if have error in UpdateTablePlot`() =
+        runTest {
+            val qtdBefore = 2f
+            wheneverSuccessColab()
+            wheneverSuccessHarvester()
+            whenever(
+                updateTablePlot(
+                    sizeAll = sizeAll,
+                    count = (qtdBefore + 1)
+                )
+            ).thenReturn(
+                flowOf(
+                    ResultUpdateModel(
+                        flagProgress = true,
+                        levelUpdate = LevelUpdate.RECOVERY,
+                        tableUpdate = "tb_plot",
+                        currentProgress = percentage(((qtdBefore * 3) + 1), sizeAll)
+                    ),
+                    ResultUpdateModel(
+                        errors = Errors.UPDATE,
+                        flagDialog = true,
+                        flagFailure = true,
+                        failure = "CleanPlot -> java.lang.NullPointerException",
+                    )
+                )
+            )
+            val result = viewModel.updateAllDatabase().toList()
+            checkResultUpdateColab(result)
+            checkResultUpdateHarvester(result)
+            assertEquals(
+                result.count(),
+                ((qtdBefore * 3) + 2).toInt()
+            )
+            assertEquals(
+                result[(qtdBefore * 3).toInt()],
+                ConfigState(
+                    flagProgress = true,
+                    levelUpdate = LevelUpdate.RECOVERY,
+                    tableUpdate = "tb_plot",
+                    currentProgress = percentage(((qtdBefore * 3) + 1), sizeAll)
+                )
+            )
+            assertEquals(
+                result[((qtdBefore * 3) + 1).toInt()],
+                ConfigState(
+                    errors = Errors.UPDATE,
+                    flagDialog = true,
+                    flagFailure = true,
+                    failure = "ConfigViewModel.updateAllDatabase -> CleanPlot -> java.lang.NullPointerException",
+                )
+            )
+        }
+
+    @Test
+    fun `update - Check return failure if have error in UpdateTableSection`() =
+        runTest {
+            val qtdBefore = 3f
+            wheneverSuccessColab()
+            wheneverSuccessHarvester()
+            wheneverSuccessPlot()
+            whenever(
+                updateTableSection(
+                    sizeAll = sizeAll,
+                    count = (qtdBefore + 1)
+                )
+            ).thenReturn(
+                flowOf(
+                    ResultUpdateModel(
+                        flagProgress = true,
+                        levelUpdate = LevelUpdate.RECOVERY,
+                        tableUpdate = "tb_section",
+                        currentProgress = percentage(((qtdBefore * 3) + 1), sizeAll)
+                    ),
+                    ResultUpdateModel(
+                        errors = Errors.UPDATE,
+                        flagDialog = true,
+                        flagFailure = true,
+                        failure = "CleanSection -> java.lang.NullPointerException",
+                    )
+                )
+            )
+            val result = viewModel.updateAllDatabase().toList()
+            checkResultUpdateColab(result)
+            checkResultUpdateHarvester(result)
+            checkResultUpdatePlot(result)
+            assertEquals(
+                result.count(),
+                ((qtdBefore * 3) + 2).toInt()
+            )
+            assertEquals(
+                result[(qtdBefore * 3).toInt()],
+                ConfigState(
+                    flagProgress = true,
+                    levelUpdate = LevelUpdate.RECOVERY,
+                    tableUpdate = "tb_section",
+                    currentProgress = percentage(((qtdBefore * 3) + 1), sizeAll)
+                )
+            )
+            assertEquals(
+                result[((qtdBefore * 3) + 1).toInt()],
+                ConfigState(
+                    errors = Errors.UPDATE,
+                    flagDialog = true,
+                    flagFailure = true,
+                    failure = "ConfigViewModel.updateAllDatabase -> CleanSection -> java.lang.NullPointerException",
+                )
+            )
+        }
+
+    @Test
     fun `update - Check return failure if have error in SetCheckUpdateAllTable`() =
         runTest {
             whenever(
@@ -425,6 +596,9 @@ class ConfigViewModelTest {
                 Result.success(true)
             )
             wheneverSuccessColab()
+            wheneverSuccessHarvester()
+            wheneverSuccessPlot()
+            wheneverSuccessSection()
             whenever(
                 setFinishUpdateAllTable()
             ).thenReturn(
@@ -443,6 +617,9 @@ class ConfigViewModelTest {
                 ((qtdTable * 3) + 1).toInt()
             )
             checkResultUpdateColab(result)
+            checkResultUpdateHarvester(result)
+            checkResultUpdatePlot(result)
+            checkResultUpdateSection(result)
             assertEquals(
                 result[(qtdTable * 3).toInt()],
                 ConfigState(
@@ -496,6 +673,9 @@ class ConfigViewModelTest {
                 Result.success(true)
             )
             wheneverSuccessColab()
+            wheneverSuccessHarvester()
+            wheneverSuccessPlot()
+            wheneverSuccessSection()
             whenever(
                 setFinishUpdateAllTable()
             ).thenReturn(
@@ -510,6 +690,9 @@ class ConfigViewModelTest {
                 ((qtdTable * 3) + 1).toInt()
             )
             checkResultUpdateColab(result)
+            checkResultUpdateHarvester(result)
+            checkResultUpdatePlot(result)
+            checkResultUpdateSection(result)
             assertEquals(
                 result[(qtdTable * 3).toInt()],
                 ConfigState(
@@ -565,6 +748,99 @@ class ConfigViewModelTest {
             )
         }
 
+    private fun wheneverSuccessHarvester() =
+        runTest {
+            whenever(
+                updateTableHarvester(
+                    sizeAll = sizeAll,
+                    count = ++contUpdate
+                )
+            ).thenReturn(
+                flowOf(
+                    ResultUpdateModel(
+                        flagProgress = true,
+                        levelUpdate = LevelUpdate.RECOVERY,
+                        tableUpdate = "tb_harvester",
+                        currentProgress = percentage(++contWhenever, sizeAll)
+                    ),
+                    ResultUpdateModel(
+                        flagProgress = true,
+                        levelUpdate = LevelUpdate.CLEAN,
+                        tableUpdate = "tb_harvester",
+                        currentProgress = percentage(++contWhenever, sizeAll)
+                    ),
+                    ResultUpdateModel(
+                        flagProgress = true,
+                        levelUpdate = LevelUpdate.SAVE,
+                        tableUpdate = "tb_harvester",
+                        currentProgress = percentage(++contWhenever, sizeAll)
+                    ),
+                )
+            )
+        }
+
+    private fun wheneverSuccessPlot() =
+        runTest {
+            whenever(
+                updateTablePlot(
+                    sizeAll = sizeAll,
+                    count = ++contUpdate
+                )
+            ).thenReturn(
+                flowOf(
+                    ResultUpdateModel(
+                        flagProgress = true,
+                        levelUpdate = LevelUpdate.RECOVERY,
+                        tableUpdate = "tb_plot",
+                        currentProgress = percentage(++contWhenever, sizeAll)
+                    ),
+                    ResultUpdateModel(
+                        flagProgress = true,
+                        levelUpdate = LevelUpdate.CLEAN,
+                        tableUpdate = "tb_plot",
+                        currentProgress = percentage(++contWhenever, sizeAll)
+                    ),
+                    ResultUpdateModel(
+                        flagProgress = true,
+                        levelUpdate = LevelUpdate.SAVE,
+                        tableUpdate = "tb_plot",
+                        currentProgress = percentage(++contWhenever, sizeAll)
+                    ),
+                )
+            )
+        }
+
+    private fun wheneverSuccessSection() =
+        runTest {
+            whenever(
+                updateTableSection(
+                    sizeAll = sizeAll,
+                    count = ++contUpdate
+                )
+            ).thenReturn(
+                flowOf(
+                    ResultUpdateModel(
+                        flagProgress = true,
+                        levelUpdate = LevelUpdate.RECOVERY,
+                        tableUpdate = "tb_section",
+                        currentProgress = percentage(++contWhenever, sizeAll)
+                    ),
+                    ResultUpdateModel(
+                        flagProgress = true,
+                        levelUpdate = LevelUpdate.CLEAN,
+                        tableUpdate = "tb_section",
+                        currentProgress = percentage(++contWhenever, sizeAll)
+                    ),
+                    ResultUpdateModel(
+                        flagProgress = true,
+                        levelUpdate = LevelUpdate.SAVE,
+                        tableUpdate = "tb_section",
+                        currentProgress = percentage(++contWhenever, sizeAll)
+                    ),
+                )
+            )
+        }
+
     private fun checkResultUpdateColab(result: List<ConfigState>) =
         runTest {
             assertEquals(
@@ -591,6 +867,99 @@ class ConfigViewModelTest {
                     flagProgress = true,
                     levelUpdate = LevelUpdate.SAVE,
                     tableUpdate = "tb_colab",
+                    currentProgress = percentage(++contResult, sizeAll)
+                )
+            )
+        }
+
+    private fun checkResultUpdateHarvester(result: List<ConfigState>) =
+        runTest {
+            assertEquals(
+                result[contResult.toInt()],
+                ConfigState(
+                    flagProgress = true,
+                    levelUpdate = LevelUpdate.RECOVERY,
+                    tableUpdate = "tb_harvester",
+                    currentProgress = percentage(++contResult, sizeAll)
+                )
+            )
+            assertEquals(
+                result[contResult.toInt()],
+                ConfigState(
+                    flagProgress = true,
+                    levelUpdate = LevelUpdate.CLEAN,
+                    tableUpdate = "tb_harvester",
+                    currentProgress = percentage(++contResult, sizeAll)
+                )
+            )
+            assertEquals(
+                result[contResult.toInt()],
+                ConfigState(
+                    flagProgress = true,
+                    levelUpdate = LevelUpdate.SAVE,
+                    tableUpdate = "tb_harvester",
+                    currentProgress = percentage(++contResult, sizeAll)
+                )
+            )
+        }
+
+    private fun checkResultUpdatePlot(result: List<ConfigState>) =
+        runTest {
+            assertEquals(
+                result[contResult.toInt()],
+                ConfigState(
+                    flagProgress = true,
+                    levelUpdate = LevelUpdate.RECOVERY,
+                    tableUpdate = "tb_plot",
+                    currentProgress = percentage(++contResult, sizeAll)
+                )
+            )
+            assertEquals(
+                result[contResult.toInt()],
+                ConfigState(
+                    flagProgress = true,
+                    levelUpdate = LevelUpdate.CLEAN,
+                    tableUpdate = "tb_plot",
+                    currentProgress = percentage(++contResult, sizeAll)
+                )
+            )
+            assertEquals(
+                result[contResult.toInt()],
+                ConfigState(
+                    flagProgress = true,
+                    levelUpdate = LevelUpdate.SAVE,
+                    tableUpdate = "tb_plot",
+                    currentProgress = percentage(++contResult, sizeAll)
+                )
+            )
+        }
+
+    private fun checkResultUpdateSection(result: List<ConfigState>) =
+        runTest {
+            assertEquals(
+                result[contResult.toInt()],
+                ConfigState(
+                    flagProgress = true,
+                    levelUpdate = LevelUpdate.RECOVERY,
+                    tableUpdate = "tb_section",
+                    currentProgress = percentage(++contResult, sizeAll)
+                )
+            )
+            assertEquals(
+                result[contResult.toInt()],
+                ConfigState(
+                    flagProgress = true,
+                    levelUpdate = LevelUpdate.CLEAN,
+                    tableUpdate = "tb_section",
+                    currentProgress = percentage(++contResult, sizeAll)
+                )
+            )
+            assertEquals(
+                result[contResult.toInt()],
+                ConfigState(
+                    flagProgress = true,
+                    levelUpdate = LevelUpdate.SAVE,
+                    tableUpdate = "tb_section",
                     currentProgress = percentage(++contResult, sizeAll)
                 )
             )

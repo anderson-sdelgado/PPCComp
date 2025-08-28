@@ -15,5 +15,20 @@ interface UpdateModule {
     @Singleton
     fun bindUpdateTableColab(usecase: IUpdateTableColab): UpdateTableColab
 
+    @Binds
+    @Singleton
+    fun bindUpdateTableHarvester(usecase: IUpdateTableHarvester): UpdateTableHarvester
+
+    @Binds
+    @Singleton
+    fun bindUpdateTableOSByNro(usecase: IUpdateTableOSByNro): UpdateTableOSByNro
+
+    @Binds
+    @Singleton
+    fun bindUpdateTablePlot(usecase: IUpdateTablePlot): UpdateTablePlot
+
+    @Binds
+    @Singleton
+    fun bindUpdateTableSection(usecase: IUpdateTableSection): UpdateTableSection
 
 }

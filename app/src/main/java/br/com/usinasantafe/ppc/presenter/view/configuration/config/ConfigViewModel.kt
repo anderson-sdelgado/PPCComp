@@ -7,6 +7,9 @@ import br.com.usinasantafe.ppc.domain.usecases.config.SaveDataConfig
 import br.com.usinasantafe.ppc.domain.usecases.config.SendDataConfig
 import br.com.usinasantafe.ppc.domain.usecases.config.SetFinishUpdateAllTable
 import br.com.usinasantafe.ppc.domain.usecases.update.UpdateTableColab
+import br.com.usinasantafe.ppc.domain.usecases.update.UpdateTableHarvester
+import br.com.usinasantafe.ppc.domain.usecases.update.UpdateTablePlot
+import br.com.usinasantafe.ppc.domain.usecases.update.UpdateTableSection
 import br.com.usinasantafe.ppc.presenter.model.ResultUpdateModel
 import br.com.usinasantafe.ppc.utils.Errors
 import br.com.usinasantafe.ppc.utils.LevelUpdate
@@ -64,6 +67,9 @@ class ConfigViewModel @Inject constructor(
     private val saveDataConfig: SaveDataConfig,
     private val setFinishUpdateAllTable: SetFinishUpdateAllTable,
     private val updateTableColab: UpdateTableColab,
+    private val updateTableHarvester: UpdateTableHarvester,
+    private val updateTablePlot: UpdateTablePlot,
+    private val updateTableSection: UpdateTableSection
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(ConfigState())
@@ -223,12 +229,42 @@ class ConfigViewModel @Inject constructor(
     }
 
     fun updateAllDatabase(): Flow<ConfigState> = flow {
-        val sizeAllUpdate = sizeUpdate(1f)
+        val sizeAllUpdate = sizeUpdate(4f)
         var state = ConfigState()
         val classAndMethod = getClassAndMethod()
         updateTableColab(
             sizeAll = sizeAllUpdate,
             count = 1f
+        ).collect {
+            state = it.resultUpdateToConfig(classAndMethod)
+            emit(
+                it.resultUpdateToConfig(classAndMethod)
+            )
+        }
+        if (state.flagFailure) return@flow
+        updateTableHarvester(
+            sizeAll = sizeAllUpdate,
+            count = 2f
+        ).collect {
+            state = it.resultUpdateToConfig(classAndMethod)
+            emit(
+                it.resultUpdateToConfig(classAndMethod)
+            )
+        }
+        if (state.flagFailure) return@flow
+        updateTablePlot(
+            sizeAll = sizeAllUpdate,
+            count = 3f
+        ).collect {
+            state = it.resultUpdateToConfig(classAndMethod)
+            emit(
+                it.resultUpdateToConfig(classAndMethod)
+            )
+        }
+        if (state.flagFailure) return@flow
+        updateTableSection(
+            sizeAll = sizeAllUpdate,
+            count = 4f
         ).collect {
             state = it.resultUpdateToConfig(classAndMethod)
             emit(
