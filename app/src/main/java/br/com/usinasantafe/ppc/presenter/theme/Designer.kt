@@ -16,12 +16,16 @@ import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
+import br.com.usinasantafe.ppc.R
 
 @Composable
 fun ItemListDesign(
@@ -43,6 +47,97 @@ fun ItemListDesign(
             }
             .testTag("item_list_$id")
     )
+}
+
+@Composable
+fun ItemListHeaderDesign(
+    id: Int = 0,
+    harvester: Int,
+    operator: Long,
+    front: Int,
+    turn: Int,
+    sample: Int,
+    font: Int = 22,
+    padding: Int = 8,
+    setActionItem: () -> Unit
+) {
+    val descSample = if(sample == 0) {
+        stringResource(
+            id = R.string.text_item_no_sample
+        )
+    } else {
+        stringResource(
+            id = R.string.text_item_desc_sample,
+            sample
+        )
+    }
+    return  Column(
+        modifier = Modifier
+            .testTag("item_list_$id")
+            .padding(vertical = padding.dp)
+            .clickable {
+                setActionItem()
+            }
+    ) {
+        Text(
+            textAlign = TextAlign.Left,
+            text = stringResource(
+                id = R.string.text_item_harvester,
+                harvester
+            ),
+            style = TextStyle(
+                fontSize = font.sp,
+                fontWeight = FontWeight.Bold
+            ),
+            modifier = Modifier
+                .fillMaxWidth()
+        )
+        Text(
+            textAlign = TextAlign.Left,
+            text = stringResource(
+                id = R.string.text_item_operator,
+                operator
+            ),
+            style = TextStyle(
+                fontSize = font.sp
+            ),
+            modifier = Modifier
+                .fillMaxWidth()
+        )
+        Text(
+            textAlign = TextAlign.Left,
+            text = stringResource(
+                id = R.string.text_item_front,
+                front
+            ),
+            style = TextStyle(
+                fontSize = font.sp
+            ),
+            modifier = Modifier
+                .fillMaxWidth()
+        )
+        Text(
+            textAlign = TextAlign.Left,
+            text = stringResource(
+                id = R.string.text_item_turn,
+                turn
+            ),
+            style = TextStyle(
+                fontSize = font.sp,
+            ),
+            modifier = Modifier
+                .fillMaxWidth()
+        )
+        Text(
+            textAlign = TextAlign.Left,
+            text = descSample,
+            style = TextStyle(
+                fontSize = font.sp,
+            ),
+            modifier = Modifier
+                .fillMaxWidth()
+        )
+    }
 }
 
 @Composable

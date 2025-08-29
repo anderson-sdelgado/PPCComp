@@ -51,12 +51,12 @@ class IPlotRoomDatasourceTest {
                 listOf(
                     PlotRoomModel(
                         idPlot = 1,
-                        codPlot = 1,
+                        nroPlot = 1,
                         idSection = 1
                     ),
                     PlotRoomModel(
                         idPlot = 1,
-                        codPlot = 1,
+                        nroPlot = 1,
                         idSection = 1
                     ),
                 )
@@ -92,12 +92,12 @@ class IPlotRoomDatasourceTest {
                 listOf(
                     PlotRoomModel(
                         idPlot = 1,
-                        codPlot = 1,
+                        nroPlot = 1,
                         idSection = 1
                     ),
                     PlotRoomModel(
                         idPlot = 2,
-                        codPlot = 2,
+                        nroPlot = 2,
                         idSection = 1
                     ),
                 )
@@ -122,7 +122,7 @@ class IPlotRoomDatasourceTest {
                 1
             )
             assertEquals(
-                entity1.codPlot,
+                entity1.nroPlot,
                 1
             )
             assertEquals(
@@ -135,7 +135,7 @@ class IPlotRoomDatasourceTest {
                 2
             )
             assertEquals(
-                entity2.codPlot,
+                entity2.nroPlot,
                 2
             )
             assertEquals(
@@ -151,7 +151,7 @@ class IPlotRoomDatasourceTest {
                 listOf(
                     PlotRoomModel(
                         idPlot = 1,
-                        codPlot = 1,
+                        nroPlot = 1,
                         idSection = 1
                     )
                 )

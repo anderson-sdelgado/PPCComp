@@ -275,7 +275,7 @@ class IUpdateTablePlotTest {
                 1
             )
             assertEquals(
-                roomModel1.codPlot,
+                roomModel1.nroPlot,
                 1
             )
             assertEquals(
@@ -288,7 +288,7 @@ class IUpdateTablePlotTest {
                 2
             )
             assertEquals(
-                roomModel2.codPlot,
+                roomModel2.nroPlot,
                 2
             )
             assertEquals(

@@ -13,6 +13,10 @@ interface ConfigModule {
 
     @Binds
     @Singleton
+    fun bindCheckAccessInitial(usecase: ICheckAccessInitial): CheckAccessInitial
+
+    @Binds
+    @Singleton
     fun bindCheckPassword(usecase: ICheckPassword): CheckPassword
 
     @Binds
@@ -34,6 +38,5 @@ interface ConfigModule {
     @Binds
     @Singleton
     fun bindGetToken(usecase: IGetToken): GetToken
-
 
 }

@@ -110,4 +110,15 @@ class IConfigRepository @Inject constructor(
         return result
     }
 
+    override suspend fun getFlagUpdate(): Result<FlagUpdate> {
+        val result = configSharedPreferencesDatasource.getFlagUpdate()
+        if (result.isFailure) {
+            return resultFailure(
+                context = getClassAndMethod(),
+                cause = result.exceptionOrNull()!!
+            )
+        }
+        return result
+    }
+
 }

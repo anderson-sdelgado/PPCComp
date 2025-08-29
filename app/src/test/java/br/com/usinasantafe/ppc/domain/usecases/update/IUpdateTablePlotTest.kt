@@ -135,7 +135,7 @@ class IUpdateTablePlotTest {
                     listOf(
                         Plot(
                             idPlot = 1,
-                            codPlot = 1,
+                            nroPlot = 1,
                             idSection = 1
                         )
                     )
@@ -196,7 +196,7 @@ class IUpdateTablePlotTest {
             val entityList = listOf(
                 Plot(
                     idPlot = 1,
-                    codPlot = 1,
+                    nroPlot = 1,
                     idSection = 1
                 )
             )
@@ -281,7 +281,7 @@ class IUpdateTablePlotTest {
             val entityList = listOf(
                 Plot(
                     idPlot = 1,
-                    codPlot = 1,
+                    nroPlot = 1,
                     idSection = 1
                 )
             )

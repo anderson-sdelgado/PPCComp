@@ -103,12 +103,12 @@ class IPlotRetrofitDatasourceTest {
                     listOf(
                         PlotRetrofitModel(
                             idPlot = 1,
-                            codPlot = 1,
+                            nroPlot = 1,
                             idSection = 1
                         ),
                         PlotRetrofitModel(
                             idPlot = 2,
-                            codPlot = 2,
+                            nroPlot = 2,
                             idSection = 1
                         )
                     )

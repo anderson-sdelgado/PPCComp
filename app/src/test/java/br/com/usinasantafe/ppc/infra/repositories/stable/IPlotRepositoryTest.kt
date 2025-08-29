@@ -27,14 +27,14 @@ class IPlotRepositoryTest {
             val roomModelList = listOf(
                 PlotRoomModel(
                     idPlot = 1,
-                    codPlot = 10,
+                    nroPlot = 10,
                     idSection = 1
                 )
             )
             val entityList = listOf(
                 Plot(
                     idPlot = 1,
-                    codPlot = 10,
+                    nroPlot = 10,
                     idSection = 1
                 )
             )
@@ -68,14 +68,14 @@ class IPlotRepositoryTest {
             val roomModelList = listOf(
                 PlotRoomModel(
                     idPlot = 1,
-                    codPlot = 10,
+                    nroPlot = 10,
                     idSection = 1
                 )
             )
             val entityList = listOf(
                 Plot(
                     idPlot = 1,
-                    codPlot = 10,
+                    nroPlot = 10,
                     idSection = 1
                 )
             )
@@ -174,24 +174,24 @@ class IPlotRepositoryTest {
             val retrofitModelList = listOf(
                 PlotRetrofitModel(
                     idPlot = 1,
-                    codPlot = 10,
+                    nroPlot = 10,
                     idSection = 1
                 ),
                 PlotRetrofitModel(
                     idPlot = 2,
-                    codPlot = 20,
+                    nroPlot = 20,
                     idSection = 2
                 )
             )
             val entityList = listOf(
                 Plot(
                     idPlot = 1,
-                    codPlot = 10,
+                    nroPlot = 10,
                     idSection = 1
                 ),
                 Plot(
                     idPlot = 2,
-                    codPlot = 20,
+                    nroPlot = 20,
                     idSection = 2
                 )
             )

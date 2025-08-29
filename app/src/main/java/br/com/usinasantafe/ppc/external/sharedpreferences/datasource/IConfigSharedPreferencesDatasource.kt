@@ -116,4 +116,23 @@ class IConfigSharedPreferencesDatasource @Inject constructor(
             )
         }
     }
+
+    override suspend fun getFlagUpdate(): Result<FlagUpdate> {
+        try {
+            val result = get()
+            if(result.isFailure){
+                return resultFailure(
+                    context = getClassAndMethod(),
+                    cause = result.exceptionOrNull()!!
+                )
+            }
+            val config = result.getOrNull()!!
+            return Result.success(config.flagUpdate)
+        } catch (e: Exception){
+            return resultFailure(
+                context = getClassAndMethod(),
+                cause = e
+            )
+        }
+    }
 }

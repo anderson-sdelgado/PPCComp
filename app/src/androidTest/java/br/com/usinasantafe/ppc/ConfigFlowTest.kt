@@ -14,11 +14,9 @@ import br.com.usinasantafe.ppc.external.room.dao.stable.HarvesterDao
 import br.com.usinasantafe.ppc.external.room.dao.stable.PlotDao
 import br.com.usinasantafe.ppc.external.room.dao.stable.SectionDao
 import br.com.usinasantafe.ppc.infra.datasource.sharedpreferences.ConfigSharedPreferencesDatasource
-import br.com.usinasantafe.ppc.infra.models.sharedpreferences.ConfigSharedPreferencesModel
 import br.com.usinasantafe.ppc.presenter.MainActivity
 import br.com.usinasantafe.ppc.presenter.view.configuration.config.TAG_NUMBER_TEXT_FIELD_CONFIG_SCREEN
 import br.com.usinasantafe.ppc.presenter.view.configuration.config.TAG_PASSWORD_TEXT_FIELD_CONFIG_SCREEN
-import br.com.usinasantafe.ppc.utils.FlagUpdate
 import br.com.usinasantafe.ppc.utils.WEB_ALL_COLAB
 import br.com.usinasantafe.ppc.utils.WEB_ALL_HARVESTER
 import br.com.usinasantafe.ppc.utils.WEB_ALL_PLOT
@@ -32,7 +30,6 @@ import okhttp3.mockwebserver.Dispatcher
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
 import okhttp3.mockwebserver.RecordedRequest
-import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import javax.inject.Inject
@@ -107,7 +104,7 @@ class ConfigFlowTest {
     }
 
     @Test
-    fun flow_config() =
+    fun config_flow() =
         runTest(
             timeout = 10.minutes
         ) {
@@ -188,7 +185,7 @@ class ConfigFlowTest {
 
             Log.d("TestDebug", "Position 10")
 
-            composeTestRule.waitUntilTimeout(3_000)
+            composeTestRule.waitUntilTimeout()
 
             composeTestRule.onNodeWithTag(TAG_NUMBER_TEXT_FIELD_CONFIG_SCREEN)
                 .performTextInput("16997417840")
@@ -199,7 +196,7 @@ class ConfigFlowTest {
 
             Log.d("TestDebug", "Position 11")
 
-            composeTestRule.waitUntilTimeout(3_000)
+            composeTestRule.waitUntilTimeout()
 
             composeTestRule.onNodeWithTag("text_alert_dialog_simple")
                 .assertIsDisplayed()
@@ -208,14 +205,21 @@ class ConfigFlowTest {
 
             Log.d("TestDebug", "Position 12")
 
-            composeTestRule.waitUntilTimeout(3_000)
+            composeTestRule.waitUntilTimeout()
 
             composeTestRule.onNodeWithText("OK")
                 .performClick()
 
             Log.d("TestDebug", "Position 13")
 
-            composeTestRule.waitUntilTimeout(10_000)
+            composeTestRule.waitUntilTimeout()
+
+            composeTestRule.onNodeWithText("APONTAMENTO")
+                .performClick()
+
+            Log.d("TestDebug", "Position 14")
+
+            composeTestRule.waitUntilTimeout()
 
         }
 

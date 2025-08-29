@@ -2,7 +2,9 @@ package br.com.usinasantafe.ppc.presenter.view.configuration.initial
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import br.com.usinasantafe.ppc.domain.usecases.config.CheckAccessInitial
 import br.com.usinasantafe.ppc.utils.StatusSend
+import br.com.usinasantafe.ppc.utils.getClassAndMethod
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -21,6 +23,7 @@ data class InitialMenuState(
 
 @HiltViewModel
 class InitialMenuViewModel @Inject constructor(
+    private val checkAccessInitial: CheckAccessInitial
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(InitialMenuState())
@@ -41,7 +44,30 @@ class InitialMenuViewModel @Inject constructor(
 
     fun onCheckAccess() {
         viewModelScope.launch {
-
+            val resultCheck = checkAccessInitial()
+            if(resultCheck.isFailure){
+                val error = resultCheck.exceptionOrNull()!!
+                val failure =
+                    "${getClassAndMethod()} -> ${error.message} -> ${error.cause.toString()}"
+                Timber.e(failure)
+                _uiState.update {
+                    it.copy(
+                        flagDialog = true,
+                        flagAccess = false,
+                        flagFailure = true,
+                        failure = failure
+                    )
+                }
+                return@launch
+            }
+            val statusAccess = resultCheck.getOrNull()!!
+            _uiState.update {
+                it.copy(
+                    flagDialog = !statusAccess,
+                    flagAccess = statusAccess,
+                    flagFailure = false,
+                )
+            }
         }
     }
 }

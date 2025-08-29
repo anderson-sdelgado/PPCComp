@@ -9,4 +9,5 @@ interface ConfigSharedPreferencesDatasource {
     suspend fun save(model: ConfigSharedPreferencesModel): Result<Boolean>
     suspend fun get(): Result<ConfigSharedPreferencesModel>
     suspend fun setFlagUpdate(flagUpdate: FlagUpdate): Result<Boolean>
+    suspend fun getFlagUpdate(): Result<FlagUpdate>
 }

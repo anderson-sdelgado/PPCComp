@@ -44,4 +44,14 @@
     <string name="text_update_failure">FALHA DE ATUALIZAÇÃO DE DADOS! POR FAVOR ENTRE EM CONTATO COM TI. %1$s</string>
     <string name="text_config_success">CONFIGURAÇÃO REALIZADA COM SUCESSO!</string>
     <string name="text_flow_inexistent">FLUXO INEXISTENTE. POR FAVOR ENTRAR EM CONTATO COM A TI.</string>
+    <string name="text_title_header_list">LISTA DE CABEÇALHO</string>
+    <string name="text_msg_no_data_header">NÃO CONTÉM CABEÇALHO CADASTRADO.</string>">
+    <string name="text_item_harvester">COLHEDORA: %1$s</string>
+    <string name="text_item_operator">OPERADOR: %1$s</string>
+    <string name="text_item_front">FRENTE: %1$s</string>
+    <string name="text_item_turn">TURNO: %1$s</string>
+    <string name="text_item_no_sample">NÃO CONTÉM AMOSTRAS</string>
+    <string name="text_item_desc_sample">CONTÉM %1$s AMOSTRA(S)</string>
+    <string name="text_pattern_insert">INSERIR</string>
+    <string name="text_pattern_return">RETORNAR</string>
 </resources>

@@ -14,7 +14,7 @@ const val TB_PLOT = "tb_plot"
 const val TB_SECTION = "tb_section"
 
 const val TB_HEADER = "tb_header"
-const val TB_RESP = "tb_resp"
+const val TB_SAMPLE = "tb_sample"
 
 const val WEB_ALL_COLAB = "colab.php"
 const val WEB_ALL_HARVESTER = "harvester.php"
