@@ -3,6 +3,7 @@ package br.com.usinasantafe.ppc.infra.repositories.variable
 import br.com.usinasantafe.ppc.domain.errors.resultFailure
 import br.com.usinasantafe.ppc.infra.datasource.room.variable.HeaderRoomDatasource
 import br.com.usinasantafe.ppc.infra.datasource.room.variable.SampleRoomDatasource
+import br.com.usinasantafe.ppc.infra.datasource.sharedpreferences.HeaderSharedPreferencesDatasource
 import br.com.usinasantafe.ppc.infra.models.room.variable.HeaderRoomModel
 import br.com.usinasantafe.ppc.utils.Status
 import kotlinx.coroutines.test.runTest
@@ -15,9 +16,11 @@ import kotlin.test.Test
 class IAnalysisRepositoryTest {
 
     private val headerRoomDatasource = mock<HeaderRoomDatasource>()
+    private val headerSharedPreferencesDatasource = mock<HeaderSharedPreferencesDatasource>()
     private val sampleRoomDatasource = mock<SampleRoomDatasource>()
     private val repository = IAnalysisRepository(
         headerRoomDatasource = headerRoomDatasource,
+        headerSharedPreferencesDatasource = headerSharedPreferencesDatasource,
         sampleRoomDatasource = sampleRoomDatasource
     )
 
@@ -33,7 +36,7 @@ class IAnalysisRepositoryTest {
                     Exception()
                 )
             )
-            val result = repository.listHeader()
+            val result = repository.listHeaderByStatusOpen()
             assertEquals(
                 result.isFailure,
                 true
@@ -73,7 +76,7 @@ class IAnalysisRepositoryTest {
                     )
                 )
             )
-            val result = repository.listHeader()
+            val result = repository.listHeaderByStatusOpen()
             assertEquals(
                 result.isSuccess,
                 true
@@ -127,6 +130,110 @@ class IAnalysisRepositoryTest {
             assertEquals(
                 entity.regOperator,
                 1L
+            )
+        }
+
+    @Test
+    fun `countSampleByIdHeader - Check return failure if have error in SampleRoomDatasource countByIdHeader`() =
+        runTest {
+            whenever(
+                sampleRoomDatasource.countByIdHeader(1)
+            ).thenReturn(
+                resultFailure(
+                    "ISampleRoomDatasource.countByIdHeader",
+                    "-",
+                    Exception()
+                )
+            )
+            val result = repository.countSampleByIdHeader(1)
+            assertEquals(
+                result.isFailure,
+                true
+            )
+            assertEquals(
+                result.exceptionOrNull()!!.message,
+                "IAnalysisRepository.countSampleByIdHeader -> ISampleRoomDatasource.countByIdHeader"
+            )
+            assertEquals(
+                result.exceptionOrNull()!!.cause.toString(),
+                "java.lang.Exception"
+            )
+        }
+
+    @Test
+    fun `countSampleByIdHeader - Check return correct if function execute successfully`() =
+        runTest {
+            whenever(
+                sampleRoomDatasource.countByIdHeader(1)
+            ).thenReturn(
+                Result.success(1)
+            )
+            val result = repository.countSampleByIdHeader(1)
+            assertEquals(
+                result.isSuccess,
+                true
+            )
+            assertEquals(
+                result.getOrNull()!!,
+                1
+            )
+        }
+    
+    @Test
+    fun `setAuditor - Check return failure if have error in HeaderSharedPreferencesDatasource setAuditor`() =
+        runTest {
+            whenever(
+                headerSharedPreferencesDatasource.setAuditor(
+                    pos = 1,
+                    regAuditor = 19759
+                )
+            ).thenReturn(
+                resultFailure(
+                    "IHeaderSharedPreferencesDatasource.setAuditor",
+                    "-",
+                    Exception()
+                )
+            )
+            val result = repository.setAuditor(
+                pos = 1,
+                regAuditor = 19759
+            )
+            assertEquals(
+                result.isFailure,
+                true
+            )
+            assertEquals(
+                result.exceptionOrNull()!!.message,
+                "IAnalysisRepository.setAuditor -> IHeaderSharedPreferencesDatasource.setAuditor"
+            )
+            assertEquals(
+                result.exceptionOrNull()!!.cause.toString(),
+                "java.lang.Exception"
+            )
+        }
+
+    @Test
+    fun `setAuditor - Check return correct if function execute successfully`() =
+        runTest {
+            whenever(
+                headerSharedPreferencesDatasource.setAuditor(
+                    pos = 1,
+                    regAuditor = 19759
+                )
+            ).thenReturn(
+                Result.success(true)
+            )
+            val result = repository.setAuditor(
+                pos = 1,
+                regAuditor = 19759
+            )
+            assertEquals(
+                result.isSuccess,
+                true
+            )
+            assertEquals(
+                result.getOrNull()!!,
+                true
             )
         }
 

@@ -1,0 +1,92 @@
+package br.com.usinasantafe.ppc.external.sharedpreferences.datasource
+
+import android.content.SharedPreferences
+import androidx.core.content.edit
+import br.com.usinasantafe.ppc.domain.errors.resultFailure
+import br.com.usinasantafe.ppc.infra.datasource.sharedpreferences.HeaderSharedPreferencesDatasource
+import br.com.usinasantafe.ppc.infra.models.sharedpreferences.HeaderSharedPreferencesModel
+import br.com.usinasantafe.ppc.utils.BASE_SHARE_PREFERENCES_TABLE_HEADER
+import br.com.usinasantafe.ppc.utils.getClassAndMethod
+import com.google.gson.Gson
+import javax.inject.Inject
+
+class IHeaderSharedPreferencesDatasource @Inject constructor(
+    private val sharedPreferences: SharedPreferences
+): HeaderSharedPreferencesDatasource {
+
+    fun get(): Result<HeaderSharedPreferencesModel> {
+        try {
+            val header = sharedPreferences.getString(
+                BASE_SHARE_PREFERENCES_TABLE_HEADER,
+                null
+            )
+            if(header.isNullOrEmpty())
+                return Result.success(
+                    HeaderSharedPreferencesModel()
+                )
+            return Result.success(
+                Gson().fromJson(
+                    header,
+                    HeaderSharedPreferencesModel::class.java
+                )
+            )
+        } catch (e: Exception){
+            return resultFailure(
+                context = getClassAndMethod(),
+                cause = e
+            )
+        }
+    }
+
+    fun save(model: HeaderSharedPreferencesModel): Result<Boolean> {
+        try {
+            sharedPreferences.edit {
+                putString(
+                    BASE_SHARE_PREFERENCES_TABLE_HEADER,
+                    Gson().toJson(model)
+                )
+            }
+            return Result.success(true)
+        } catch (e: Exception){
+            return resultFailure(
+                context = getClassAndMethod(),
+                cause = e
+            )
+        }
+    }
+
+    override suspend fun setAuditor(
+        pos: Int,
+        regAuditor: Int
+    ): Result<Boolean> {
+        try {
+            val resultGet = get()
+            if (resultGet.isFailure) {
+                return resultFailure(
+                    context = getClassAndMethod(),
+                    cause = resultGet.exceptionOrNull()!!
+                )
+            }
+            val model = resultGet.getOrNull()!!
+            when (pos) {
+                1 -> model.regAuditor1 = regAuditor.toLong()
+                2 -> model.regAuditor2 = regAuditor.toLong()
+                3 -> model.regAuditor3 = regAuditor.toLong()
+            }
+            val resultSave = save(model)
+            if (resultSave.isFailure) {
+                return resultFailure(
+                    context = getClassAndMethod(),
+                    cause = resultSave.exceptionOrNull()!!
+                )
+            }
+            return Result.success(true)
+        } catch (e: Exception){
+            return resultFailure(
+                context = getClassAndMethod(),
+                cause = e
+            )
+        }
+    }
+
+}

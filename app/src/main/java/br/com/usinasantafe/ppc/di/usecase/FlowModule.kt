@@ -15,4 +15,12 @@ interface FlowModule {
     @Singleton
     fun bindListHeader(usecase: IListHeader): ListHeader
 
+    @Binds
+    @Singleton
+    fun bindSetAuditor(usecase: ISetAuditor): SetAuditor
+
+    @Binds
+    @Singleton
+    fun bindCheckColab(usecase: ICheckColab): CheckColab
+
 }

@@ -9,11 +9,15 @@ import br.com.usinasantafe.ppc.external.room.dao.stable.HarvesterDao
 import br.com.usinasantafe.ppc.external.room.dao.stable.OSDao
 import br.com.usinasantafe.ppc.external.room.dao.stable.PlotDao
 import br.com.usinasantafe.ppc.external.room.dao.stable.SectionDao
+import br.com.usinasantafe.ppc.external.room.dao.variable.HeaderDao
+import br.com.usinasantafe.ppc.external.room.dao.variable.SampleDao
 import br.com.usinasantafe.ppc.infra.models.room.stable.ColabRoomModel
 import br.com.usinasantafe.ppc.infra.models.room.stable.HarvesterRoomModel
 import br.com.usinasantafe.ppc.infra.models.room.stable.OSRoomModel
 import br.com.usinasantafe.ppc.infra.models.room.stable.PlotRoomModel
 import br.com.usinasantafe.ppc.infra.models.room.stable.SectionRoomModel
+import br.com.usinasantafe.ppc.infra.models.room.variable.HeaderRoomModel
+import br.com.usinasantafe.ppc.infra.models.room.variable.SampleRoomModel
 import br.com.usinasantafe.ppc.utils.VERSION_DB
 import java.util.Date
 
@@ -24,6 +28,8 @@ import java.util.Date
         OSRoomModel::class,
         PlotRoomModel::class,
         SectionRoomModel::class,
+        HeaderRoomModel::class,
+        SampleRoomModel::class,
     ],
     version = VERSION_DB, exportSchema = true,
 )
@@ -34,6 +40,8 @@ abstract class DatabaseRoom : RoomDatabase() {
     abstract fun osDao(): OSDao
     abstract fun plotDao(): PlotDao
     abstract fun sectionDao(): SectionDao
+    abstract fun headerDao(): HeaderDao
+    abstract fun sampleDao(): SampleDao
 }
 
 class Converters {

@@ -197,4 +197,50 @@ class IColabRepositoryTest {
             )
         }
 
+    @Test
+    fun `check - Check return failure if have error in ColabDatasource check`() =
+        runTest {
+            whenever(
+                colabRoomDatasource.check(12345)
+            ).thenReturn(
+                resultFailure(
+                    "IColabDatasource.check",
+                    "-",
+                    Exception()
+                )
+            )
+            val result = repository.check(12345)
+            assertEquals(
+                result.isFailure,
+                true
+            )
+            assertEquals(
+                result.exceptionOrNull()!!.message,
+                "IColabRepository.check -> IColabDatasource.check"
+            )
+            assertEquals(
+                result.exceptionOrNull()!!.cause.toString(),
+                "java.lang.Exception"
+            )
+        }
+
+    @Test
+    fun `check - Check return correct if function execute successfully`() =
+        runTest {
+            whenever(
+                colabRoomDatasource.check(12345)
+            ).thenReturn(
+                Result.success(true)
+            )
+            val result = repository.check(12345)
+            assertEquals(
+                result.isSuccess,
+                true
+            )
+            assertEquals(
+                result.getOrNull()!!,
+                true
+            )
+        }
+
 }

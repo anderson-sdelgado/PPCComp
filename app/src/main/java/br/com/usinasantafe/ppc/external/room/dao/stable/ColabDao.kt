@@ -18,4 +18,7 @@ interface ColabDao {
     @Query("SELECT * FROM $TB_COLAB")
     suspend fun all(): List<ColabRoomModel>
 
+    @Query("SELECT count(*) FROM $TB_COLAB WHERE regColab = :regColab")
+    suspend fun count(regColab: Int): Int
+
 }

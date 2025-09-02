@@ -65,4 +65,16 @@ class IColabRepository @Inject constructor(
         }
     }
 
+    override suspend fun check(regColab: Int): Result<Boolean> {
+        val result = colabRoomDatasource.check(regColab)
+        if (result.isFailure) {
+            return resultFailure(
+                context = getClassAndMethod(),
+                cause = result.exceptionOrNull()!!
+            )
+        }
+        return result
+
+    }
+
 }

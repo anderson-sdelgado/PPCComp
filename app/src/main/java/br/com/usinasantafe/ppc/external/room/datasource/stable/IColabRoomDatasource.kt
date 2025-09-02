@@ -35,4 +35,16 @@ class IColabRoomDatasource @Inject constructor(
         }
     }
 
+    override suspend fun check(regColab: Int): Result<Boolean> {
+        try {
+            val check = colabDao.count(regColab) > 0
+            return Result.success(check)
+        } catch (e: Exception) {
+            return resultFailure(
+                context = getClassAndMethod(),
+                cause = e
+            )
+        }
+    }
+
 }

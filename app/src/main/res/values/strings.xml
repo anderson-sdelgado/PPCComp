@@ -54,4 +54,7 @@
     <string name="text_item_desc_sample">CONTÉM %1$s AMOSTRA(S)</string>
     <string name="text_pattern_insert">INSERIR</string>
     <string name="text_pattern_return">RETORNAR</string>
+    <string name="text_title_auditor">MATRICULA AUDITOR %1$s</string>
+    <string name="text_field_empty">CAMPO VAZIO! POR FAVOR, PREENCHA O CAMPO \"%1$s\" PARA DAR CONTINUIDADE AO APONTAMENTO.</string>
+    <string name="text_input_data_invalid">DADO INVÁLIDO! POR FAVOR, VERIFIQUE SE O CAMPO \"%1$s\" FOI DIGITADO CORRETAMENTE OU ATUALIZE OS DADOS PARA VERIFICAR SE OS MESMOS NÃO ESTÃO DESATUALIZADOS.</string>
 </resources>

@@ -149,7 +149,10 @@ fun HeaderListContent(
 
     if(flagDialog) {
         AlertDialogSimpleDesign(
-            text = stringResource(id = R.string.text_failure, failure),
+            text = stringResource(
+                id = R.string.text_failure,
+                failure
+            ),
             setCloseDialog = setCloseDialog
         )
     }

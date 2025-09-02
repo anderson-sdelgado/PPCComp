@@ -20,7 +20,7 @@ class IListHeaderTest {
     fun `Check return failure if have error in AnalysisRepository listHeader`() =
         runTest {
             whenever(
-                analysisRepository.listHeader()
+                analysisRepository.listHeaderByStatusOpen()
             ).thenReturn(
                 resultFailure(
                     "IAnalysisRepository.listHeader",
@@ -47,7 +47,7 @@ class IListHeaderTest {
     fun `Check return failure if have error in AnalysisRepository countSampleByIdHeader`() =
         runTest {
             whenever(
-                analysisRepository.listHeader()
+                analysisRepository.listHeaderByStatusOpen()
             ).thenReturn(
                 Result.success(
                     listOf(
@@ -85,7 +85,7 @@ class IListHeaderTest {
     fun `Check return correct if function execute successfully`() =
         runTest {
             whenever(
-                analysisRepository.listHeader()
+                analysisRepository.listHeaderByStatusOpen()
             ).thenReturn(
                 Result.success(
                     listOf(

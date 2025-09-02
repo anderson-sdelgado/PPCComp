@@ -1,9 +1,8 @@
-package br.com.usinasantafe.ppc.domain.entities.variable
+package br.com.usinasantafe.ppc.infra.models.sharedpreferences
 
 import java.util.Date
 
-data class Header(
-    var id: Int? = null,
+data class HeaderSharedPreferencesModel(
     var regAuditor1: Long? = null,
     var regAuditor2: Long? = null,
     var regAuditor3: Long? = null,
@@ -14,5 +13,5 @@ data class Header(
     var nroOS: Int? = null,
     var codFront: Int? = null,
     var nroHarvester: Int? = null,
-    var regOperator: Long? = null,
+    var regOperator: Long? = null
 )

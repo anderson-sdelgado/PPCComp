@@ -10,6 +10,7 @@ import br.com.usinasantafe.ppc.utils.TB_SAMPLE
 data class SampleRoomModel(
     @PrimaryKey(autoGenerate = true)
     val id: Int? = null,
+    val idHeader: Int,
     val tare: Long,
     val billet: Long,
     val wholeCane: Long,
@@ -33,6 +34,7 @@ fun SampleRoomModel.roomModelToEntity(): Sample {
     return with(this) {
         Sample(
             id = id,
+            idHeader = idHeader,
             tare = tare,
             billet = billet,
             wholeCane = wholeCane,
@@ -57,6 +59,7 @@ fun Sample.entityToRoomModel(): SampleRoomModel {
     return with(this) {
         SampleRoomModel(
             id = id,
+            idHeader = idHeader!!,
             tare = tare!!,
             billet = billet!!,
             wholeCane = wholeCane!!,

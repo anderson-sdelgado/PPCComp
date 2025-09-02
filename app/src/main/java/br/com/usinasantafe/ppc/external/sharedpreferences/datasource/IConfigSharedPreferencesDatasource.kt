@@ -92,14 +92,14 @@ class IConfigSharedPreferencesDatasource @Inject constructor(
 
     override suspend fun setFlagUpdate(flagUpdate: FlagUpdate): Result<Boolean> {
         try {
-            val resultConfig = get()
-            if (resultConfig.isFailure) {
+            val resultGet = get()
+            if (resultGet.isFailure) {
                 return resultFailure(
                     context = getClassAndMethod(),
-                    cause = resultConfig.exceptionOrNull()!!
+                    cause = resultGet.exceptionOrNull()!!
                 )
             }
-            val model = resultConfig.getOrNull()!!
+            val model = resultGet.getOrNull()!!
             model.flagUpdate = flagUpdate
             val resultSave = save(model)
             if (resultSave.isFailure) {

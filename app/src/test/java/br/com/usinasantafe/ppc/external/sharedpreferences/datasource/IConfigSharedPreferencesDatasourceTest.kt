@@ -14,7 +14,6 @@ import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.Config
 import kotlin.intArrayOf
-import kotlin.text.get
 
 @RunWith(RobolectricTestRunner::class)
 @Config(sdk = [34])
