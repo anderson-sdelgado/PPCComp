@@ -9,6 +9,7 @@ import br.com.usinasantafe.ppc.infra.datasource.sharedpreferences.HeaderSharedPr
 import br.com.usinasantafe.ppc.infra.models.room.variable.roomModelToEntity
 import br.com.usinasantafe.ppc.utils.Status
 import br.com.usinasantafe.ppc.utils.getClassAndMethod
+import java.util.Date
 import javax.inject.Inject
 
 class IAnalysisRepository @Inject constructor(
@@ -48,7 +49,7 @@ class IAnalysisRepository @Inject constructor(
         return result
     }
 
-    override suspend fun setAuditor(
+    override suspend fun setAuditorHeader(
         pos: Int,
         regAuditor: Int
     ): Result<Boolean> {
@@ -60,6 +61,10 @@ class IAnalysisRepository @Inject constructor(
             )
         }
         return result
+    }
+
+    override suspend fun setDateHeader(date: Date): Result<Boolean> {
+        TODO("Not yet implemented")
     }
 
 }

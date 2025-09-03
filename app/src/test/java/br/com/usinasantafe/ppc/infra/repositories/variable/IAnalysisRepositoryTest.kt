@@ -194,7 +194,7 @@ class IAnalysisRepositoryTest {
                     Exception()
                 )
             )
-            val result = repository.setAuditor(
+            val result = repository.setAuditorHeader(
                 pos = 1,
                 regAuditor = 19759
             )
@@ -223,7 +223,7 @@ class IAnalysisRepositoryTest {
             ).thenReturn(
                 Result.success(true)
             )
-            val result = repository.setAuditor(
+            val result = repository.setAuditorHeader(
                 pos = 1,
                 regAuditor = 19759
             )

@@ -5,23 +5,23 @@ import br.com.usinasantafe.ppc.domain.repositories.variable.AnalysisRepository
 import br.com.usinasantafe.ppc.utils.getClassAndMethod
 import javax.inject.Inject
 
-interface SetAuditor {
+interface SetAuditorHeader {
     suspend operator fun invoke(
         pos: Int,
         regAuditor: String
     ): Result<Boolean>
 }
 
-class ISetAuditor @Inject constructor(
+class ISetAuditorHeader @Inject constructor(
     private val analysisRepository: AnalysisRepository
-): SetAuditor {
+): SetAuditorHeader {
 
     override suspend fun invoke(
         pos: Int,
         regAuditor: String
     ): Result<Boolean> {
         try {
-            val result = analysisRepository.setAuditor(
+            val result = analysisRepository.setAuditorHeader(
                 pos = pos,
                 regAuditor = regAuditor.toInt()
             )

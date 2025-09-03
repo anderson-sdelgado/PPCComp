@@ -6,62 +6,36 @@ import kotlinx.coroutines.test.runTest
 import org.junit.Assert.*
 import org.mockito.Mockito.mock
 import org.mockito.kotlin.whenever
+import java.util.Date
 import kotlin.test.Test
 
-class ISetAuditorTest {
+class ISetDateHeaderTest {
 
     private val analysisRepository = mock<AnalysisRepository>()
-    private val usecase = ISetAuditorHeader(
+    private val usecase = ISetDateHeader(
         analysisRepository = analysisRepository
     )
 
     @Test
-    fun `Check return failure if regAuditor is incorrect`() =
-        runTest {
-            val result = usecase(
-                pos = 1,
-                regAuditor = "19759a"
-            )
-            assertEquals(
-                result.isFailure,
-                true
-            )
-            assertEquals(
-                result.exceptionOrNull()!!.message,
-                "ISetAuditor"
-            )
-            assertEquals(
-                result.exceptionOrNull()!!.cause.toString(),
-                "java.lang.NumberFormatException: For input string: \"19759a\""
-            )
-        }
-    
-    @Test
-    fun `Check return failure if have error in AnalysisRepository setAuditor`() =
+    fun `Check return failure if have error in AnalysisRepository setDateHeader`() =
         runTest {
             whenever(
-                analysisRepository.setAuditorHeader(
-                    pos = 1,
-                    regAuditor = 19759
-                )
+                analysisRepository.setDateHeader(Date(1756928843000))
             ).thenReturn(
                 resultFailure(
-                    "IAnalysisRepository.setAuditor",
+                    "IAnalysisRepository.setDateHeader",
                     "-",
                     Exception()
                 )
             )
-            val result = usecase(
-                pos = 1,
-                regAuditor = "19759"
-            )
+            val result = usecase(Date(1756928843000))
             assertEquals(
                 result.isFailure,
                 true
             )
             assertEquals(
                 result.exceptionOrNull()!!.message,
-                "ISetAuditor -> IAnalysisRepository.setAuditor"
+                "ISetDateHeader -> IAnalysisRepository.setDateHeader"
             )
             assertEquals(
                 result.exceptionOrNull()!!.cause.toString(),
@@ -73,17 +47,11 @@ class ISetAuditorTest {
     fun `Check return correct if function execute successfully`() =
         runTest {
             whenever(
-                analysisRepository.setAuditorHeader(
-                    pos = 1,
-                    regAuditor = 19759
-                )
+                analysisRepository.setDateHeader(Date(1756928843000))
             ).thenReturn(
                 Result.success(true)
             )
-            val result = usecase(
-                pos = 1,
-                regAuditor = "19759"
-            )
+            val result = usecase(Date(1756928843000))
             assertEquals(
                 result.isSuccess,
                 true

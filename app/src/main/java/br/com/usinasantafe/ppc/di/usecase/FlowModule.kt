@@ -17,10 +17,14 @@ interface FlowModule {
 
     @Binds
     @Singleton
-    fun bindSetAuditor(usecase: ISetAuditor): SetAuditor
+    fun bindSetAuditorHeader(usecase: ISetAuditorHeader): SetAuditorHeader
 
     @Binds
     @Singleton
     fun bindCheckColab(usecase: ICheckColab): CheckColab
+
+    @Binds
+    @Singleton
+    fun bindSetDateHeader(usecase: ISetDateHeader): SetDateHeader
 
 }

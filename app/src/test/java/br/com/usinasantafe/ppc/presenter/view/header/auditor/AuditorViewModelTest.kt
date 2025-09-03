@@ -4,7 +4,7 @@ import androidx.lifecycle.SavedStateHandle
 import br.com.usinasantafe.ppc.MainCoroutineRule
 import br.com.usinasantafe.ppc.domain.errors.resultFailure
 import br.com.usinasantafe.ppc.domain.usecases.flow.CheckColab
-import br.com.usinasantafe.ppc.domain.usecases.flow.SetAuditor
+import br.com.usinasantafe.ppc.domain.usecases.flow.SetAuditorHeader
 import br.com.usinasantafe.ppc.domain.usecases.update.UpdateTableColab
 import br.com.usinasantafe.ppc.presenter.Args.POS_AUDITOR_ARGS
 import br.com.usinasantafe.ppc.presenter.model.ResultUpdateModel
@@ -30,7 +30,7 @@ class AuditorViewModelTest {
     val mainCoroutineRule = MainCoroutineRule()
 
     private val updateTableColab = mock<UpdateTableColab>()
-    private val setAuditor = mock<SetAuditor>()
+    private val setAuditorHeader = mock<SetAuditorHeader>()
     private val checkColab = mock<CheckColab>()
     private fun createViewModel(
         posAuditor: Int = 1
@@ -41,7 +41,7 @@ class AuditorViewModelTest {
             )
         ),
         updateTableColab = updateTableColab,
-        setAuditor = setAuditor,
+        setAuditorHeader = setAuditorHeader,
         checkColab = checkColab
     )
 
@@ -519,7 +519,7 @@ class AuditorViewModelTest {
                 Result.success(true)
             )
             whenever(
-                setAuditor(
+                setAuditorHeader(
                     pos = 1,
                     regAuditor = "19759"
                 )
@@ -572,7 +572,7 @@ class AuditorViewModelTest {
                 Result.success(true)
             )
             whenever(
-                setAuditor(
+                setAuditorHeader(
                     pos = 1,
                     regAuditor = "19759"
                 )
@@ -601,7 +601,7 @@ class AuditorViewModelTest {
                 Result.success(true)
             )
             whenever(
-                setAuditor(
+                setAuditorHeader(
                     pos = 3,
                     regAuditor = "19759"
                 )

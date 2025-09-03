@@ -4,7 +4,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import br.com.usinasantafe.ppc.domain.usecases.flow.CheckColab
-import br.com.usinasantafe.ppc.domain.usecases.flow.SetAuditor
+import br.com.usinasantafe.ppc.domain.usecases.flow.SetAuditorHeader
 import br.com.usinasantafe.ppc.domain.usecases.update.UpdateTableColab
 import br.com.usinasantafe.ppc.presenter.Args.POS_AUDITOR_ARGS
 import br.com.usinasantafe.ppc.presenter.model.ResultUpdateModel
@@ -39,7 +39,11 @@ data class AuditorState(
     val tableUpdate: String = "",
 )
 
-fun ResultUpdateModel.resultUpdateToAuditor(classAndMethod: String): AuditorState {
+fun ResultUpdateModel.resultUpdateToAuditor(
+    classAndMethod: String,
+    currentState: AuditorState
+): AuditorState {
+    val checkProgress = failure.isEmpty()
     val fail = if(failure.isNotEmpty()){
         val ret = "$classAndMethod -> ${this.failure}"
         Timber.e(ret)
@@ -47,12 +51,12 @@ fun ResultUpdateModel.resultUpdateToAuditor(classAndMethod: String): AuditorStat
     } else {
         this.failure
     }
-    return AuditorState(
+    return currentState.copy(
         flagDialog = this.flagDialog,
         failure = fail,
         flagFailure = this.flagFailure,
         errors = this.errors,
-        flagProgress = this.flagProgress,
+        flagProgress = checkProgress,
         currentProgress = this.currentProgress,
         levelUpdate = this.levelUpdate,
         tableUpdate = this.tableUpdate,
@@ -63,7 +67,7 @@ fun ResultUpdateModel.resultUpdateToAuditor(classAndMethod: String): AuditorStat
 class AuditorViewModel @Inject constructor(
     saveStateHandle: SavedStateHandle,
     private val updateTableColab: UpdateTableColab,
-    private val setAuditor: SetAuditor,
+    private val setAuditorHeader: SetAuditorHeader,
     private val checkColab: CheckColab
 ) : ViewModel() {
 
@@ -173,7 +177,7 @@ class AuditorViewModel @Inject constructor(
             }
             return@launch
         }
-        val resultAuditor = setAuditor(
+        val resultAuditor = setAuditorHeader(
             pos = uiState.value.posAuditor,
             regAuditor = uiState.value.regAuditor
         )
@@ -212,6 +216,7 @@ class AuditorViewModel @Inject constructor(
             _uiState.update {
                 it.copy(
                     posAuditor = uiState.value.posAuditor + 1,
+                    regAuditor = "",
                 )
             }
         } else {
@@ -227,25 +232,30 @@ class AuditorViewModel @Inject constructor(
         _uiState.update {
             it.copy(
                 posAuditor = uiState.value.posAuditor - 1,
+                regAuditor = "",
             )
         }
     }
 
     fun updateAllDatabase(): Flow<AuditorState> = flow {
         val sizeAllUpdate = sizeUpdate(1f)
-        var auditorState = AuditorState()
+        var lastEmittedState: AuditorState? = null
         updateTableColab(
             sizeAll = sizeAllUpdate,
             count = 1f
         ).collect {
-            auditorState = it.resultUpdateToAuditor(getClassAndMethod())
-            emit(
-                it.resultUpdateToAuditor(getClassAndMethod())
+            val currentGlobalState = _uiState.value
+            val newState = it.resultUpdateToAuditor(
+                classAndMethod = getClassAndMethod(),
+                currentState = currentGlobalState
             )
+            lastEmittedState = newState
+            emit(newState)
         }
-        if (auditorState.flagFailure) return@flow
+        if (lastEmittedState!!.flagFailure) return@flow
+        val finalCurrentState = _uiState.value
         emit(
-            AuditorState(
+            finalCurrentState.copy(
                 flagDialog = true,
                 flagProgress = false,
                 flagFailure = false,
