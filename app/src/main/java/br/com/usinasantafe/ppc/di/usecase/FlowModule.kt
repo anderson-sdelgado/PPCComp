@@ -27,4 +27,8 @@ interface FlowModule {
     @Singleton
     fun bindSetDateHeader(usecase: ISetDateHeader): SetDateHeader
 
+    @Binds
+    @Singleton
+    fun bindSetTurnHeader(usecase: ISetTurnHeader): SetTurnHeader
+
 }

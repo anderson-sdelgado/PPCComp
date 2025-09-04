@@ -3,15 +3,13 @@ package br.com.usinasantafe.ppc.external.sharedpreferences.datasource
 import android.content.Context
 import android.content.SharedPreferences
 import androidx.test.core.app.ApplicationProvider
-import br.com.usinasantafe.ppc.domain.errors.resultFailure
 import br.com.usinasantafe.ppc.infra.models.sharedpreferences.HeaderSharedPreferencesModel
 import kotlinx.coroutines.test.runTest
-import org.junit.Assert.*
 import org.junit.Before
 import org.junit.runner.RunWith
-import org.mockito.kotlin.whenever
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.Config
+import java.util.Date
 import kotlin.intArrayOf
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -34,12 +32,12 @@ class IHeaderSharedPreferencesDatasourceTest {
     @Test
     fun `setAuditor - Check alter data in shared preferences`() =
         runTest {
-            val resultGet = datasource.get()
+            val resultBefore = datasource.get()
             assertEquals(
-                resultGet.isSuccess,
+                resultBefore.isSuccess,
                 true
             )
-            val modelBefore = resultGet.getOrNull()!!
+            val modelBefore = resultBefore.getOrNull()!!
             assertEquals(
                 modelBefore.regAuditor1,
                 null
@@ -64,12 +62,12 @@ class IHeaderSharedPreferencesDatasourceTest {
                 result.getOrNull()!!,
                 true
             )
-            val resultGetAfter = datasource.get()
+            val resultAfter = datasource.get()
             assertEquals(
-                resultGetAfter.isSuccess,
+                resultAfter.isSuccess,
                 true
             )
-            val modelAfter = resultGetAfter.getOrNull()!!
+            val modelAfter = resultAfter.getOrNull()!!
             assertEquals(
                 modelAfter.regAuditor1,
                 12345L
@@ -142,4 +140,73 @@ class IHeaderSharedPreferencesDatasourceTest {
             )
         }
 
+    @Test
+    fun `setDate - Check alter data in shared preferences`() =
+        runTest {
+            val resultBefore = datasource.get()
+            assertEquals(
+                resultBefore.isSuccess,
+                true
+            )
+            val modelBefore = resultBefore.getOrNull()!!
+            assertEquals(
+                modelBefore.date,
+                null
+            )
+            val result = datasource.setDate(
+                date = Date(1756928843000)
+            )
+            assertEquals(
+                result.isSuccess,
+                true
+            )
+            assertEquals(
+                result.getOrNull()!!,
+                true
+            )
+            val resultGetAfter = datasource.get()
+            assertEquals(
+                resultGetAfter.isSuccess,
+                true
+            )
+            val modelAfter = resultGetAfter.getOrNull()!!
+            assertEquals(
+                modelAfter.date,
+                Date(1756928843000)
+            )
+        }
+
+    @Test
+    fun `setTurn - Check alter data in shared preferences`() =
+        runTest {
+            val resultBefore = datasource.get()
+            assertEquals(
+                resultBefore.isSuccess,
+                true
+            )
+            val modelBefore = resultBefore.getOrNull()!!
+            assertEquals(
+                modelBefore.nroTurn,
+                null
+            )
+            val result = datasource.setTurn(1)
+            assertEquals(
+                result.isSuccess,
+                true
+            )
+            assertEquals(
+                result.getOrNull()!!,
+                true
+            )
+            val resultGetAfter = datasource.get()
+            assertEquals(
+                resultGetAfter.isSuccess,
+                true
+            )
+            val modelAfter = resultGetAfter.getOrNull()!!
+            assertEquals(
+                modelAfter.nroTurn,
+                1
+            )
+        }
 }

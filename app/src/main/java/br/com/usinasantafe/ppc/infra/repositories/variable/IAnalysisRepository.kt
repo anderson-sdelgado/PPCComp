@@ -64,7 +64,25 @@ class IAnalysisRepository @Inject constructor(
     }
 
     override suspend fun setDateHeader(date: Date): Result<Boolean> {
-        TODO("Not yet implemented")
+        val result = headerSharedPreferencesDatasource.setDate(date)
+        if(result.isFailure){
+            return resultFailure(
+                context = getClassAndMethod(),
+                cause = result.exceptionOrNull()!!
+            )
+        }
+        return result
+    }
+
+    override suspend fun setTurnHeader(nroTurn: Int): Result<Boolean> {
+        val result = headerSharedPreferencesDatasource.setTurn(nroTurn)
+        if(result.isFailure){
+            return resultFailure(
+                context = getClassAndMethod(),
+                cause = result.exceptionOrNull()!!
+            )
+        }
+        return result
     }
 
 }

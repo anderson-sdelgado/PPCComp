@@ -1,4 +1,4 @@
-package br.com.usinasantafe.ppc.presenter.view.header.date
+package br.com.usinasantafe.ppc.presenter.view.header.os
 
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import br.com.usinasantafe.ppc.HiltTestActivity
@@ -11,7 +11,7 @@ import org.junit.Rule
 import org.junit.Test
 
 @HiltAndroidTest
-class DateScreenTest {
+class OSScreenTest {
 
     @get:Rule
     var hiltRule = HiltAndroidRule(this)
@@ -27,17 +27,18 @@ class DateScreenTest {
 
             setContent()
 
-            composeTestRule.waitUntilTimeout(30_000)
+            composeTestRule.waitUntilTimeout(10_000)
 
         }
 
     private fun setContent(){
         composeTestRule.setContent {
-            DateScreen(
-                onNavAuditor = {},
-                onNavTurn = {}
+            OSScreen(
+                onNavTurn = {},
+                onNavSection = {}
             )
         }
     }
+
 
 }

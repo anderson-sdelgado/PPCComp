@@ -1,8 +1,12 @@
 package br.com.usinasantafe.ppc.infra.datasource.sharedpreferences
 
+import java.util.Date
+
 interface HeaderSharedPreferencesDatasource {
     suspend fun setAuditor(
         pos: Int,
         regAuditor: Int
     ): Result<Boolean>
+    suspend fun setDate(date: Date): Result<Boolean>
+    suspend fun setTurn(nroTurn: Int): Result<Boolean>
 }

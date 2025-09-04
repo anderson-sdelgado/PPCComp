@@ -58,4 +58,10 @@
     <string name="text_field_empty">CAMPO VAZIO! POR FAVOR, PREENCHA O CAMPO \"%1$s\" PARA DAR CONTINUIDADE AO APONTAMENTO.</string>
     <string name="text_input_data_invalid">DADO INVÁLIDO! POR FAVOR, VERIFIQUE SE O CAMPO \"%1$s\" FOI DIGITADO CORRETAMENTE OU ATUALIZE OS DADOS PARA VERIFICAR SE OS MESMOS NÃO ESTÃO DESATUALIZADOS.</string>
     <string name="text_title_date">DATA</string>
+    <string name="text_item_turn_1">TURNO 1</string>
+    <string name="text_item_turn_2">TURNO 2</string>
+    <string name="text_item_turn_3">TURNO 3</string>
+    <string name="text_title_turn">TURNO</string>
+    <string name="text_title_os">NRO OS</string>
+    <string name="text_input_data_non_existent">\"%1$s\" INEXISTENTE! POR FAVOR, VERIFIQUE SE O CAMPO FOI DIGITADO CORRETAMENTE.</string>
 </resources>

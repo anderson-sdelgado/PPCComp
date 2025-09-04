@@ -112,7 +112,7 @@ class AuditorViewModel @Inject constructor(
             TypeButton.OK -> {
                 if (
                     uiState.value.regAuditor.isEmpty() &&
-                    posAuditor == 1
+                    uiState.value.posAuditor == 1
                 ) {
                     val failure =  "AuditorViewModel.setTextField.OK -> Field Empty!"
                     Timber.e(failure)
@@ -203,7 +203,7 @@ class AuditorViewModel @Inject constructor(
     fun next() = viewModelScope.launch {
         if (
             uiState.value.regAuditor.isEmpty() &&
-            posAuditor == 2
+            uiState.value.posAuditor == 2
         ) {
             _uiState.update {
                 it.copy(

@@ -180,7 +180,7 @@ class IAnalysisRepositoryTest {
         }
     
     @Test
-    fun `setAuditor - Check return failure if have error in HeaderSharedPreferencesDatasource setAuditor`() =
+    fun `setAuditorHeader - Check return failure if have error in HeaderSharedPreferencesDatasource setAuditor`() =
         runTest {
             whenever(
                 headerSharedPreferencesDatasource.setAuditor(
@@ -213,7 +213,7 @@ class IAnalysisRepositoryTest {
         }
 
     @Test
-    fun `setAuditor - Check return correct if function execute successfully`() =
+    fun `setAuditorHeader - Check return correct if function execute successfully`() =
         runTest {
             whenever(
                 headerSharedPreferencesDatasource.setAuditor(
@@ -227,6 +227,98 @@ class IAnalysisRepositoryTest {
                 pos = 1,
                 regAuditor = 19759
             )
+            assertEquals(
+                result.isSuccess,
+                true
+            )
+            assertEquals(
+                result.getOrNull()!!,
+                true
+            )
+        }
+
+    @Test
+    fun `setDateHeader - Check return failure if have error in HeaderSharedPreferencesDatasource setDate`() =
+        runTest {
+            whenever(
+                headerSharedPreferencesDatasource.setDate(Date(1756928843000))
+            ).thenReturn(
+                resultFailure(
+                    "IHeaderSharedPreferencesDatasource.setDate",
+                    "-",
+                    Exception()
+                )
+            )
+            val result = repository.setDateHeader(Date(1756928843000))
+            assertEquals(
+                result.isFailure,
+                true
+            )
+            assertEquals(
+                result.exceptionOrNull()!!.message,
+                "IAnalysisRepository.setDateHeader -> IHeaderSharedPreferencesDatasource.setDate"
+            )
+            assertEquals(
+                result.exceptionOrNull()!!.cause.toString(),
+                "java.lang.Exception"
+            )
+        }
+
+    @Test
+    fun `setDateHeader - Check return correct if function execute successfully`() =
+        runTest {
+            whenever(
+                headerSharedPreferencesDatasource.setDate(Date(1756928843000))
+            ).thenReturn(
+                Result.success(true)
+            )
+            val result = repository.setDateHeader(Date(1756928843000))
+            assertEquals(
+                result.isSuccess,
+                true
+            )
+            assertEquals(
+                result.getOrNull()!!,
+                true
+            )
+        }
+
+    @Test
+    fun `setTurnHeader - Check return failure if have error in HeaderSharedPreferencesDatasource setTurn`() =
+        runTest {
+            whenever(
+                headerSharedPreferencesDatasource.setTurn(1)
+            ).thenReturn(
+                resultFailure(
+                    "IHeaderSharedPreferencesDatasource.setTurn",
+                    "-",
+                    Exception()
+                )
+            )
+            val result = repository.setTurnHeader(1)
+            assertEquals(
+                result.isFailure,
+                true
+            )
+            assertEquals(
+                result.exceptionOrNull()!!.message,
+                "IAnalysisRepository.setTurnHeader -> IHeaderSharedPreferencesDatasource.setTurn"
+            )
+            assertEquals(
+                result.exceptionOrNull()!!.cause.toString(),
+                "java.lang.Exception"
+            )
+        }
+
+    @Test
+    fun `setTurnHeader - Check return correct if function execute successfully`() =
+        runTest {
+            whenever(
+                headerSharedPreferencesDatasource.setTurn(1)
+            ).thenReturn(
+                Result.success(true)
+            )
+            val result = repository.setTurnHeader(1)
             assertEquals(
                 result.isSuccess,
                 true

@@ -124,7 +124,6 @@ fun AuditorContent(
                 ret()
             }
         }
-
     }
 
     if (flagProgress) {

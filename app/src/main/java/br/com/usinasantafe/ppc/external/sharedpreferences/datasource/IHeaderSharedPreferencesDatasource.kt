@@ -8,6 +8,7 @@ import br.com.usinasantafe.ppc.infra.models.sharedpreferences.HeaderSharedPrefer
 import br.com.usinasantafe.ppc.utils.BASE_SHARE_PREFERENCES_TABLE_HEADER
 import br.com.usinasantafe.ppc.utils.getClassAndMethod
 import com.google.gson.Gson
+import java.util.Date
 import javax.inject.Inject
 
 class IHeaderSharedPreferencesDatasource @Inject constructor(
@@ -73,6 +74,60 @@ class IHeaderSharedPreferencesDatasource @Inject constructor(
                 2 -> model.regAuditor2 = regAuditor.toLong()
                 3 -> model.regAuditor3 = regAuditor.toLong()
             }
+            val resultSave = save(model)
+            if (resultSave.isFailure) {
+                return resultFailure(
+                    context = getClassAndMethod(),
+                    cause = resultSave.exceptionOrNull()!!
+                )
+            }
+            return Result.success(true)
+        } catch (e: Exception){
+            return resultFailure(
+                context = getClassAndMethod(),
+                cause = e
+            )
+        }
+    }
+
+    override suspend fun setDate(date: Date): Result<Boolean> {
+        try {
+            val resultGet = get()
+            if (resultGet.isFailure) {
+                return resultFailure(
+                    context = getClassAndMethod(),
+                    cause = resultGet.exceptionOrNull()!!
+                )
+            }
+            val model = resultGet.getOrNull()!!
+            model.date = date
+            val resultSave = save(model)
+            if (resultSave.isFailure) {
+                return resultFailure(
+                    context = getClassAndMethod(),
+                    cause = resultSave.exceptionOrNull()!!
+                )
+            }
+            return Result.success(true)
+        } catch (e: Exception){
+            return resultFailure(
+                context = getClassAndMethod(),
+                cause = e
+            )
+        }
+    }
+
+    override suspend fun setTurn(nroTurn: Int): Result<Boolean> {
+        try {
+            val resultGet = get()
+            if (resultGet.isFailure) {
+                return resultFailure(
+                    context = getClassAndMethod(),
+                    cause = resultGet.exceptionOrNull()!!
+                )
+            }
+            val model = resultGet.getOrNull()!!
+            model.nroTurn = nroTurn
             val resultSave = save(model)
             if (resultSave.isFailure) {
                 return resultFailure(

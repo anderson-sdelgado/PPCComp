@@ -4,10 +4,13 @@ import androidx.navigation.NavHostController
 import br.com.usinasantafe.ppc.presenter.Args.POS_AUDITOR_ARGS
 import br.com.usinasantafe.ppc.presenter.Screens.AUDITOR_HEADER_SCREEN
 import br.com.usinasantafe.ppc.presenter.Screens.CONFIG_SCREEN
+import br.com.usinasantafe.ppc.presenter.Screens.DATE_HEADER_SCREEN
 import br.com.usinasantafe.ppc.presenter.Screens.HEADER_LIST_SCREEN
 import br.com.usinasantafe.ppc.presenter.Screens.INITIAL_MENU_SCREEN
+import br.com.usinasantafe.ppc.presenter.Screens.OS_HEADER_SCREEN
 import br.com.usinasantafe.ppc.presenter.Screens.PASSWORD_SCREEN
 import br.com.usinasantafe.ppc.presenter.Screens.SPLASH_SCREEN
+import br.com.usinasantafe.ppc.presenter.Screens.TURN_HEADER_SCREEN
 
 object Screens {
     const val SPLASH_SCREEN = "splash"
@@ -16,6 +19,9 @@ object Screens {
     const val CONFIG_SCREEN = "configScreen"
     const val HEADER_LIST_SCREEN = "headerListScreen"
     const val AUDITOR_HEADER_SCREEN = "auditorHeaderScreen"
+    const val DATE_HEADER_SCREEN = "dateHeaderScreen"
+    const val TURN_HEADER_SCREEN = "turnHeaderScreen"
+    const val OS_HEADER_SCREEN = "osHeaderScreen"
 }
 
 object Args {
@@ -29,6 +35,9 @@ object Routes {
     const val CONFIG_ROUTE = CONFIG_SCREEN
     const val HEADER_LIST_ROUTE = HEADER_LIST_SCREEN
     const val AUDITOR_HEADER_ROUTE = "$AUDITOR_HEADER_SCREEN/{$POS_AUDITOR_ARGS}"
+    const val DATE_HEADER_ROUTE = DATE_HEADER_SCREEN
+    const val TURN_HEADER_ROUTE = TURN_HEADER_SCREEN
+    const val OS_HEADER_ROUTE = OS_HEADER_SCREEN
 }
 
 class NavigationActions(private val navController: NavHostController) {
@@ -69,6 +78,17 @@ class NavigationActions(private val navController: NavHostController) {
         navController.navigate("${AUDITOR_HEADER_SCREEN}/${position}")
     }
 
+    fun navigateToDateHeader() {
+        navController.navigate(DATE_HEADER_SCREEN)
+    }
+
+    fun navigateToTurnHeader() {
+        navController.navigate(TURN_HEADER_SCREEN)
+    }
+
+    fun navigateToOSHeader() {
+        navController.navigate(OS_HEADER_SCREEN)
+    }
 
     ////////////////////////////////////////////////////////////////////
 
