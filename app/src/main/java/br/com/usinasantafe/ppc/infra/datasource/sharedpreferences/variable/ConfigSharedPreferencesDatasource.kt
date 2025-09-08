@@ -1,6 +1,6 @@
-package br.com.usinasantafe.ppc.infra.datasource.sharedpreferences
+package br.com.usinasantafe.ppc.infra.datasource.sharedpreferences.variable
 
-import br.com.usinasantafe.ppc.infra.models.sharedpreferences.ConfigSharedPreferencesModel
+import br.com.usinasantafe.ppc.infra.models.sharedpreferences.variable.ConfigSharedPreferencesModel
 import br.com.usinasantafe.ppc.utils.FlagUpdate
 
 interface ConfigSharedPreferencesDatasource {

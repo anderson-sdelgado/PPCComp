@@ -3,7 +3,6 @@ package br.com.usinasantafe.ppc.di.external.room
 import br.com.usinasantafe.ppc.external.room.DatabaseRoom
 import br.com.usinasantafe.ppc.external.room.dao.stable.ColabDao
 import br.com.usinasantafe.ppc.external.room.dao.stable.HarvesterDao
-import br.com.usinasantafe.ppc.external.room.dao.stable.OSDao
 import br.com.usinasantafe.ppc.external.room.dao.stable.PlotDao
 import br.com.usinasantafe.ppc.external.room.dao.stable.SectionDao
 import dagger.Module
@@ -26,12 +25,6 @@ object StableRoomModule {
     @Singleton
     fun provideHarvesterDao(database: DatabaseRoom): HarvesterDao {
         return database.harvesterDao()
-    }
-
-    @Provides
-    @Singleton
-    fun provideOSDao(database: DatabaseRoom): OSDao {
-        return database.osDao()
     }
 
     @Provides

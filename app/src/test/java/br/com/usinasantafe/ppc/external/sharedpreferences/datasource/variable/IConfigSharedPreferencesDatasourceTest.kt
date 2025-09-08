@@ -1,9 +1,9 @@
-package br.com.usinasantafe.ppc.external.sharedpreferences.datasource
+package br.com.usinasantafe.ppc.external.sharedpreferences.datasource.variable
 
 import android.content.Context
 import android.content.SharedPreferences
 import androidx.test.core.app.ApplicationProvider
-import br.com.usinasantafe.ppc.infra.models.sharedpreferences.ConfigSharedPreferencesModel
+import br.com.usinasantafe.ppc.infra.models.sharedpreferences.variable.ConfigSharedPreferencesModel
 import br.com.usinasantafe.ppc.utils.FlagUpdate
 import br.com.usinasantafe.ppc.utils.StatusSend
 import kotlinx.coroutines.test.runTest

@@ -6,10 +6,10 @@ import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import br.com.usinasantafe.ppc.external.room.dao.stable.ColabDao
-import br.com.usinasantafe.ppc.external.sharedpreferences.datasource.IHeaderSharedPreferencesDatasource
-import br.com.usinasantafe.ppc.infra.datasource.sharedpreferences.ConfigSharedPreferencesDatasource
+import br.com.usinasantafe.ppc.external.sharedpreferences.datasource.variable.IHeaderSharedPreferencesDatasource
+import br.com.usinasantafe.ppc.infra.datasource.sharedpreferences.variable.ConfigSharedPreferencesDatasource
 import br.com.usinasantafe.ppc.infra.models.room.stable.ColabRoomModel
-import br.com.usinasantafe.ppc.infra.models.sharedpreferences.ConfigSharedPreferencesModel
+import br.com.usinasantafe.ppc.infra.models.sharedpreferences.variable.ConfigSharedPreferencesModel
 import br.com.usinasantafe.ppc.presenter.MainActivity
 import br.com.usinasantafe.ppc.utils.FlagUpdate
 import br.com.usinasantafe.ppc.utils.waitUntilTimeout

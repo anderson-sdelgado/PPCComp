@@ -1,11 +1,11 @@
-package br.com.usinasantafe.ppc.external.sharedpreferences.datasource
+package br.com.usinasantafe.ppc.external.sharedpreferences.datasource.variable
 
 import android.content.SharedPreferences
 import androidx.core.content.edit
 import br.com.usinasantafe.ppc.domain.errors.resultFailure
-import br.com.usinasantafe.ppc.infra.datasource.sharedpreferences.HeaderSharedPreferencesDatasource
-import br.com.usinasantafe.ppc.infra.models.sharedpreferences.HeaderSharedPreferencesModel
-import br.com.usinasantafe.ppc.utils.BASE_SHARE_PREFERENCES_TABLE_HEADER
+import br.com.usinasantafe.ppc.infra.datasource.sharedpreferences.variable.HeaderSharedPreferencesDatasource
+import br.com.usinasantafe.ppc.infra.models.sharedpreferences.variable.HeaderSharedPreferencesModel
+import br.com.usinasantafe.ppc.utils.BASE_SHARED_PREFERENCES_TABLE_HEADER
 import br.com.usinasantafe.ppc.utils.getClassAndMethod
 import com.google.gson.Gson
 import java.util.Date
@@ -18,7 +18,7 @@ class IHeaderSharedPreferencesDatasource @Inject constructor(
     fun get(): Result<HeaderSharedPreferencesModel> {
         try {
             val header = sharedPreferences.getString(
-                BASE_SHARE_PREFERENCES_TABLE_HEADER,
+                BASE_SHARED_PREFERENCES_TABLE_HEADER,
                 null
             )
             if(header.isNullOrEmpty())
@@ -43,7 +43,7 @@ class IHeaderSharedPreferencesDatasource @Inject constructor(
         try {
             sharedPreferences.edit {
                 putString(
-                    BASE_SHARE_PREFERENCES_TABLE_HEADER,
+                    BASE_SHARED_PREFERENCES_TABLE_HEADER,
                     Gson().toJson(model)
                 )
             }

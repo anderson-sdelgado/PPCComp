@@ -4,15 +4,14 @@ import br.com.usinasantafe.ppc.domain.entities.variable.Config
 import br.com.usinasantafe.ppc.domain.errors.resultFailure
 import br.com.usinasantafe.ppc.domain.repositories.variable.ConfigRepository
 import br.com.usinasantafe.ppc.infra.datasource.retrofit.variable.ConfigRetrofitDatasource
-import br.com.usinasantafe.ppc.infra.datasource.sharedpreferences.ConfigSharedPreferencesDatasource
+import br.com.usinasantafe.ppc.infra.datasource.sharedpreferences.variable.ConfigSharedPreferencesDatasource
 import br.com.usinasantafe.ppc.infra.models.retrofit.variable.entityToRetrofitModel
 import br.com.usinasantafe.ppc.infra.models.retrofit.variable.retrofitToEntity
-import br.com.usinasantafe.ppc.infra.models.sharedpreferences.entityToSharedPreferencesModel
-import br.com.usinasantafe.ppc.infra.models.sharedpreferences.sharedPreferencesModelToEntity
+import br.com.usinasantafe.ppc.infra.models.sharedpreferences.variable.entityToSharedPreferencesModel
+import br.com.usinasantafe.ppc.infra.models.sharedpreferences.variable.sharedPreferencesModelToEntity
 import br.com.usinasantafe.ppc.utils.FlagUpdate
 import br.com.usinasantafe.ppc.utils.getClassAndMethod
 import javax.inject.Inject
-import kotlin.text.get
 
 class IConfigRepository @Inject constructor(
     private val configSharedPreferencesDatasource: ConfigSharedPreferencesDatasource,

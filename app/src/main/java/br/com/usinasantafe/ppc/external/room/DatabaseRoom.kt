@@ -6,14 +6,12 @@ import androidx.room.TypeConverter
 import androidx.room.TypeConverters
 import br.com.usinasantafe.ppc.external.room.dao.stable.ColabDao
 import br.com.usinasantafe.ppc.external.room.dao.stable.HarvesterDao
-import br.com.usinasantafe.ppc.external.room.dao.stable.OSDao
 import br.com.usinasantafe.ppc.external.room.dao.stable.PlotDao
 import br.com.usinasantafe.ppc.external.room.dao.stable.SectionDao
 import br.com.usinasantafe.ppc.external.room.dao.variable.HeaderDao
 import br.com.usinasantafe.ppc.external.room.dao.variable.SampleDao
 import br.com.usinasantafe.ppc.infra.models.room.stable.ColabRoomModel
 import br.com.usinasantafe.ppc.infra.models.room.stable.HarvesterRoomModel
-import br.com.usinasantafe.ppc.infra.models.room.stable.OSRoomModel
 import br.com.usinasantafe.ppc.infra.models.room.stable.PlotRoomModel
 import br.com.usinasantafe.ppc.infra.models.room.stable.SectionRoomModel
 import br.com.usinasantafe.ppc.infra.models.room.variable.HeaderRoomModel
@@ -25,7 +23,6 @@ import java.util.Date
     entities = [
         ColabRoomModel::class,
         HarvesterRoomModel::class,
-        OSRoomModel::class,
         PlotRoomModel::class,
         SectionRoomModel::class,
         HeaderRoomModel::class,
@@ -37,7 +34,6 @@ import java.util.Date
 abstract class DatabaseRoom : RoomDatabase() {
     abstract fun colabDao(): ColabDao
     abstract fun harvesterDao(): HarvesterDao
-    abstract fun osDao(): OSDao
     abstract fun plotDao(): PlotDao
     abstract fun sectionDao(): SectionDao
     abstract fun headerDao(): HeaderDao

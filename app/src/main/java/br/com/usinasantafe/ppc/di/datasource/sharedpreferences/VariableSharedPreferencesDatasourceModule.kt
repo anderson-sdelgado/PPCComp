@@ -1,7 +1,7 @@
 package br.com.usinasantafe.ppc.di.datasource.sharedpreferences
 
-import br.com.usinasantafe.ppc.external.sharedpreferences.datasource.*
-import br.com.usinasantafe.ppc.infra.datasource.sharedpreferences.*
+import br.com.usinasantafe.ppc.external.sharedpreferences.datasource.variable.*
+import br.com.usinasantafe.ppc.infra.datasource.sharedpreferences.variable.*
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -10,7 +10,7 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-interface SharedPreferencesDatasourceModule {
+interface VariableSharedPreferencesDatasourceModule {
 
     @Binds
     @Singleton

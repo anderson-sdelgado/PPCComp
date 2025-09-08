@@ -5,13 +5,19 @@
       <SelectionState runConfigName="app">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
-      <SelectionState runConfigName="check_alter_data_in_shared_preferences()">
+      <SelectionState runConfigName="check_failure_return_if_web_service_returns_data_incorrect()">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
-      <SelectionState runConfigName="header_flow()">
+      <SelectionState runConfigName="check_true_return_if_web_service_slow_return()">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
-      <SelectionState runConfigName="check_open_screen()">
+      <SelectionState runConfigName="check_status_without_connection_return_if_not_have_connection()">
+        <option name="selectionMode" value="DROPDOWN" />
+      </SelectionState>
+      <SelectionState runConfigName="check_status_connection_slow_return_if_web_service_slow_return()">
+        <option name="selectionMode" value="DROPDOWN" />
+      </SelectionState>
+      <SelectionState runConfigName="check_failure_return_if_not_have_data_in_config_shared_preferences()">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
     </selectionStates>

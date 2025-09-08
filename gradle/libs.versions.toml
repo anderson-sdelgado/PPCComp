@@ -1,5 +1,5 @@
 [versions]
-agp = "8.12.2"
+agp = "8.13.0"
 kotlin = "2.0.0"
 coreKtx = "1.16.0"
 junit = "4.13.2"
@@ -12,7 +12,8 @@ composeBom = "2024.09.00"
 navigation = "2.8.5"
 tracing = "1.2.0"
 lifecycle = "2.8.7"
-mockito = "5.0.0"
+mockito = "6.0.0"
+mockitoAndroid = "5.19.0"
 kotlinxCoroutines = "1.8.1"
 coreKtxVersion = "1.6.1"
 robolectric = "4.12.1"
@@ -52,6 +53,7 @@ androidx-tracing = { group = "androidx.tracing", name = "tracing", version.ref =
 androidx-lifecycle-compose-viewmodel = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-compose", version.ref = "lifecycle" }
 androidx-lifecycle-compose-runtime = { group = "androidx.lifecycle", name = "lifecycle-runtime-compose", version.ref = "lifecycle" }
 mockito = { group = "org.mockito.kotlin", name = "mockito-kotlin", version.ref = "mockito" }
+mockito-android = { group = "org.mockito", name = "mockito-android", version.ref = "mockitoAndroid" }
 kotlinx-coroutines-android = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-android", version.ref = "kotlinxCoroutines" }
 kotlinx-coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "kotlinxCoroutines" }
 core-ktx = { group = "androidx.test", name = "core-ktx", version.ref = "coreKtxVersion" }

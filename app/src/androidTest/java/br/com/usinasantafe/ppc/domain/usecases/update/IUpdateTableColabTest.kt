@@ -2,8 +2,8 @@ package br.com.usinasantafe.ppc.domain.usecases.update
 
 import br.com.usinasantafe.ppc.di.provider.BaseUrlModuleTest
 import br.com.usinasantafe.ppc.external.room.dao.stable.ColabDao
-import br.com.usinasantafe.ppc.infra.datasource.sharedpreferences.ConfigSharedPreferencesDatasource
-import br.com.usinasantafe.ppc.infra.models.sharedpreferences.ConfigSharedPreferencesModel
+import br.com.usinasantafe.ppc.infra.datasource.sharedpreferences.variable.ConfigSharedPreferencesDatasource
+import br.com.usinasantafe.ppc.infra.models.sharedpreferences.variable.ConfigSharedPreferencesModel
 import br.com.usinasantafe.ppc.presenter.model.ResultUpdateModel
 import br.com.usinasantafe.ppc.utils.Errors
 import br.com.usinasantafe.ppc.utils.FlagUpdate

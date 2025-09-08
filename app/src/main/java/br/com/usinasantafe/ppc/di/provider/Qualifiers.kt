@@ -18,11 +18,3 @@ annotation class DefaultRetrofit
 @Qualifier
 @Retention(AnnotationRetention.BINARY)
 annotation class ShortTimeoutRetrofit
-
-@Qualifier
-@Retention(AnnotationRetention.BINARY)
-annotation class OSApiDefault
-
-@Qualifier
-@Retention(AnnotationRetention.BINARY)
-annotation class OSApiShortTimeout

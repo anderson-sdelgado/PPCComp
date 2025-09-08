@@ -5,7 +5,7 @@ import br.com.usinasantafe.ppc.domain.errors.resultFailure
 import br.com.usinasantafe.ppc.domain.repositories.variable.AnalysisRepository
 import br.com.usinasantafe.ppc.infra.datasource.room.variable.HeaderRoomDatasource
 import br.com.usinasantafe.ppc.infra.datasource.room.variable.SampleRoomDatasource
-import br.com.usinasantafe.ppc.infra.datasource.sharedpreferences.HeaderSharedPreferencesDatasource
+import br.com.usinasantafe.ppc.infra.datasource.sharedpreferences.variable.HeaderSharedPreferencesDatasource
 import br.com.usinasantafe.ppc.infra.models.room.variable.roomModelToEntity
 import br.com.usinasantafe.ppc.utils.Status
 import br.com.usinasantafe.ppc.utils.getClassAndMethod
@@ -83,6 +83,10 @@ class IAnalysisRepository @Inject constructor(
             )
         }
         return result
+    }
+
+    override suspend fun setOSHeader(nroOS: Int): Result<Boolean> {
+        TODO("Not yet implemented")
     }
 
 }

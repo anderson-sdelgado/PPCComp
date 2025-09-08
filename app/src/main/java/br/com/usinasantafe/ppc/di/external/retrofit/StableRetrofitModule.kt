@@ -1,6 +1,7 @@
 package br.com.usinasantafe.ppc.di.external.retrofit
 
 import br.com.usinasantafe.ppc.di.provider.DefaultRetrofit
+import br.com.usinasantafe.ppc.di.provider.ShortTimeoutRetrofit
 import br.com.usinasantafe.ppc.external.retrofit.api.stable.ColabApi
 import br.com.usinasantafe.ppc.external.retrofit.api.stable.HarvesterApi
 import br.com.usinasantafe.ppc.external.retrofit.api.stable.OSApi
@@ -32,7 +33,7 @@ object StableRetrofitModule {
     @Provides
     @Singleton
     fun osApiRetrofit(
-        @DefaultRetrofit retrofit: Retrofit
+        @ShortTimeoutRetrofit retrofit: Retrofit
     ): OSApi = retrofit.create(OSApi::class.java)
 
     @Provides

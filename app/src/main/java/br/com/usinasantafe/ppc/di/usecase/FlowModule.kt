@@ -31,4 +31,12 @@ interface FlowModule {
     @Singleton
     fun bindSetTurnHeader(usecase: ISetTurnHeader): SetTurnHeader
 
+    @Binds
+    @Singleton
+    fun bindCheckNroOS(usecase: ICheckNroOS): CheckNroOS
+
+    @Binds
+    @Singleton
+    fun bindSetNroOSHeader(usecase: ISetNroOSHeader): SetNroOSHeader
+
 }

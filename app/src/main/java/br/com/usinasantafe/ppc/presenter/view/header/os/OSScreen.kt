@@ -51,7 +51,6 @@ fun OSScreen(
                 failure = uiState.failure,
                 errors = uiState.errors,
                 flagProgress = uiState.flagProgress,
-                msgProgress = uiState.msgProgress,
                 onNavTurn = onNavTurn,
                 onNavSection = onNavSection,
                 modifier = Modifier.padding(innerPadding)
@@ -70,7 +69,6 @@ fun OSContent(
     failure: String,
     errors: Errors,
     flagProgress: Boolean,
-    msgProgress: String,
     onNavTurn: () -> Unit,
     onNavSection: () -> Unit,
     modifier: Modifier = Modifier
@@ -109,35 +107,38 @@ fun OSContent(
         BackHandler {
             onNavTurn()
         }
+    }
 
-        if(flagDialog) {
-            val text = when (errors) {
-                Errors.FIELD_EMPTY -> stringResource(
-                    id = R.string.text_field_empty,
-                    stringResource(id = R.string.text_title_os)
-                )
-                Errors.UPDATE,
-                Errors.TOKEN,
-                Errors.EXCEPTION -> stringResource(
-                    id = R.string.text_failure,
-                    failure
-                )
-                Errors.INVALID -> stringResource(
-                    id = R.string.text_input_data_non_existent,
-                    stringResource(id = R.string.text_title_os)
-                )
-            }
-            AlertDialogSimpleDesign(
-                text = text,
-                setCloseDialog = setCloseDialog,
+    if(flagDialog) {
+        val text = when (errors) {
+            Errors.FIELD_EMPTY -> stringResource(
+                id = R.string.text_field_empty,
+                stringResource(id = R.string.text_title_os)
+            )
+            Errors.UPDATE,
+            Errors.TOKEN,
+            Errors.EXCEPTION -> stringResource(
+                id = R.string.text_failure,
+                failure
+            )
+            Errors.INVALID -> stringResource(
+                id = R.string.text_input_data_non_existent,
+                stringResource(id = R.string.text_title_os)
             )
         }
+        AlertDialogSimpleDesign(
+            text = text,
+            setCloseDialog = setCloseDialog,
+        )
+    }
 
-        if (flagProgress) {
-            AlertDialogProgressIndeterminateDesign(
-                msgProgress = msgProgress
+    if (flagProgress) {
+        AlertDialogProgressIndeterminateDesign(
+            msgProgress = stringResource(
+                id = R.string.text_check_data,
+                stringResource(id = R.string.text_title_os)
             )
-        }
+        )
     }
 
     LaunchedEffect(flagAccess) {
@@ -162,7 +163,94 @@ fun OSPagePreview() {
                 failure = "",
                 errors = Errors.FIELD_EMPTY,
                 flagProgress = false,
-                msgProgress = "",
+                onNavTurn = {},
+                onNavSection = {},
+                modifier = Modifier.padding(innerPadding)
+            )
+        }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun OSPagePreviewInvalid() {
+    PPCTheme {
+        Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
+            OSContent(
+                nroOS = "123456",
+                setTextField = { _, _ -> },
+                setCloseDialog = {},
+                flagAccess = false,
+                flagDialog = true,
+                failure = "",
+                errors = Errors.INVALID,
+                flagProgress = false,
+                onNavTurn = {},
+                onNavSection = {},
+                modifier = Modifier.padding(innerPadding)
+            )
+        }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun OSPagePreviewEmpty() {
+    PPCTheme {
+        Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
+            OSContent(
+                nroOS = "123456",
+                setTextField = { _, _ -> },
+                setCloseDialog = {},
+                flagAccess = false,
+                flagDialog = true,
+                failure = "",
+                errors = Errors.FIELD_EMPTY,
+                flagProgress = false,
+                onNavTurn = {},
+                onNavSection = {},
+                modifier = Modifier.padding(innerPadding)
+            )
+        }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun OSPagePreviewFailure() {
+    PPCTheme {
+        Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
+            OSContent(
+                nroOS = "123456",
+                setTextField = { _, _ -> },
+                setCloseDialog = {},
+                flagAccess = false,
+                flagDialog = true,
+                failure = "Failure",
+                errors = Errors.EXCEPTION,
+                flagProgress = false,
+                onNavTurn = {},
+                onNavSection = {},
+                modifier = Modifier.padding(innerPadding)
+            )
+        }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun OSPagePreviewProgress() {
+    PPCTheme {
+        Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
+            OSContent(
+                nroOS = "123456",
+                setTextField = { _, _ -> },
+                setCloseDialog = {},
+                flagAccess = false,
+                flagDialog = false,
+                failure = "Failure",
+                errors = Errors.EXCEPTION,
+                flagProgress = true,
                 onNavTurn = {},
                 onNavSection = {},
                 modifier = Modifier.padding(innerPadding)

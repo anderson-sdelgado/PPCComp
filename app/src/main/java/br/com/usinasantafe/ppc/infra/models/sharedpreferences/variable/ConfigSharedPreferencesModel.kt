@@ -1,4 +1,4 @@
-package br.com.usinasantafe.ppc.infra.models.sharedpreferences
+package br.com.usinasantafe.ppc.infra.models.sharedpreferences.variable
 
 import br.com.usinasantafe.ppc.domain.entities.variable.Config
 import br.com.usinasantafe.ppc.utils.FlagUpdate

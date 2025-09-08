@@ -148,6 +148,10 @@ dependencies {
     annotationProcessor(libs.hilt.ext.compiler)
     implementation(libs.timber)
     testImplementation(kotlin("test"))
+    androidTestImplementation(kotlin("test"))
+    androidTestImplementation(libs.mockito)
+    testImplementation(libs.mockito.android)
+    androidTestImplementation(libs.mockito.android)
 }
 
 kapt {

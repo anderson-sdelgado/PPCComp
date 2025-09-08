@@ -1,7 +1,7 @@
 package br.com.usinasantafe.ppc.domain.usecases.flow
 
-import br.com.usinasantafe.ppc.external.sharedpreferences.datasource.IHeaderSharedPreferencesDatasource
-import br.com.usinasantafe.ppc.infra.models.sharedpreferences.HeaderSharedPreferencesModel
+import br.com.usinasantafe.ppc.external.sharedpreferences.datasource.variable.IHeaderSharedPreferencesDatasource
+import br.com.usinasantafe.ppc.infra.models.sharedpreferences.variable.HeaderSharedPreferencesModel
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import kotlinx.coroutines.test.runTest

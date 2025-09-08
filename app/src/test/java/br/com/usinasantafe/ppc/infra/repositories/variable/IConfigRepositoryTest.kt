@@ -3,10 +3,10 @@ package br.com.usinasantafe.ppc.infra.repositories.variable
 import br.com.usinasantafe.ppc.domain.entities.variable.Config
 import br.com.usinasantafe.ppc.domain.errors.resultFailure
 import br.com.usinasantafe.ppc.infra.datasource.retrofit.variable.ConfigRetrofitDatasource
-import br.com.usinasantafe.ppc.infra.datasource.sharedpreferences.ConfigSharedPreferencesDatasource
+import br.com.usinasantafe.ppc.infra.datasource.sharedpreferences.variable.ConfigSharedPreferencesDatasource
 import br.com.usinasantafe.ppc.infra.models.retrofit.variable.ConfigRetrofitModelInput
 import br.com.usinasantafe.ppc.infra.models.retrofit.variable.ConfigRetrofitModelOutput
-import br.com.usinasantafe.ppc.infra.models.sharedpreferences.ConfigSharedPreferencesModel
+import br.com.usinasantafe.ppc.infra.models.sharedpreferences.variable.ConfigSharedPreferencesModel
 import br.com.usinasantafe.ppc.utils.FlagUpdate
 import br.com.usinasantafe.ppc.utils.StatusSend
 import kotlinx.coroutines.test.runTest

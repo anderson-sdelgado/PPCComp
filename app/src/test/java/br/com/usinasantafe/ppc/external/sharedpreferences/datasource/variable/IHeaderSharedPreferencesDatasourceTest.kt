@@ -1,9 +1,9 @@
-package br.com.usinasantafe.ppc.external.sharedpreferences.datasource
+package br.com.usinasantafe.ppc.external.sharedpreferences.datasource.variable
 
 import android.content.Context
 import android.content.SharedPreferences
 import androidx.test.core.app.ApplicationProvider
-import br.com.usinasantafe.ppc.infra.models.sharedpreferences.HeaderSharedPreferencesModel
+import br.com.usinasantafe.ppc.infra.models.sharedpreferences.variable.HeaderSharedPreferencesModel
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.runner.RunWith

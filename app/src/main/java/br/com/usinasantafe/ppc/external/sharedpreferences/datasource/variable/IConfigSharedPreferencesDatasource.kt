@@ -1,11 +1,11 @@
-package br.com.usinasantafe.ppc.external.sharedpreferences.datasource
+package br.com.usinasantafe.ppc.external.sharedpreferences.datasource.variable
 
 import android.content.SharedPreferences
 import androidx.core.content.edit
 import br.com.usinasantafe.ppc.domain.errors.resultFailure
-import br.com.usinasantafe.ppc.infra.datasource.sharedpreferences.ConfigSharedPreferencesDatasource
-import br.com.usinasantafe.ppc.infra.models.sharedpreferences.ConfigSharedPreferencesModel
-import br.com.usinasantafe.ppc.utils.BASE_SHARE_PREFERENCES_TABLE_CONFIG
+import br.com.usinasantafe.ppc.infra.datasource.sharedpreferences.variable.ConfigSharedPreferencesDatasource
+import br.com.usinasantafe.ppc.infra.models.sharedpreferences.variable.ConfigSharedPreferencesModel
+import br.com.usinasantafe.ppc.utils.BASE_SHARED_PREFERENCES_TABLE_CONFIG
 import br.com.usinasantafe.ppc.utils.FlagUpdate
 import br.com.usinasantafe.ppc.utils.getClassAndMethod
 import com.google.gson.Gson
@@ -18,7 +18,7 @@ class IConfigSharedPreferencesDatasource @Inject constructor(
     override suspend fun has(): Result<Boolean> {
         try {
             val result = sharedPreferences.getString(
-                BASE_SHARE_PREFERENCES_TABLE_CONFIG,
+                BASE_SHARED_PREFERENCES_TABLE_CONFIG,
                 null
             )
             return Result.success(result != null)
@@ -53,7 +53,7 @@ class IConfigSharedPreferencesDatasource @Inject constructor(
         try {
             sharedPreferences.edit {
                 putString(
-                    BASE_SHARE_PREFERENCES_TABLE_CONFIG,
+                    BASE_SHARED_PREFERENCES_TABLE_CONFIG,
                     Gson().toJson(model)
                 )
             }
@@ -69,7 +69,7 @@ class IConfigSharedPreferencesDatasource @Inject constructor(
     override suspend fun get(): Result<ConfigSharedPreferencesModel> {
         try {
             val config = sharedPreferences.getString(
-                BASE_SHARE_PREFERENCES_TABLE_CONFIG,
+                BASE_SHARED_PREFERENCES_TABLE_CONFIG,
                 null
             )
             if(config.isNullOrEmpty())

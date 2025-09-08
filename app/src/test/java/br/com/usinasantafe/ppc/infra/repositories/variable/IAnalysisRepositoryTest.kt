@@ -3,7 +3,7 @@ package br.com.usinasantafe.ppc.infra.repositories.variable
 import br.com.usinasantafe.ppc.domain.errors.resultFailure
 import br.com.usinasantafe.ppc.infra.datasource.room.variable.HeaderRoomDatasource
 import br.com.usinasantafe.ppc.infra.datasource.room.variable.SampleRoomDatasource
-import br.com.usinasantafe.ppc.infra.datasource.sharedpreferences.HeaderSharedPreferencesDatasource
+import br.com.usinasantafe.ppc.infra.datasource.sharedpreferences.variable.HeaderSharedPreferencesDatasource
 import br.com.usinasantafe.ppc.infra.models.room.variable.HeaderRoomModel
 import br.com.usinasantafe.ppc.utils.Status
 import kotlinx.coroutines.test.runTest

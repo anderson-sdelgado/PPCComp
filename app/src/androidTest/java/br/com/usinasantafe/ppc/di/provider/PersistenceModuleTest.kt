@@ -2,10 +2,15 @@ package br.com.usinasantafe.ppc.di.provider
 
 import android.content.Context
 import android.content.SharedPreferences
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
 import android.util.Log
 import androidx.room.Room
+import androidx.test.core.app.ApplicationProvider
 import androidx.work.WorkManager
 import br.com.usinasantafe.ppc.external.room.DatabaseRoom
+import br.com.usinasantafe.ppc.utils.CheckNetwork
+import br.com.usinasantafe.ppc.utils.ICheckNetwork
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -16,6 +21,7 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
+import javax.inject.Inject
 import javax.inject.Singleton
 
 @Module
@@ -102,6 +108,14 @@ class PersistenceModuleTest {
     fun provideWorkManager(@ApplicationContext context: Context): WorkManager {
         return WorkManager.getInstance(context)
     }
+
+
+    @Provides
+    @Singleton
+    fun provideCheckNetwork(): CheckNetwork {
+        return IFakeCheckNetwork()
+    }
+
 }
 
 @Module
@@ -118,5 +132,18 @@ object BaseUrlModuleTest {
     fun provideUrl(): String {
         Log.d("TestRetrofit", "Base URL: $url")
         return url
+    }
+}
+
+class IFakeCheckNetwork @Inject constructor(
+): CheckNetwork {
+    private var connected: Boolean = true
+
+    fun setConnected(value: Boolean) {
+        connected = value
+    }
+
+    override fun isConnected(): Boolean {
+        return connected
     }
 }

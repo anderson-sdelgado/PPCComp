@@ -1,6 +1,6 @@
 package br.com.usinasantafe.ppc.domain.usecases.flow
 
-import br.com.usinasantafe.ppc.external.sharedpreferences.datasource.IHeaderSharedPreferencesDatasource
+import br.com.usinasantafe.ppc.external.sharedpreferences.datasource.variable.IHeaderSharedPreferencesDatasource
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import kotlinx.coroutines.test.runTest
@@ -8,7 +8,6 @@ import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import java.util.Date
 import javax.inject.Inject
 
 @HiltAndroidTest

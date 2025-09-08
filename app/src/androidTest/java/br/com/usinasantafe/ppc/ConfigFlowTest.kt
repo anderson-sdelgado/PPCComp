@@ -13,7 +13,7 @@ import br.com.usinasantafe.ppc.external.room.dao.stable.ColabDao
 import br.com.usinasantafe.ppc.external.room.dao.stable.HarvesterDao
 import br.com.usinasantafe.ppc.external.room.dao.stable.PlotDao
 import br.com.usinasantafe.ppc.external.room.dao.stable.SectionDao
-import br.com.usinasantafe.ppc.infra.datasource.sharedpreferences.ConfigSharedPreferencesDatasource
+import br.com.usinasantafe.ppc.infra.datasource.sharedpreferences.variable.ConfigSharedPreferencesDatasource
 import br.com.usinasantafe.ppc.presenter.MainActivity
 import br.com.usinasantafe.ppc.presenter.view.configuration.config.TAG_NUMBER_TEXT_FIELD_CONFIG_SCREEN
 import br.com.usinasantafe.ppc.presenter.view.configuration.config.TAG_PASSWORD_TEXT_FIELD_CONFIG_SCREEN

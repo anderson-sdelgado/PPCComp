@@ -8,6 +8,8 @@ import br.com.usinasantafe.ppc.R
 import br.com.usinasantafe.ppc.external.room.DatabaseRoom
 import br.com.usinasantafe.ppc.utils.BASE_DB
 import br.com.usinasantafe.ppc.utils.BASE_SHARE_PREFERENCES
+import br.com.usinasantafe.ppc.utils.CheckNetwork
+import br.com.usinasantafe.ppc.utils.ICheckNetwork
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -104,6 +106,13 @@ object PersistenceModule {
     fun provideWorkManager(@ApplicationContext context: Context): WorkManager {
         return WorkManager.getInstance(context)
     }
+
+    @Provides
+    @Singleton
+    fun provideCheckNetwork(@ApplicationContext context: Context): CheckNetwork {
+        return ICheckNetwork(context)
+    }
+
 }
 
 @Module
@@ -114,3 +123,4 @@ object BaseUrlModule {
     @Singleton
     fun provideUrl(@ApplicationContext appContext: Context): String = appContext.getString(R.string.base_url)
 }
+

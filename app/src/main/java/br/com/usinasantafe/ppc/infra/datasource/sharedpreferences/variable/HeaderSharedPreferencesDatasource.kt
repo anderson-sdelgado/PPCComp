@@ -1,4 +1,4 @@
-package br.com.usinasantafe.ppc.infra.datasource.sharedpreferences
+package br.com.usinasantafe.ppc.infra.datasource.sharedpreferences.variable
 
 import java.util.Date
 
