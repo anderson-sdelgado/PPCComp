@@ -6,6 +6,7 @@ import br.com.usinasantafe.ppc.external.sharedpreferences.datasource.stable.IOSS
 import br.com.usinasantafe.ppc.infra.datasource.sharedpreferences.variable.ConfigSharedPreferencesDatasource
 import br.com.usinasantafe.ppc.infra.models.sharedpreferences.stable.OSSharedPreferencesModel
 import br.com.usinasantafe.ppc.infra.models.sharedpreferences.variable.ConfigSharedPreferencesModel
+import br.com.usinasantafe.ppc.presenter.model.ResultCheckDataWebServiceModel
 import br.com.usinasantafe.ppc.utils.CheckNetwork
 import br.com.usinasantafe.ppc.utils.FlagUpdate
 import br.com.usinasantafe.ppc.utils.StatusCon
@@ -22,13 +23,13 @@ import kotlin.test.Test
 import kotlin.time.Duration.Companion.minutes
 
 @HiltAndroidTest
-class ICheckNroOSTest {
+class ICheckOSTest {
 
     @get:Rule
     val hiltRule = HiltAndroidRule(this)
 
     @Inject
-    lateinit var usecase: CheckNroOS
+    lateinit var usecase: CheckOS
 
     @Inject
     lateinit var configSharedPreferencesDatasource: ConfigSharedPreferencesDatasource
@@ -40,15 +41,15 @@ class ICheckNroOSTest {
     lateinit var checkNetwork: CheckNetwork
 
     private val resultOSFailure = """
-          {"nroOS":1a,"idSection":1}
+          {"nroOS":2a,"idSection":12}
     """.trimIndent()
 
-    private val resultOSEmpty = """
+    private val resultOSInvalid = """
           {"nroOS":0,"idSection":0}
     """.trimIndent()
 
     private val resultOS = """
-          {"nroOS":1,"idSection":1}
+          {"nroOS":20,"idSection":2}
     """.trimIndent()
 
     @Test
@@ -217,7 +218,7 @@ class ICheckNroOSTest {
             server.start()
             server.enqueue(
                 MockResponse()
-                    .setBody(resultOSEmpty)
+                    .setBody(resultOSInvalid)
                     .setBodyDelay(12, TimeUnit.SECONDS)
             )
             BaseUrlModuleTest.url = server.url("/").toString()
@@ -266,6 +267,119 @@ class ICheckNroOSTest {
                 null
             )
 
+        }
+
+    @Test
+    fun check_data_return_if_web_service_returns_nroOS_invalid() =
+        runTest {
+
+            val server = MockWebServer()
+            server.start()
+            server.enqueue(
+                MockResponse().setBody(resultOSInvalid)
+            )
+            BaseUrlModuleTest.url = server.url("/").toString()
+
+            hiltRule.inject()
+            initialRegister()
+
+            val resultGetBefore = osSharedPreferencesDatasource.get()
+            assertEquals(
+                resultGetBefore.isSuccess,
+                true
+            )
+            val modelBefore = resultGetBefore.getOrNull()!!
+            assertEquals(
+                modelBefore.nroOS,
+                1
+            )
+            assertEquals(
+                modelBefore.idSection,
+                1
+            )
+
+            val result = usecase("2")
+            assertEquals(
+                result.isSuccess,
+                true
+            )
+            assertEquals(
+                result.getOrNull()!!,
+                ResultCheckDataWebServiceModel(
+                    statusCon = StatusCon.OK,
+                    check = false
+                )
+            )
+
+            val resultGetAfter = osSharedPreferencesDatasource.get()
+            assertEquals(
+                resultGetAfter.isSuccess,
+                true
+            )
+            val modelAfter = resultGetAfter.getOrNull()
+            assertEquals(
+                modelAfter,
+                null
+            )
+        }
+
+    @Test
+    fun check_data_return_if_web_service_returns_data_correct() =
+        runTest {
+
+            val server = MockWebServer()
+            server.start()
+            server.enqueue(
+                MockResponse().setBody(resultOS)
+            )
+            BaseUrlModuleTest.url = server.url("/").toString()
+
+            hiltRule.inject()
+
+            initialRegister()
+
+            val resultGetBefore = osSharedPreferencesDatasource.get()
+            assertEquals(
+                resultGetBefore.isSuccess,
+                true
+            )
+            val modelBefore = resultGetBefore.getOrNull()!!
+            assertEquals(
+                modelBefore.nroOS,
+                1
+            )
+            assertEquals(
+                modelBefore.idSection,
+                1
+            )
+
+            val result = usecase("2")
+            assertEquals(
+                result.isSuccess,
+                true
+            )
+            assertEquals(
+                result.getOrNull()!!,
+                ResultCheckDataWebServiceModel(
+                    statusCon = StatusCon.OK,
+                    check = true
+                )
+            )
+
+            val resultGetAfter = osSharedPreferencesDatasource.get()
+            assertEquals(
+                resultGetAfter.isSuccess,
+                true
+            )
+            val modelAfter = resultGetAfter.getOrNull()!!
+            assertEquals(
+                modelAfter.nroOS,
+                20
+            )
+            assertEquals(
+                modelAfter.idSection,
+                2
+            )
         }
 
     private suspend fun initialRegister() {

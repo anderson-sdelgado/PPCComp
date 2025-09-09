@@ -35,7 +35,7 @@ class IColabRoomDatasource @Inject constructor(
         }
     }
 
-    override suspend fun check(regColab: Int): Result<Boolean> {
+    override suspend fun checkRegColab(regColab: Int): Result<Boolean> {
         try {
             val check = colabDao.count(regColab) > 0
             return Result.success(check)

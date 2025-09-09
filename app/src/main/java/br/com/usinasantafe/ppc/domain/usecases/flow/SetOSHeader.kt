@@ -1,21 +1,21 @@
 package br.com.usinasantafe.ppc.domain.usecases.flow
 
 import br.com.usinasantafe.ppc.domain.errors.resultFailure
-import br.com.usinasantafe.ppc.domain.repositories.stable.ColabRepository
+import br.com.usinasantafe.ppc.domain.repositories.variable.AnalysisRepository
 import br.com.usinasantafe.ppc.utils.getClassAndMethod
 import javax.inject.Inject
 
-interface CheckColab {
-    suspend operator fun invoke(regColab: String): Result<Boolean>
+interface SetOSHeader {
+    suspend operator fun invoke(nroOS: String): Result<Boolean>
 }
 
-class ICheckColab @Inject constructor(
-    private val colabRepository: ColabRepository
-): CheckColab {
+class ISetOSHeader @Inject constructor(
+    private val analysisRepository: AnalysisRepository
+): SetOSHeader {
 
-    override suspend fun invoke(regColab: String): Result<Boolean> {
+    override suspend fun invoke(nroOS: String): Result<Boolean> {
         try {
-            val result = colabRepository.checkRegColab(regColab.toInt())
+            val result = analysisRepository.setOSHeader(nroOS.toInt())
             if(result.isFailure){
                 return resultFailure(
                     context = getClassAndMethod(),

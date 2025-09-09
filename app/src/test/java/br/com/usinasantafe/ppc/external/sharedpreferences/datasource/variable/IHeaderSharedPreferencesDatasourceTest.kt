@@ -209,4 +209,38 @@ class IHeaderSharedPreferencesDatasourceTest {
                 1
             )
         }
+
+    @Test
+    fun `setOS - Check alter data in shared preferences`() =
+        runTest {
+            val resultBefore = datasource.get()
+            assertEquals(
+                resultBefore.isSuccess,
+                true
+            )
+            val modelBefore = resultBefore.getOrNull()!!
+            assertEquals(
+                modelBefore.nroOS,
+                null
+            )
+            val result = datasource.setOS(1)
+            assertEquals(
+                result.isSuccess,
+                true
+            )
+            assertEquals(
+                result.getOrNull()!!,
+                true
+            )
+            val resultGetAfter = datasource.get()
+            assertEquals(
+                resultGetAfter.isSuccess,
+                true
+            )
+            val modelAfter = resultGetAfter.getOrNull()!!
+            assertEquals(
+                modelAfter.nroOS,
+                1
+            )
+        }
 }

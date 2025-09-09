@@ -205,4 +205,50 @@ class ISectionRepositoryTest {
             )
         }
 
+    @Test
+    fun `checkNroSection - Check return failure if have error in SectionDatasource checkNroSection`() =
+        runTest {
+            whenever(
+                sectionRoomDatasource.checkNro(200)
+            ).thenReturn(
+                resultFailure(
+                    "ISectionDatasource.checkNroSection",
+                    "-",
+                    Exception()
+                )
+            )
+            val result = repository.checkNro(200)
+            assertEquals(
+                result.isFailure,
+                true
+            )
+            assertEquals(
+                result.exceptionOrNull()!!.message,
+                "ISectionRepository.checkNroSection -> ISectionDatasource.checkNroSection"
+            )
+            assertEquals(
+                result.exceptionOrNull()!!.cause.toString(),
+                "java.lang.Exception"
+            )
+        }
+
+    @Test
+    fun `checkNroSection - Check return correct if function execute successfully`() =
+        runTest {
+            whenever(
+                sectionRoomDatasource.checkNro(200)
+            ).thenReturn(
+                Result.success(true)
+            )
+            val result = repository.checkNro(200)
+            assertEquals(
+                result.isSuccess,
+                true
+            )
+            assertEquals(
+                result.getOrNull()!!,
+                true
+            )
+        }
+
 }

@@ -164,4 +164,40 @@ class ISectionRoomDatasourceTest {
             )
         }
 
+    @Test
+    fun `checkNroSection - Check return false if not have data in table Section`() =
+        runTest {
+            val result = datasource.checkNro(1)
+            assertEquals(
+                result.isSuccess,
+                true
+            )
+            assertEquals(
+                result.getOrNull()!!,
+                false
+            )
+        }
+    
+    @Test
+    fun `checkNroSection - Check return correct if function execute successfully`() =
+        runTest {
+            sectionDao.insertAll(
+                listOf(
+                    SectionRoomModel(
+                        idSection = 1,
+                        codSection = 1
+                    )
+                )
+            )
+            val result = datasource.checkNro(1)
+            assertEquals(
+                result.isSuccess,
+                true
+            )
+            assertEquals(
+                result.getOrNull()!!,
+                true
+            )
+        }
+
 }

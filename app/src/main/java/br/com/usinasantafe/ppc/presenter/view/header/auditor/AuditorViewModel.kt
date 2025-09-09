@@ -177,12 +177,12 @@ class AuditorViewModel @Inject constructor(
             }
             return@launch
         }
-        val resultAuditor = setAuditorHeader(
+        val resultSet = setAuditorHeader(
             pos = uiState.value.posAuditor,
             regAuditor = uiState.value.regAuditor
         )
-        if(resultAuditor.isFailure){
-            val error = resultAuditor.exceptionOrNull()!!
+        if(resultSet.isFailure){
+            val error = resultSet.exceptionOrNull()!!
             val failure =
                 "${getClassAndMethod()} -> ${error.message} -> ${error.cause.toString()}"
             Timber.e(failure)

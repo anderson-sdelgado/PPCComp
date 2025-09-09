@@ -86,7 +86,14 @@ class IAnalysisRepository @Inject constructor(
     }
 
     override suspend fun setOSHeader(nroOS: Int): Result<Boolean> {
-        TODO("Not yet implemented")
+        val result = headerSharedPreferencesDatasource.setOS(nroOS)
+        if(result.isFailure){
+            return resultFailure(
+                context = getClassAndMethod(),
+                cause = result.exceptionOrNull()!!
+            )
+        }
+        return result
     }
 
 }

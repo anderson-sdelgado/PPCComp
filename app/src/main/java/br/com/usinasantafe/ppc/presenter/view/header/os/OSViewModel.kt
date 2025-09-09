@@ -2,8 +2,8 @@ package br.com.usinasantafe.ppc.presenter.view.header.os
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import br.com.usinasantafe.ppc.domain.usecases.flow.CheckNroOS
-import br.com.usinasantafe.ppc.domain.usecases.flow.SetNroOSHeader
+import br.com.usinasantafe.ppc.domain.usecases.flow.CheckOS
+import br.com.usinasantafe.ppc.domain.usecases.flow.SetOSHeader
 import br.com.usinasantafe.ppc.presenter.theme.addTextField
 import br.com.usinasantafe.ppc.presenter.theme.clearTextField
 import br.com.usinasantafe.ppc.utils.Errors
@@ -16,7 +16,6 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import timber.log.Timber
-import java.net.SocketTimeoutException
 import javax.inject.Inject
 
 data class OSState(
@@ -31,8 +30,8 @@ data class OSState(
 
 @HiltViewModel
 class OSViewModel @Inject constructor(
-    private val checkNroOS: CheckNroOS,
-    private val setNroOSHeader: SetNroOSHeader
+    private val checkOS: CheckOS,
+    private val setOSHeader: SetOSHeader
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(OSState())
@@ -87,7 +86,7 @@ class OSViewModel @Inject constructor(
                 flagProgress = true,
             )
         }
-        val resultCheck = checkNroOS(uiState.value.nroOS)
+        val resultCheck = checkOS(uiState.value.nroOS)
         if (resultCheck.isFailure) {
             val error = resultCheck.exceptionOrNull()!!
             val failure =
@@ -129,7 +128,7 @@ class OSViewModel @Inject constructor(
             }
             return@launch
         }
-        val resultSet = setNroOSHeader(uiState.value.nroOS)
+        val resultSet = setOSHeader(uiState.value.nroOS)
         if (resultSet.isFailure) {
             val error = resultSet.exceptionOrNull()!!
             val failure =

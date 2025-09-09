@@ -43,7 +43,7 @@ class IAnalysisRepositoryTest {
             )
             assertEquals(
                 result.exceptionOrNull()!!.message,
-                "IAnalysisRepository.listHeader -> IHeaderRoomDatasource.listByStatus"
+                "IAnalysisRepository.listHeaderByStatusOpen -> IHeaderRoomDatasource.listByStatus"
             )
             assertEquals(
                 result.exceptionOrNull()!!.cause.toString(),
@@ -204,7 +204,7 @@ class IAnalysisRepositoryTest {
             )
             assertEquals(
                 result.exceptionOrNull()!!.message,
-                "IAnalysisRepository.setAuditor -> IHeaderSharedPreferencesDatasource.setAuditor"
+                "IAnalysisRepository.setAuditorHeader -> IHeaderSharedPreferencesDatasource.setAuditor"
             )
             assertEquals(
                 result.exceptionOrNull()!!.cause.toString(),
@@ -326,6 +326,33 @@ class IAnalysisRepositoryTest {
             assertEquals(
                 result.getOrNull()!!,
                 true
+            )
+        }
+
+    @Test
+    fun `setOSHeader - Check return failure if have error in AnalysisDatasource setOS`() =
+        runTest {
+            whenever(
+                headerSharedPreferencesDatasource.setOS(123456)
+            ).thenReturn(
+                resultFailure(
+                    "IAnalysisDatasource.setOS",
+                    "-",
+                    Exception()
+                )
+            )
+            val result = repository.setOSHeader(123456)
+            assertEquals(
+                result.isFailure,
+                true
+            )
+            assertEquals(
+                result.exceptionOrNull()!!.message,
+                "IAnalysisRepository.setOSHeader -> IAnalysisDatasource.setOS"
+            )
+            assertEquals(
+                result.exceptionOrNull()!!.cause.toString(),
+                "java.lang.Exception"
             )
         }
 

@@ -152,9 +152,9 @@ class IColabRoomDatasourceTest {
         }
 
     @Test
-    fun `check - Check return false if not have data in table Colab`() =
+    fun `checkRegColab - Check return false if not have data in table Colab`() =
         runTest {
-            val result = datasource.check(1)
+            val result = datasource.checkRegColab(1)
             assertEquals(
                 result.isSuccess,
                 true
@@ -166,7 +166,7 @@ class IColabRoomDatasourceTest {
         }
 
     @Test
-    fun `check - Check return true if have data fielded in table Colab`() =
+    fun `checkRegColab - Check return true if have data fielded in table Colab`() =
         runTest {
             colabDao.insertAll(
                 listOf(
@@ -175,7 +175,7 @@ class IColabRoomDatasourceTest {
                     )
                 )
             )
-            val result = datasource.check(1)
+            val result = datasource.checkRegColab(1)
             assertEquals(
                 result.isSuccess,
                 true

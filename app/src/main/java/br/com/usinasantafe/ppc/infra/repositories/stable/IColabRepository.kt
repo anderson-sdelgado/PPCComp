@@ -3,7 +3,6 @@ package br.com.usinasantafe.ppc.infra.repositories.stable
 import br.com.usinasantafe.ppc.domain.entities.stable.Colab
 import br.com.usinasantafe.ppc.domain.errors.resultFailure
 import br.com.usinasantafe.ppc.domain.repositories.stable.ColabRepository
-import br.com.usinasantafe.ppc.domain.repositories.variable.ConfigRepository
 import br.com.usinasantafe.ppc.infra.datasource.retrofit.stable.ColabRetrofitDatasource
 import br.com.usinasantafe.ppc.infra.datasource.room.stable.ColabRoomDatasource
 import br.com.usinasantafe.ppc.infra.models.retrofit.stable.retrofitModelToEntity
@@ -65,8 +64,8 @@ class IColabRepository @Inject constructor(
         }
     }
 
-    override suspend fun check(regColab: Int): Result<Boolean> {
-        val result = colabRoomDatasource.check(regColab)
+    override suspend fun checkRegColab(regColab: Int): Result<Boolean> {
+        val result = colabRoomDatasource.checkRegColab(regColab)
         if (result.isFailure) {
             return resultFailure(
                 context = getClassAndMethod(),

@@ -35,4 +35,16 @@ class ISectionRoomDatasource @Inject constructor(
         }
     }
 
+    override suspend fun checkNro(nroSection: Int): Result<Boolean> {
+        try {
+            val check = sectionDao.count(nroSection) > 0
+            return Result.success(check)
+        } catch (e: Exception) {
+            return resultFailure(
+                context = getClassAndMethod(),
+                cause = e
+            )
+        }
+    }
+
 }

@@ -10,17 +10,17 @@ import br.com.usinasantafe.ppc.utils.getClassAndMethod
 import java.net.SocketTimeoutException
 import javax.inject.Inject
 
-interface CheckNroOS {
+interface CheckOS {
     suspend operator fun invoke(
         nroOS: String
     ): Result<ResultCheckDataWebServiceModel>
 }
 
-class ICheckNroOS @Inject constructor(
+class ICheckOS @Inject constructor(
     private val checkNetwork: CheckNetwork,
     private val getToken: GetToken,
     private val osRepository: OSRepository,
-): CheckNroOS {
+): CheckOS {
 
     override suspend fun invoke(
         nroOS: String

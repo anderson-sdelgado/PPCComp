@@ -14,12 +14,12 @@ import org.mockito.kotlin.whenever
 import java.net.SocketTimeoutException
 import kotlin.test.Test
 
-class ICheckNroOSTest {
+class ICheckOSTest {
 
     private val checkNetwork = mock<CheckNetwork>()
     private val getToken = mock<GetToken>()
     private val osRepository = mock<OSRepository>()
-    private val usecase = ICheckNroOS(
+    private val usecase = ICheckOS(
         checkNetwork = checkNetwork,
         getToken = getToken,
         osRepository = osRepository

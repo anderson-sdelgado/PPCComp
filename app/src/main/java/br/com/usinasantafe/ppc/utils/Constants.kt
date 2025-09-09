@@ -11,7 +11,6 @@ const val BASE_SHARED_PREFERENCES_TABLE_OS = "os"
 
 const val TB_COLAB = "tb_colab"
 const val TB_HARVESTER = "tb_harvester"
-const val TB_OS = "tb_os"
 const val TB_PLOT = "tb_plot"
 const val TB_SECTION = "tb_section"
 

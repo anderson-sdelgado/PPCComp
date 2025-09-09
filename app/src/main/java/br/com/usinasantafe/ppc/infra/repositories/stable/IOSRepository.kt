@@ -70,4 +70,8 @@ class IOSRepository @Inject constructor(
         }
     }
 
+    override suspend fun checkIdSection(idSection: Int): Result<Boolean> {
+        TODO("Not yet implemented")
+    }
+
 }

@@ -1,58 +1,58 @@
 package br.com.usinasantafe.ppc.domain.usecases.flow
 
 import br.com.usinasantafe.ppc.domain.errors.resultFailure
-import br.com.usinasantafe.ppc.domain.repositories.stable.ColabRepository
+import br.com.usinasantafe.ppc.domain.repositories.variable.AnalysisRepository
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.*
 import org.mockito.Mockito.mock
 import org.mockito.kotlin.whenever
 import kotlin.test.Test
 
-class ICheckColabTest {
+class ISetOSHeaderTest {
 
-    private val colabRepository = mock<ColabRepository>()
-    private val usecase = ICheckColab(
-        colabRepository = colabRepository
+    private val analysisRepository = mock<AnalysisRepository>()
+    private val usecase = ISetOSHeader(
+        analysisRepository = analysisRepository
     )
 
     @Test
-    fun `Check return failure if regAuditor is incorrect`() =
+    fun `Check return failure if nroOS is invalid`() =
         runTest {
-            val result = usecase("19759a")
+            val result = usecase("123456a")
             assertEquals(
                 result.isFailure,
                 true
             )
             assertEquals(
                 result.exceptionOrNull()!!.message,
-                "ICheckColab"
+                "ISetNroOSHeader"
             )
             assertEquals(
                 result.exceptionOrNull()!!.cause.toString(),
-                "java.lang.NumberFormatException: For input string: \"19759a\""
+                "java.lang.NumberFormatException: For input string: \"123456a\""
             )
         }
 
     @Test
-    fun `Check return failure if have error in ColabRepository check`() =
+    fun `Check return failure if have error in AnalysisRepository setOSHeader`() =
         runTest {
             whenever(
-                colabRepository.checkRegColab(19759)
+                analysisRepository.setOSHeader(123456)
             ).thenReturn(
                 resultFailure(
-                    "IColabRepository.check",
+                    "IAnalysisRepository.setOSHeader",
                     "-",
                     Exception()
                 )
             )
-            val result = usecase("19759")
+            val result = usecase("123456")
             assertEquals(
                 result.isFailure,
                 true
             )
             assertEquals(
                 result.exceptionOrNull()!!.message,
-                "ICheckColab -> IColabRepository.check"
+                "ISetNroOSHeader -> IAnalysisRepository.setOSHeader"
             )
             assertEquals(
                 result.exceptionOrNull()!!.cause.toString(),
@@ -64,11 +64,11 @@ class ICheckColabTest {
     fun `Check return correct if function execute successfully`() =
         runTest {
             whenever(
-                colabRepository.checkRegColab(19759)
+                analysisRepository.setOSHeader(123456)
             ).thenReturn(
                 Result.success(true)
             )
-            val result = usecase("19759")
+            val result = usecase("123456")
             assertEquals(
                 result.isSuccess,
                 true

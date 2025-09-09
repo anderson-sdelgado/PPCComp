@@ -33,10 +33,18 @@ interface FlowModule {
 
     @Binds
     @Singleton
-    fun bindCheckNroOS(usecase: ICheckNroOS): CheckNroOS
+    fun bindCheckNroOS(usecase: ICheckOS): CheckOS
 
     @Binds
     @Singleton
-    fun bindSetNroOSHeader(usecase: ISetNroOSHeader): SetNroOSHeader
+    fun bindSetNroOSHeader(usecase: ISetOSHeader): SetOSHeader
+
+    @Binds
+    @Singleton
+    fun bindCheckSection(usecase: ICheckSection): CheckSection
+
+    @Binds
+    @Singleton
+    fun bindSetSectionHeader(usecase: ISetSectionHeader): SetSectionHeader
 
 }

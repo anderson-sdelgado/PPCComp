@@ -4,7 +4,6 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
 import br.com.usinasantafe.ppc.infra.models.room.stable.SectionRoomModel
-import br.com.usinasantafe.ppc.utils.TB_SECTION
 
 @Dao
 interface SectionDao {
@@ -12,9 +11,12 @@ interface SectionDao {
     @Insert
     fun insertAll(list: List<SectionRoomModel>)
 
-    @Query("DELETE FROM $TB_SECTION")
+    @Query("DELETE FROM TB_SECTION")
     suspend fun deleteAll()
 
-    @Query("SELECT * FROM $TB_SECTION")
+    @Query("SELECT * FROM TB_SECTION")
     suspend fun all(): List<SectionRoomModel>
+
+    @Query("SELECT count(*) FROM TB_SECTION WHERE codSection = :codSection")
+    suspend fun count(codSection: Int): Int
 }

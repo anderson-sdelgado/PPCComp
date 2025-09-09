@@ -1,58 +1,61 @@
 package br.com.usinasantafe.ppc.domain.usecases.flow
 
 import br.com.usinasantafe.ppc.domain.errors.resultFailure
-import br.com.usinasantafe.ppc.domain.repositories.stable.ColabRepository
+import br.com.usinasantafe.ppc.domain.repositories.stable.OSRepository
+import br.com.usinasantafe.ppc.domain.repositories.stable.SectionRepository
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.*
 import org.mockito.Mockito.mock
 import org.mockito.kotlin.whenever
 import kotlin.test.Test
 
-class ICheckColabTest {
+class ICheckSectionTest {
 
-    private val colabRepository = mock<ColabRepository>()
-    private val usecase = ICheckColab(
-        colabRepository = colabRepository
+    private val sectionRepository = mock<SectionRepository>()
+    private val osRepository = mock<OSRepository>()
+    private val usecase: CheckSection = ICheckSection(
+        sectionRepository = sectionRepository,
+        osRepository = osRepository
     )
 
     @Test
-    fun `Check return failure if regAuditor is incorrect`() =
+    fun `Check return failure if nroSection is incorrect`() =
         runTest {
-            val result = usecase("19759a")
+            val result = usecase("10a")
             assertEquals(
                 result.isFailure,
                 true
             )
             assertEquals(
                 result.exceptionOrNull()!!.message,
-                "ICheckColab"
+                "ICheckSection"
             )
             assertEquals(
                 result.exceptionOrNull()!!.cause.toString(),
-                "java.lang.NumberFormatException: For input string: \"19759a\""
+                "java.lang.NumberFormatException: For input string: \"10a\""
             )
         }
 
     @Test
-    fun `Check return failure if have error in ColabRepository check`() =
+    fun `Check return failure if have error in SectionRepository checkNroSection`() =
         runTest {
             whenever(
-                colabRepository.checkRegColab(19759)
+                sectionRepository.checkNro(200)
             ).thenReturn(
                 resultFailure(
-                    "IColabRepository.check",
+                    "ISectionRepository.checkNroSection",
                     "-",
                     Exception()
                 )
             )
-            val result = usecase("19759")
+            val result = usecase("200")
             assertEquals(
                 result.isFailure,
                 true
             )
             assertEquals(
                 result.exceptionOrNull()!!.message,
-                "ICheckColab -> IColabRepository.check"
+                "ICheckSection -> ISectionRepository.checkNroSection"
             )
             assertEquals(
                 result.exceptionOrNull()!!.cause.toString(),
@@ -61,21 +64,21 @@ class ICheckColabTest {
         }
 
     @Test
-    fun `Check return correct if function execute successfully`() =
+    fun `Check false return if SectionRepository checkNroSection returned false`() =
         runTest {
             whenever(
-                colabRepository.checkRegColab(19759)
+                sectionRepository.checkNro(200)
             ).thenReturn(
-                Result.success(true)
+                Result.success(false)
             )
-            val result = usecase("19759")
+            val result = usecase("200")
             assertEquals(
                 result.isSuccess,
                 true
             )
             assertEquals(
                 result.getOrNull()!!,
-                true
+                false
             )
         }
 

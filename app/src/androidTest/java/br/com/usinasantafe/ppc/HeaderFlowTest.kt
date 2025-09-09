@@ -5,6 +5,7 @@ import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
+import br.com.usinasantafe.ppc.di.provider.BaseUrlModuleTest
 import br.com.usinasantafe.ppc.external.room.dao.stable.ColabDao
 import br.com.usinasantafe.ppc.external.sharedpreferences.datasource.variable.IHeaderSharedPreferencesDatasource
 import br.com.usinasantafe.ppc.infra.datasource.sharedpreferences.variable.ConfigSharedPreferencesDatasource
@@ -16,6 +17,8 @@ import br.com.usinasantafe.ppc.utils.waitUntilTimeout
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import kotlinx.coroutines.test.runTest
+import okhttp3.mockwebserver.MockResponse
+import okhttp3.mockwebserver.MockWebServer
 import org.junit.Assert.assertEquals
 import org.junit.Rule
 import org.junit.Test
@@ -28,6 +31,10 @@ import kotlin.time.Duration.Companion.minutes
 
 @HiltAndroidTest
 class HeaderFlowTest {
+
+    private val resultOS = """
+          {"nroOS":123456,"idSection":2}
+    """.trimIndent()
 
     @get:Rule(order = 0)
     val hiltRule = HiltAndroidRule(this)
@@ -48,6 +55,13 @@ class HeaderFlowTest {
         runTest(
             timeout = 10.minutes
         ) {
+
+            val server = MockWebServer()
+            server.start()
+            server.enqueue(
+                MockResponse().setBody(resultOS)
+            )
+            BaseUrlModuleTest.url = server.url("/").toString()
 
             hiltRule.inject()
 
@@ -286,6 +300,20 @@ class HeaderFlowTest {
 
             composeTestRule.waitUntilTimeout()
 
+            composeTestRule.activityRule.scenario.onActivity { activity ->
+                activity.onBackPressedDispatcher.onBackPressed()
+            }
+
+            Log.d("TestDebug", "Position 24")
+
+            composeTestRule.waitUntilTimeout()
+
+            composeTestRule.onNodeWithText("TURNO 1").performClick()
+
+            Log.d("TestDebug", "Position 25")
+
+            composeTestRule.waitUntilTimeout()
+
             val resultGetTurn = headerSharedPreferencesDatasource.get()
             assertEquals(
                 resultGetTurn.isSuccess,
@@ -313,7 +341,7 @@ class HeaderFlowTest {
                 1
             )
 
-            Log.d("TestDebug", "Position 22")
+            Log.d("TestDebug", "Position 26")
 
             composeTestRule.waitUntilTimeout()
 

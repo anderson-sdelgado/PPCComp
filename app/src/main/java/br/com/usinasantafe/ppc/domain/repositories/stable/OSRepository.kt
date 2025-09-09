@@ -9,4 +9,5 @@ interface OSRepository {
         nroOS: Int,
     ): Result<OS>
     suspend fun add(entity: OS): Result<Boolean>
+    suspend fun checkIdSection(idSection: Int): Result<Boolean>
 }

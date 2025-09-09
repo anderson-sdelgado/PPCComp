@@ -2,8 +2,8 @@ package br.com.usinasantafe.ppc.presenter.view.header.os
 
 import br.com.usinasantafe.ppc.MainCoroutineRule
 import br.com.usinasantafe.ppc.domain.errors.resultFailure
-import br.com.usinasantafe.ppc.domain.usecases.flow.CheckNroOS
-import br.com.usinasantafe.ppc.domain.usecases.flow.SetNroOSHeader
+import br.com.usinasantafe.ppc.domain.usecases.flow.CheckOS
+import br.com.usinasantafe.ppc.domain.usecases.flow.SetOSHeader
 import br.com.usinasantafe.ppc.presenter.model.ResultCheckDataWebServiceModel
 import br.com.usinasantafe.ppc.utils.Errors
 import br.com.usinasantafe.ppc.utils.StatusCon
@@ -23,11 +23,11 @@ class OSViewModelTest {
     @get:Rule
     val mainCoroutineRule = MainCoroutineRule()
 
-    private val checkNroOS = mock<CheckNroOS>()
-    private val setNroOSHeader = mock<SetNroOSHeader>()
+    private val checkOS = mock<CheckOS>()
+    private val setOSHeader = mock<SetOSHeader>()
     private val viewModel = OSViewModel(
-        checkNroOS = checkNroOS,
-        setNroOSHeader = setNroOSHeader
+        checkOS = checkOS,
+        setOSHeader = setOSHeader
     )
 
     @Test
@@ -90,7 +90,7 @@ class OSViewModelTest {
     fun `checkAndSet - Check return failure if have error in CheckNroOS`() =
         runTest {
             whenever(
-                checkNroOS(nroOS = "123456")
+                checkOS(nroOS = "123456")
             ).thenReturn(
                 resultFailure(
                     context = "ICheckNroOS",
@@ -120,7 +120,7 @@ class OSViewModelTest {
     fun `checkAndSet - Check return false if nroOS is inexistent`() =
         runTest {
             whenever(
-                checkNroOS(nroOS = "123456")
+                checkOS(nroOS = "123456")
             ).thenReturn(
                 Result.success(
                     ResultCheckDataWebServiceModel(
@@ -159,7 +159,7 @@ class OSViewModelTest {
     fun `checkAndSet - Check return failure if have error in SetNroOSHeader`() =
         runTest {
             whenever(
-                checkNroOS(nroOS = "123456")
+                checkOS(nroOS = "123456")
             ).thenReturn(
                 Result.success(
                     ResultCheckDataWebServiceModel(
@@ -169,7 +169,7 @@ class OSViewModelTest {
                 )
             )
             whenever(
-                setNroOSHeader(nroOS = "123456")
+                setOSHeader(nroOS = "123456")
             ).thenReturn(
                 resultFailure(
                     context = "ISetNroOSHeader",
@@ -199,7 +199,7 @@ class OSViewModelTest {
     fun `checkAndSet - Check return true if nroOS is existent and SetNroOSHeader execute successfully`() =
         runTest {
             whenever(
-                checkNroOS(nroOS = "123456")
+                checkOS(nroOS = "123456")
             ).thenReturn(
                 Result.success(
                     ResultCheckDataWebServiceModel(
@@ -209,7 +209,7 @@ class OSViewModelTest {
                 )
             )
             whenever(
-                setNroOSHeader(nroOS = "123456")
+                setOSHeader(nroOS = "123456")
             ).thenReturn(
                 Result.success(true)
             )
@@ -243,7 +243,7 @@ class OSViewModelTest {
     fun `checkAndSet - Check return failure if have error SocketTimeoutException in CheckNroOS and have error in SetNroOSHeader`() =
         runTest {
             whenever(
-                checkNroOS(nroOS = "123456")
+                checkOS(nroOS = "123456")
             ).thenReturn(
                 Result.success(
                     ResultCheckDataWebServiceModel(
@@ -252,7 +252,7 @@ class OSViewModelTest {
                 )
             )
             whenever(
-                setNroOSHeader(nroOS = "123456")
+                setOSHeader(nroOS = "123456")
             ).thenReturn(
                 resultFailure(
                     context = "ISetNroOSHeader",
@@ -282,7 +282,7 @@ class OSViewModelTest {
     fun `checkAndSet - Check return true  if have error SocketTimeoutException in CheckNroOS and SetNroOSHeader execute successfully`() =
         runTest {
             whenever(
-                checkNroOS(nroOS = "123456")
+                checkOS(nroOS = "123456")
             ).thenReturn(
                 Result.success(
                     ResultCheckDataWebServiceModel(
@@ -291,7 +291,7 @@ class OSViewModelTest {
                 )
             )
             whenever(
-                setNroOSHeader(nroOS = "123456")
+                setOSHeader(nroOS = "123456")
             ).thenReturn(
                 Result.success(true)
             )
@@ -325,7 +325,7 @@ class OSViewModelTest {
     fun `checkAndSet - Check return failure if not have connection internet in CheckNroOS and have error in SetNroOSHeader`() =
         runTest {
             whenever(
-                checkNroOS(nroOS = "123456")
+                checkOS(nroOS = "123456")
             ).thenReturn(
                 Result.success(
                     ResultCheckDataWebServiceModel(
@@ -334,7 +334,7 @@ class OSViewModelTest {
                 )
             )
             whenever(
-                setNroOSHeader(nroOS = "123456")
+                setOSHeader(nroOS = "123456")
             ).thenReturn(
                 resultFailure(
                     context = "ISetNroOSHeader",
@@ -364,7 +364,7 @@ class OSViewModelTest {
     fun `checkAndSet - Check return true  if not have connection internet in CheckNroOS and SetNroOSHeader execute successfully`() =
         runTest {
             whenever(
-                checkNroOS(nroOS = "123456")
+                checkOS(nroOS = "123456")
             ).thenReturn(
                 Result.success(
                     ResultCheckDataWebServiceModel(
@@ -373,7 +373,7 @@ class OSViewModelTest {
                 )
             )
             whenever(
-                setNroOSHeader(nroOS = "123456")
+                setOSHeader(nroOS = "123456")
             ).thenReturn(
                 Result.success(true)
             )

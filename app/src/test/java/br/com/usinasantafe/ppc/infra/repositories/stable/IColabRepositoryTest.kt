@@ -201,7 +201,7 @@ class IColabRepositoryTest {
     fun `check - Check return failure if have error in ColabDatasource check`() =
         runTest {
             whenever(
-                colabRoomDatasource.check(12345)
+                colabRoomDatasource.checkRegColab(12345)
             ).thenReturn(
                 resultFailure(
                     "IColabDatasource.check",
@@ -209,7 +209,7 @@ class IColabRepositoryTest {
                     Exception()
                 )
             )
-            val result = repository.check(12345)
+            val result = repository.checkRegColab(12345)
             assertEquals(
                 result.isFailure,
                 true
@@ -228,11 +228,11 @@ class IColabRepositoryTest {
     fun `check - Check return correct if function execute successfully`() =
         runTest {
             whenever(
-                colabRoomDatasource.check(12345)
+                colabRoomDatasource.checkRegColab(12345)
             ).thenReturn(
                 Result.success(true)
             )
-            val result = repository.check(12345)
+            val result = repository.checkRegColab(12345)
             assertEquals(
                 result.isSuccess,
                 true

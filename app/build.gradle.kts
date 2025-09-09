@@ -150,8 +150,6 @@ dependencies {
     testImplementation(kotlin("test"))
     androidTestImplementation(kotlin("test"))
     androidTestImplementation(libs.mockito)
-    testImplementation(libs.mockito.android)
-    androidTestImplementation(libs.mockito.android)
 }
 
 kapt {

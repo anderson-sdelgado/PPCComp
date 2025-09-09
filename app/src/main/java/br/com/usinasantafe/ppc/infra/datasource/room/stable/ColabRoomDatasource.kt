@@ -5,5 +5,5 @@ import br.com.usinasantafe.ppc.infra.models.room.stable.ColabRoomModel
 interface ColabRoomDatasource {
     suspend fun addAll(list: List<ColabRoomModel>): Result<Boolean>
     suspend fun deleteAll(): Result<Boolean>
-    suspend fun check(regColab: Int): Result<Boolean>
+    suspend fun checkRegColab(regColab: Int): Result<Boolean>
 }

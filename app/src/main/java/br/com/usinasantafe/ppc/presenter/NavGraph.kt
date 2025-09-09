@@ -145,7 +145,9 @@ fun NavigationGraph(
 
         composable(OS_HEADER_ROUTE) {
             OSScreen(
-                onNavTurn = {},
+                onNavTurn = {
+                    navActions.navigateToTurnHeader()
+                },
                 onNavSection = {}
             )
         }
