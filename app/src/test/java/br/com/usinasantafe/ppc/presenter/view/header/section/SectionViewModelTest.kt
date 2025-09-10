@@ -479,7 +479,7 @@ class SectionViewModelTest {
             )
             whenever(
                 setSectionHeader(
-                    nroSection = "19759"
+                    codSection = "19759"
                 )
             ).thenReturn(
                 resultFailure(
@@ -526,7 +526,7 @@ class SectionViewModelTest {
             )
             whenever(
                 setSectionHeader(
-                    nroSection = "19759"
+                    codSection = "19759"
                 )
             ).thenReturn(
                 Result.success(true)

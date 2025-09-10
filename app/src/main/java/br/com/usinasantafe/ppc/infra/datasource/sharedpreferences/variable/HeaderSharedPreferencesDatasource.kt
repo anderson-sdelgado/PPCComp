@@ -10,4 +10,6 @@ interface HeaderSharedPreferencesDatasource {
     suspend fun setDate(date: Date): Result<Boolean>
     suspend fun setTurn(nroTurn: Int): Result<Boolean>
     suspend fun setOS(nroOS: Int): Result<Boolean>
+    suspend fun getOS(): Result<Int>
+    suspend fun setSection(codSection: Int): Result<Boolean>
 }

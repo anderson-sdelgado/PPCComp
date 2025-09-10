@@ -192,4 +192,50 @@ class IHeaderSharedPreferencesDatasource @Inject constructor(
         }
     }
 
+    override suspend fun getOS(): Result<Int> {
+        try {
+            val resultGet = get()
+            if (resultGet.isFailure) {
+                return resultFailure(
+                    context = getClassAndMethod(),
+                    cause = resultGet.exceptionOrNull()!!
+                )
+            }
+            val model = resultGet.getOrNull()!!
+            return Result.success(model.nroOS!!)
+        } catch (e: Exception){
+            return resultFailure(
+                context = getClassAndMethod(),
+                cause = e
+            )
+        }
+    }
+
+    override suspend fun setSection(codSection: Int): Result<Boolean> {
+        try {
+            val resultGet = get()
+            if (resultGet.isFailure) {
+                return resultFailure(
+                    context = getClassAndMethod(),
+                    cause = resultGet.exceptionOrNull()!!
+                )
+            }
+            val model = resultGet.getOrNull()!!
+            model.codSection = codSection
+            val resultSave = save(model)
+            if (resultSave.isFailure) {
+                return resultFailure(
+                    context = getClassAndMethod(),
+                    cause = resultSave.exceptionOrNull()!!
+                )
+            }
+            return Result.success(true)
+        } catch (e: Exception){
+            return resultFailure(
+                context = getClassAndMethod(),
+                cause = e
+            )
+        }
+    }
+
 }

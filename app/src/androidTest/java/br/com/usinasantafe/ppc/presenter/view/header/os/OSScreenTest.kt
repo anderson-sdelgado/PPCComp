@@ -21,8 +21,8 @@ import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
 import org.junit.Assert.*
 import org.junit.Rule
-import org.junit.Test
 import javax.inject.Inject
+import kotlin.test.Test
 
 @HiltAndroidTest
 class OSScreenTest {

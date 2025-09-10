@@ -19,4 +19,7 @@ interface SectionDao {
 
     @Query("SELECT count(*) FROM TB_SECTION WHERE codSection = :codSection")
     suspend fun count(codSection: Int): Int
+
+    @Query("SELECT idSection FROM TB_SECTION WHERE codSection = :codSection")
+    suspend fun getIdByCod(codSection: Int): Int
 }

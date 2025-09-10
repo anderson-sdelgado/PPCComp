@@ -64,8 +64,8 @@ class ISectionRepository @Inject constructor(
         }
     }
 
-    override suspend fun checkNro(nroSection: Int): Result<Boolean> {
-        val result = sectionRoomDatasource.checkNro(nroSection)
+    override suspend fun checkCod(codSection: Int): Result<Boolean> {
+        val result = sectionRoomDatasource.checkCod(codSection)
         if (result.isFailure) {
             return resultFailure(
                 context = getClassAndMethod(),
@@ -75,8 +75,15 @@ class ISectionRepository @Inject constructor(
         return result
     }
 
-    override suspend fun getIdByNro(idSection: Int): Result<Int> {
-        TODO("Not yet implemented")
+    override suspend fun getIdByCod(codSection: Int): Result<Int> {
+        val result = sectionRoomDatasource.getIdByCod(codSection)
+        if (result.isFailure) {
+            return resultFailure(
+                context = getClassAndMethod(),
+                cause = result.exceptionOrNull()!!
+            )
+        }
+        return result
     }
 
 }

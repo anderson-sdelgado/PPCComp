@@ -356,4 +356,96 @@ class IAnalysisRepositoryTest {
             )
         }
 
+    @Test
+    fun `getOSHeaderOpen - Check return failure if have error in HeaderSharedPreferencesDatasource getOS`() =
+        runTest {
+            whenever(
+                headerSharedPreferencesDatasource.getOS()
+            ).thenReturn(
+                resultFailure(
+                    "IHeaderSharedPreferencesDatasource.getOS",
+                    "-",
+                    Exception()
+                )
+            )
+            val result = repository.getOSHeaderOpen()
+            assertEquals(
+                result.isFailure,
+                true
+            )
+            assertEquals(
+                result.exceptionOrNull()!!.message,
+                "IAnalysisRepository.getOSHeaderOpen -> IHeaderSharedPreferencesDatasource.getOS"
+            )
+            assertEquals(
+                result.exceptionOrNull()!!.cause.toString(),
+                "java.lang.Exception"
+            )
+        }
+
+    @Test
+    fun `getOSHeaderOpen - Check return correct if function execute successfully`() =
+        runTest {
+            whenever(
+                headerSharedPreferencesDatasource.getOS()
+            ).thenReturn(
+                Result.success(123456)
+            )
+            val result = repository.getOSHeaderOpen()
+            assertEquals(
+                result.isSuccess,
+                true
+            )
+            assertEquals(
+                result.getOrNull()!!,
+                123456
+            )
+        }
+
+    @Test
+    fun `setSectionHeader - Check return failure if have error in HeaderSharedPreferencesDatasource setSection`() =
+        runTest {
+            whenever(
+                headerSharedPreferencesDatasource.setSection(200)
+            ).thenReturn(
+                resultFailure(
+                    "IHeaderSharedPreferencesDatasource.setSection",
+                    "-",
+                    Exception()
+                )
+            )
+            val result = repository.setSectionHeader(200)
+            assertEquals(
+                result.isFailure,
+                true
+            )
+            assertEquals(
+                result.exceptionOrNull()!!.message,
+                "IAnalysisRepository.setSectionHeader -> IHeaderSharedPreferencesDatasource.setSection"
+            )
+            assertEquals(
+                result.exceptionOrNull()!!.cause.toString(),
+                "java.lang.Exception"
+            )
+        }
+
+    @Test
+    fun `setSectionHeader - Check return correct if function execute successfully`() =
+        runTest {
+            whenever(
+                headerSharedPreferencesDatasource.setSection(200)
+            ).thenReturn(
+                Result.success(true)
+            )
+            val result = repository.setSectionHeader(200)
+            assertEquals(
+                result.isSuccess,
+                true
+            )
+            assertEquals(
+                result.getOrNull()!!,
+                true
+            )
+        }
+
 }

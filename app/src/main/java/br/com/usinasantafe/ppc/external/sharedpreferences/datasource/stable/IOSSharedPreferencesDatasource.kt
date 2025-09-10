@@ -14,6 +14,30 @@ class IOSSharedPreferencesDatasource @Inject constructor(
     private val sharedPreferences: SharedPreferences
 ): OSSharedPreferencesDatasource {
 
+    fun get(): Result<OSSharedPreferencesModel?> {
+        try {
+            val model = sharedPreferences.getString(
+                BASE_SHARED_PREFERENCES_TABLE_OS,
+                null
+            )
+            if(model.isNullOrEmpty())
+                return Result.success(
+                    null
+                )
+            return Result.success(
+                Gson().fromJson(
+                    model,
+                    OSSharedPreferencesModel::class.java
+                )
+            )
+        } catch (e: Exception){
+            return resultFailure(
+                context = getClassAndMethod(),
+                cause = e
+            )
+        }
+    }
+
     override suspend fun clean(): Result<Boolean> {
         try {
             sharedPreferences.edit {
@@ -48,28 +72,48 @@ class IOSSharedPreferencesDatasource @Inject constructor(
         }
     }
 
-    fun get(): Result<OSSharedPreferencesModel?> {
+    override suspend fun checkHas(): Result<Boolean> {
         try {
-            val model = sharedPreferences.getString(
-                BASE_SHARED_PREFERENCES_TABLE_OS,
-                null
-            )
-            if(model.isNullOrEmpty())
-                return Result.success(
-                    null
+            val result = get()
+            if (result.isFailure){
+                return resultFailure(
+                    context = getClassAndMethod(),
+                    cause = result.exceptionOrNull()!!
                 )
-            return Result.success(
-                Gson().fromJson(
-                    model,
-                    OSSharedPreferencesModel::class.java
-                )
-            )
+            }
+            val model = result.getOrNull()
+            val check = model != null
+            return Result.success(check)
         } catch (e: Exception){
             return resultFailure(
                 context = getClassAndMethod(),
                 cause = e
             )
         }
+    }
+
+    override suspend fun checkNroAndIdSection(
+        nroOS: Int,
+        idSection: Int
+    ): Result<Boolean> {
+        try {
+            val result = get()
+            if (result.isFailure){
+                return resultFailure(
+                    context = getClassAndMethod(),
+                    cause = result.exceptionOrNull()!!
+                )
+            }
+            val model = result.getOrNull()!!
+            val check = model.nroOS == nroOS && model.idSection == idSection
+            return Result.success(check)
+        } catch (e: Exception){
+            return resultFailure(
+                context = getClassAndMethod(),
+                cause = e
+            )
+        }
+
     }
 
 }

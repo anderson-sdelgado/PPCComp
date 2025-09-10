@@ -148,7 +148,9 @@ fun NavigationGraph(
                 onNavTurn = {
                     navActions.navigateToTurnHeader()
                 },
-                onNavSection = {}
+                onNavSection = {
+                    navActions.navigateToSectionHeader()
+                }
             )
         }
 

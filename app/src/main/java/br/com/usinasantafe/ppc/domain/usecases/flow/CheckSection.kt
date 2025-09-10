@@ -3,25 +3,27 @@ package br.com.usinasantafe.ppc.domain.usecases.flow
 import br.com.usinasantafe.ppc.domain.errors.resultFailure
 import br.com.usinasantafe.ppc.domain.repositories.stable.OSRepository
 import br.com.usinasantafe.ppc.domain.repositories.stable.SectionRepository
+import br.com.usinasantafe.ppc.domain.repositories.variable.AnalysisRepository
 import br.com.usinasantafe.ppc.utils.getClassAndMethod
 import javax.inject.Inject
 
 interface CheckSection {
     suspend operator fun invoke(
-        nroSection: String
+        codSection: String
     ): Result<Boolean>
 }
 
 class ICheckSection @Inject constructor(
     private val sectionRepository: SectionRepository,
-    private val osRepository: OSRepository
+    private val osRepository: OSRepository,
+    private val analysisRepository: AnalysisRepository
 ): CheckSection {
 
     override suspend fun invoke(
-        nroSection: String
+        codSection: String
     ): Result<Boolean> {
         try {
-            val resultCheckNro = sectionRepository.checkNro(nroSection.toInt())
+            val resultCheckNro = sectionRepository.checkCod(codSection.toInt())
             if(resultCheckNro.isFailure){
                 return resultFailure(
                     context = getClassAndMethod(),
@@ -30,7 +32,7 @@ class ICheckSection @Inject constructor(
             }
             val check = resultCheckNro.getOrNull()!!
             if(!check) return Result.success(false)
-            val resultGetIdSection = sectionRepository.getIdByNro(nroSection.toInt())
+            val resultGetIdSection = sectionRepository.getIdByCod(codSection.toInt())
             if(resultGetIdSection.isFailure){
                 return resultFailure(
                     context = getClassAndMethod(),
@@ -38,7 +40,18 @@ class ICheckSection @Inject constructor(
                 )
             }
             val idSection = resultGetIdSection.getOrNull()!!
-            val resultCheckIdSection = osRepository.checkIdSection(idSection)
+            val resultGetOS = analysisRepository.getOSHeaderOpen()
+            if(resultGetOS.isFailure){
+                return resultFailure(
+                    context = getClassAndMethod(),
+                    cause = resultGetOS.exceptionOrNull()!!
+                )
+            }
+            val nroOS = resultGetOS.getOrNull()!!
+            val resultCheckIdSection = osRepository.checkSectionAndOS(
+                idSection = idSection,
+                nroOS = nroOS
+            )
             if(resultCheckIdSection.isFailure){
                 return resultFailure(
                     context = getClassAndMethod(),

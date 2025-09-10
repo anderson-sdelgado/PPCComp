@@ -243,4 +243,76 @@ class IHeaderSharedPreferencesDatasourceTest {
                 1
             )
         }
+    
+    @Test
+    fun `getOS - Check failure return if not have data in header shared preferences`() =
+        runTest {
+            val result = datasource.getOS()
+            assertEquals(
+                result.isFailure,
+                true
+            )
+            assertEquals(
+                result.exceptionOrNull()!!.message,
+                "IHeaderSharedPreferencesDatasource.getOS"
+            )
+            assertEquals(
+                result.exceptionOrNull()!!.cause.toString(),
+                "java.lang.NullPointerException"
+            )
+        }
+
+    @Test
+    fun `getOS - Check nroOS return if have data in header shared preferences`() =
+        runTest {
+            datasource.save(
+                HeaderSharedPreferencesModel(
+                    nroOS = 1
+                )
+            )
+            val result = datasource.getOS()
+            assertEquals(
+                result.isSuccess,
+                true
+            )
+            assertEquals(
+                result.getOrNull()!!,
+                1
+            )
+        }
+
+    @Test
+    fun `setSection - Check alter data in shared preferences`() =
+        runTest {
+            val resultBefore = datasource.get()
+            assertEquals(
+                resultBefore.isSuccess,
+                true
+            )
+            val modelBefore = resultBefore.getOrNull()!!
+            assertEquals(
+                modelBefore.codSection,
+                null
+            )
+            val result = datasource.setSection(1)
+            assertEquals(
+                result.isSuccess,
+                true
+            )
+            assertEquals(
+                result.getOrNull()!!,
+                true
+            )
+            val resultGetAfter = datasource.get()
+            assertEquals(
+                resultGetAfter.isSuccess,
+                true
+            )
+            val modelAfter = resultGetAfter.getOrNull()!!
+            assertEquals(
+                modelAfter.codSection,
+                1
+            )
+        }
+
 }

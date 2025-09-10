@@ -165,9 +165,9 @@ class ISectionRoomDatasourceTest {
         }
 
     @Test
-    fun `checkNroSection - Check return false if not have data in table Section`() =
+    fun `checkCod - Check return false if not have data in table Section`() =
         runTest {
-            val result = datasource.checkNro(1)
+            val result = datasource.checkCod(1)
             assertEquals(
                 result.isSuccess,
                 true
@@ -179,7 +179,7 @@ class ISectionRoomDatasourceTest {
         }
     
     @Test
-    fun `checkNroSection - Check return correct if function execute successfully`() =
+    fun `checkCod - Check return correct if function execute successfully`() =
         runTest {
             sectionDao.insertAll(
                 listOf(
@@ -189,7 +189,7 @@ class ISectionRoomDatasourceTest {
                     )
                 )
             )
-            val result = datasource.checkNro(1)
+            val result = datasource.checkCod(1)
             assertEquals(
                 result.isSuccess,
                 true
@@ -197,6 +197,46 @@ class ISectionRoomDatasourceTest {
             assertEquals(
                 result.getOrNull()!!,
                 true
+            )
+        }
+
+    @Test
+    fun `checkCod - Check 0 return if not have data in table Section`() =
+        runTest {
+            val result = datasource.getIdByCod(1)
+            assertEquals(
+                result.isSuccess,
+                true
+            )
+            assertEquals(
+                result.getOrNull()!!,
+                0
+            )
+        }
+
+    @Test
+    fun `checkCod - Check idSection correct if function execute successfully`() =
+        runTest {
+            sectionDao.insertAll(
+                listOf(
+                    SectionRoomModel(
+                        idSection = 1,
+                        codSection = 100
+                    ),
+                    SectionRoomModel(
+                        idSection = 2,
+                        codSection = 200
+                    )
+                )
+            )
+            val result = datasource.getIdByCod(100)
+            assertEquals(
+                result.isSuccess,
+                true
+            )
+            assertEquals(
+                result.getOrNull()!!,
+                1
             )
         }
 

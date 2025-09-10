@@ -10,4 +10,6 @@ interface AnalysisRepository {
     suspend fun setDateHeader(date: Date): Result<Boolean>
     suspend fun setTurnHeader(nroTurn: Int): Result<Boolean>
     suspend fun setOSHeader(nroOS: Int): Result<Boolean>
+    suspend fun getOSHeaderOpen(): Result<Int>
+    suspend fun setSectionHeader(codSection: Int): Result<Boolean>
 }

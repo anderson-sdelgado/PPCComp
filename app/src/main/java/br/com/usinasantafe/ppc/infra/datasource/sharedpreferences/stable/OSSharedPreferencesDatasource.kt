@@ -5,4 +5,10 @@ import br.com.usinasantafe.ppc.infra.models.sharedpreferences.stable.OSSharedPre
 interface OSSharedPreferencesDatasource {
     suspend fun clean(): Result<Boolean>
     suspend fun save(model: OSSharedPreferencesModel): Result<Boolean>
+    suspend fun checkHas(): Result<Boolean>
+    suspend fun checkNroAndIdSection(
+        nroOS: Int,
+        idSection: Int,
+    ): Result<Boolean>
+
 }

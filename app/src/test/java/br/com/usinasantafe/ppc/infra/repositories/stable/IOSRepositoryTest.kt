@@ -199,4 +199,153 @@ class IOSRepositoryTest {
             )
         }
 
+    @Test
+    fun `checkSectionAndOS - Check return failure if have error in OSSharedPreferencesDatasource checkHas`() =
+        runTest {
+            whenever(
+                osSharedPreferencesDatasource.checkHas()
+            ).thenReturn(
+                resultFailure(
+                    "IOSSharedPreferencesDatasource.checkHas",
+                    "-",
+                    Exception()
+                )
+            )
+            val result = repository.checkSectionAndOS(
+                idSection = 1,
+                nroOS = 123456
+            )
+            assertEquals(
+                result.isFailure,
+                true
+            )
+            assertEquals(
+                result.exceptionOrNull()!!.message,
+                "IOSRepository.checkSectionAndOS -> IOSSharedPreferencesDatasource.checkHas"
+            )
+            assertEquals(
+                result.exceptionOrNull()!!.cause.toString(),
+                "java.lang.Exception"
+            )
+        }
+
+    @Test
+    fun `checkSectionAndOS - Check return true if not have data in OS shared preferences`() =
+        runTest {
+            whenever(
+                osSharedPreferencesDatasource.checkHas()
+            ).thenReturn(
+                Result.success(false)
+            )
+            val result = repository.checkSectionAndOS(
+                idSection = 1,
+                nroOS = 123456
+            )
+            assertEquals(
+                result.isSuccess,
+                true
+            )
+            assertEquals(
+                result.getOrNull()!!,
+                true
+            )
+        }
+
+    @Test
+    fun `checkSectionAndOS - Check return failure if have error in OSSharedPreferencesDatasource checkNroAndIdSection`() =
+        runTest {
+            whenever(
+                osSharedPreferencesDatasource.checkHas()
+            ).thenReturn(
+                Result.success(true)
+            )
+            whenever(
+                osSharedPreferencesDatasource.checkNroAndIdSection(
+                    nroOS = 123456,
+                    idSection = 1
+                )
+            ).thenReturn(
+                resultFailure(
+                    "IOSSharedPreferencesDatasource.checkNroAndIdSection",
+                    "-",
+                    Exception()
+                )
+            )
+            val result = repository.checkSectionAndOS(
+                idSection = 1,
+                nroOS = 123456
+            )
+            assertEquals(
+                result.isFailure,
+                true
+            )
+            assertEquals(
+                result.exceptionOrNull()!!.message,
+                "IOSRepository.checkSectionAndOS -> IOSSharedPreferencesDatasource.checkNroAndIdSection"
+            )
+            assertEquals(
+                result.exceptionOrNull()!!.cause.toString(),
+                "java.lang.Exception"
+            )
+        }
+
+    @Test
+    fun `checkSectionAndOS - Check return true if function execute successfully and return true`() =
+        runTest {
+            whenever(
+                osSharedPreferencesDatasource.checkHas()
+            ).thenReturn(
+                Result.success(true)
+            )
+            whenever(
+                osSharedPreferencesDatasource.checkNroAndIdSection(
+                    nroOS = 123456,
+                    idSection = 1
+                )
+            ).thenReturn(
+                Result.success(true)
+            )
+            val result = repository.checkSectionAndOS(
+                idSection = 1,
+                nroOS = 123456
+            )
+            assertEquals(
+                result.isSuccess,
+                true
+            )
+            assertEquals(
+                result.getOrNull()!!,
+                true
+            )
+        }
+
+    @Test
+    fun `checkSectionAndOS - Check return false if function execute successfully and return false`() =
+        runTest {
+            whenever(
+                osSharedPreferencesDatasource.checkHas()
+            ).thenReturn(
+                Result.success(true)
+            )
+            whenever(
+                osSharedPreferencesDatasource.checkNroAndIdSection(
+                    nroOS = 123456,
+                    idSection = 1
+                )
+            ).thenReturn(
+                Result.success(false)
+            )
+            val result = repository.checkSectionAndOS(
+                idSection = 1,
+                nroOS = 123456
+            )
+            assertEquals(
+                result.isSuccess,
+                true
+            )
+            assertEquals(
+                result.getOrNull()!!,
+                false
+            )
+        }
 }

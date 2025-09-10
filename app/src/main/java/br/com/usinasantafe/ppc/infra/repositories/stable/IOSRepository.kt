@@ -3,7 +3,6 @@ package br.com.usinasantafe.ppc.infra.repositories.stable
 import br.com.usinasantafe.ppc.domain.entities.stable.OS
 import br.com.usinasantafe.ppc.domain.errors.resultFailure
 import br.com.usinasantafe.ppc.domain.repositories.stable.OSRepository
-import br.com.usinasantafe.ppc.external.retrofit.datasource.variable.IConfigRetrofitDatasource
 import br.com.usinasantafe.ppc.infra.datasource.retrofit.stable.OSRetrofitDatasource
 import br.com.usinasantafe.ppc.infra.datasource.sharedpreferences.stable.OSSharedPreferencesDatasource
 import br.com.usinasantafe.ppc.infra.models.retrofit.stable.retrofitModelToEntity
@@ -70,8 +69,37 @@ class IOSRepository @Inject constructor(
         }
     }
 
-    override suspend fun checkIdSection(idSection: Int): Result<Boolean> {
-        TODO("Not yet implemented")
+    override suspend fun checkSectionAndOS(
+        idSection: Int,
+        nroOS: Int
+    ): Result<Boolean> {
+        try {
+            val resultCheckHas = osSharedPreferencesDatasource.checkHas()
+            if (resultCheckHas.isFailure) {
+                return resultFailure(
+                    context = getClassAndMethod(),
+                    cause = resultCheckHas.exceptionOrNull()!!
+                )
+            }
+            val check = resultCheckHas.getOrNull()!!
+            if (!check) return Result.success(true)
+            val resultCheckNroAndIdSection = osSharedPreferencesDatasource.checkNroAndIdSection(
+                nroOS = nroOS,
+                idSection = idSection
+            )
+            if (resultCheckNroAndIdSection.isFailure) {
+                return resultFailure(
+                    context = getClassAndMethod(),
+                    cause = resultCheckNroAndIdSection.exceptionOrNull()!!
+                )
+            }
+            return resultCheckNroAndIdSection
+        } catch (e: Exception){
+            return resultFailure(
+                context = getClassAndMethod(),
+                cause = e
+            )
+        }
     }
 
 }

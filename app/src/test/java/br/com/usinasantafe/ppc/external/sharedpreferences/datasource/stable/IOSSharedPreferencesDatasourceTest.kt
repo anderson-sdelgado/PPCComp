@@ -80,4 +80,108 @@ class IOSSharedPreferencesDatasourceTest {
             )
         }
 
+    @Test
+    fun `checkHas - Check return false if not have data in os shared preferences`() =
+        runTest {
+            val result = datasource.checkHas()
+            assertEquals(
+                result.isSuccess,
+                true
+            )
+            assertEquals(
+                result.getOrNull()!!,
+                false
+            )
+        }
+
+    @Test
+    fun `checkHas - Check return true if have data in os shared preferences`() =
+        runTest {
+            val resultAdd = datasource.save(
+                OSSharedPreferencesModel(
+                    nroOS = 123456,
+                    idSection = 1
+                )
+            )
+            assertEquals(
+                resultAdd.isSuccess,
+                true
+            )
+            assertEquals(
+                resultAdd.getOrNull()!!,
+                true
+            )
+            val result = datasource.checkHas()
+            assertEquals(
+                result.isSuccess,
+                true
+            )
+            assertEquals(
+                result.getOrNull()!!,
+                true
+            )
+        }
+
+    @Test
+    fun `checkNroAndIdSection - Check return false if data is different`() =
+        runTest {
+            val resultAdd = datasource.save(
+                OSSharedPreferencesModel(
+                    nroOS = 123456,
+                    idSection = 1
+                )
+            )
+            assertEquals(
+                resultAdd.isSuccess,
+                true
+            )
+            assertEquals(
+                resultAdd.getOrNull()!!,
+                true
+            )
+            val result = datasource.checkNroAndIdSection(
+                nroOS = 123457,
+                idSection = 2
+            )
+            assertEquals(
+                result.isSuccess,
+                true
+            )
+            assertEquals(
+                result.getOrNull()!!,
+                false
+            )
+        }
+
+    @Test
+    fun `checkNroAndIdSection - Check return true if data is equal`() =
+        runTest {
+            val resultAdd = datasource.save(
+                OSSharedPreferencesModel(
+                    nroOS = 123456,
+                    idSection = 1
+                )
+            )
+            assertEquals(
+                resultAdd.isSuccess,
+                true
+            )
+            assertEquals(
+                resultAdd.getOrNull()!!,
+                true
+            )
+            val result = datasource.checkNroAndIdSection(
+                nroOS = 123456,
+                idSection = 1
+            )
+            assertEquals(
+                result.isSuccess,
+                true
+            )
+            assertEquals(
+                result.getOrNull()!!,
+                true
+            )
+        }
+
 }

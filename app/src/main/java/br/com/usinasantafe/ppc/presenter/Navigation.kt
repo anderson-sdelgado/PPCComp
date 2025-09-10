@@ -9,6 +9,7 @@ import br.com.usinasantafe.ppc.presenter.Screens.HEADER_LIST_SCREEN
 import br.com.usinasantafe.ppc.presenter.Screens.INITIAL_MENU_SCREEN
 import br.com.usinasantafe.ppc.presenter.Screens.OS_HEADER_SCREEN
 import br.com.usinasantafe.ppc.presenter.Screens.PASSWORD_SCREEN
+import br.com.usinasantafe.ppc.presenter.Screens.SECTION_HEADER_SCREEN
 import br.com.usinasantafe.ppc.presenter.Screens.SPLASH_SCREEN
 import br.com.usinasantafe.ppc.presenter.Screens.TURN_HEADER_SCREEN
 
@@ -22,6 +23,7 @@ object Screens {
     const val DATE_HEADER_SCREEN = "dateHeaderScreen"
     const val TURN_HEADER_SCREEN = "turnHeaderScreen"
     const val OS_HEADER_SCREEN = "osHeaderScreen"
+    const val SECTION_HEADER_SCREEN = "sectionHeaderScreen"
 }
 
 object Args {
@@ -38,6 +40,7 @@ object Routes {
     const val DATE_HEADER_ROUTE = DATE_HEADER_SCREEN
     const val TURN_HEADER_ROUTE = TURN_HEADER_SCREEN
     const val OS_HEADER_ROUTE = OS_HEADER_SCREEN
+    const val SECTION_HEADER_ROUTE = SECTION_HEADER_SCREEN
 }
 
 class NavigationActions(private val navController: NavHostController) {
@@ -88,6 +91,10 @@ class NavigationActions(private val navController: NavHostController) {
 
     fun navigateToOSHeader() {
         navController.navigate(OS_HEADER_SCREEN)
+    }
+
+    fun navigateToSectionHeader() {
+        navController.navigate(SECTION_HEADER_SCREEN)
     }
 
     ////////////////////////////////////////////////////////////////////

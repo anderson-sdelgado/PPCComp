@@ -96,4 +96,27 @@ class IAnalysisRepository @Inject constructor(
         return result
     }
 
+    override suspend fun getOSHeaderOpen(): Result<Int> {
+        val result = headerSharedPreferencesDatasource.getOS()
+        if(result.isFailure){
+            return resultFailure(
+                context = getClassAndMethod(),
+                cause = result.exceptionOrNull()!!
+            )
+        }
+        return result
+
+    }
+
+    override suspend fun setSectionHeader(codSection: Int): Result<Boolean> {
+        val result = headerSharedPreferencesDatasource.setSection(codSection)
+        if(result.isFailure){
+            return resultFailure(
+                context = getClassAndMethod(),
+                cause = result.exceptionOrNull()!!
+            )
+        }
+        return result
+    }
+
 }

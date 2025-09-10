@@ -206,25 +206,25 @@ class ISectionRepositoryTest {
         }
 
     @Test
-    fun `checkNroSection - Check return failure if have error in SectionDatasource checkNroSection`() =
+    fun `checkCod - Check return failure if have error in SectionDatasource checkNroSection`() =
         runTest {
             whenever(
-                sectionRoomDatasource.checkNro(200)
+                sectionRoomDatasource.checkCod(200)
             ).thenReturn(
                 resultFailure(
-                    "ISectionDatasource.checkNroSection",
+                    "ISectionDatasource.checkCod",
                     "-",
                     Exception()
                 )
             )
-            val result = repository.checkNro(200)
+            val result = repository.checkCod(200)
             assertEquals(
                 result.isFailure,
                 true
             )
             assertEquals(
                 result.exceptionOrNull()!!.message,
-                "ISectionRepository.checkNroSection -> ISectionDatasource.checkNroSection"
+                "ISectionRepository.checkCod -> ISectionDatasource.checkCod"
             )
             assertEquals(
                 result.exceptionOrNull()!!.cause.toString(),
@@ -236,11 +236,11 @@ class ISectionRepositoryTest {
     fun `checkNroSection - Check return correct if function execute successfully`() =
         runTest {
             whenever(
-                sectionRoomDatasource.checkNro(200)
+                sectionRoomDatasource.checkCod(200)
             ).thenReturn(
                 Result.success(true)
             )
-            val result = repository.checkNro(200)
+            val result = repository.checkCod(200)
             assertEquals(
                 result.isSuccess,
                 true
@@ -248,6 +248,52 @@ class ISectionRepositoryTest {
             assertEquals(
                 result.getOrNull()!!,
                 true
+            )
+        }
+
+    @Test
+    fun `getIdByCod - Check return failure if have error in SectionRoomDatasource getIdByCod`() =
+        runTest {
+            whenever(
+                sectionRoomDatasource.getIdByCod(200)
+            ).thenReturn(
+                resultFailure(
+                    "ISectionRoomDatasource.getIdByCod",
+                    "-",
+                    Exception()
+                )
+            )
+            val result = repository.getIdByCod(200)
+            assertEquals(
+                result.isFailure,
+                true
+            )
+            assertEquals(
+                result.exceptionOrNull()!!.message,
+                "ISectionRepository.getIdByCod -> ISectionRoomDatasource.getIdByCod"
+            )
+            assertEquals(
+                result.exceptionOrNull()!!.cause.toString(),
+                "java.lang.Exception"
+            )
+        }
+
+    @Test
+    fun `getIdByCod - Check return correct if function execute successfully`() =
+        runTest {
+            whenever(
+                sectionRoomDatasource.getIdByCod(200)
+            ).thenReturn(
+                Result.success(1)
+            )
+            val result = repository.getIdByCod(200)
+            assertEquals(
+                result.isSuccess,
+                true
+            )
+            assertEquals(
+                result.getOrNull()!!,
+                1
             )
         }
 
