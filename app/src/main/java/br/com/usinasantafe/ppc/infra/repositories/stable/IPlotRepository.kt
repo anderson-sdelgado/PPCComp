@@ -64,4 +64,21 @@ class IPlotRepository @Inject constructor(
         }
     }
 
+    override suspend fun checkByNroPlotAndIdSection(
+        nroPlot: Int,
+        idSection: Int
+    ): Result<Boolean> {
+        val result = plotRoomDatasource.checkByNroPlotAndIdSection(
+            nroPlot = nroPlot,
+            idSection = idSection
+        )
+        if (result.isFailure) {
+            return resultFailure(
+                context = getClassAndMethod(),
+                cause = result.exceptionOrNull()!!
+            )
+        }
+        return result
+    }
+
 }

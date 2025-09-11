@@ -1,4 +1,4 @@
-package br.com.usinasantafe.ppc.presenter.view.header.section
+package br.com.usinasantafe.ppc.presenter.view.header.plot
 
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.assertTextEquals
@@ -8,12 +8,12 @@ import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import br.com.usinasantafe.ppc.HiltTestActivity
 import br.com.usinasantafe.ppc.di.provider.BaseUrlModuleTest
+import br.com.usinasantafe.ppc.external.room.dao.stable.PlotDao
 import br.com.usinasantafe.ppc.external.room.dao.stable.SectionDao
 import br.com.usinasantafe.ppc.external.sharedpreferences.datasource.variable.IHeaderSharedPreferencesDatasource
-import br.com.usinasantafe.ppc.infra.datasource.sharedpreferences.stable.OSSharedPreferencesDatasource
 import br.com.usinasantafe.ppc.infra.datasource.sharedpreferences.variable.ConfigSharedPreferencesDatasource
+import br.com.usinasantafe.ppc.infra.models.room.stable.PlotRoomModel
 import br.com.usinasantafe.ppc.infra.models.room.stable.SectionRoomModel
-import br.com.usinasantafe.ppc.infra.models.sharedpreferences.stable.OSSharedPreferencesModel
 import br.com.usinasantafe.ppc.infra.models.sharedpreferences.variable.ConfigSharedPreferencesModel
 import br.com.usinasantafe.ppc.infra.models.sharedpreferences.variable.HeaderSharedPreferencesModel
 import br.com.usinasantafe.ppc.utils.FlagUpdate
@@ -29,26 +29,26 @@ import javax.inject.Inject
 import kotlin.test.Test
 
 @HiltAndroidTest
-class SectionScreenTest {
+class PlotScreenTest {
 
-    private val resultSectionListIncorrect = """
+    private val resultPlotListIncorrect = """
         [
-          {"idSection":1a,"codSection":1},
-          {"idSection":2,"codSection":2}
+          {"idPlot":1a,"codPlot":1,"idSection":1},
+          {"idPlot":2,"codPlot":2,"idSection":1}
         ]
     """.trimIndent()
 
-    private val resultSectionListRepeated = """
+    private val resultPlotListRepeated = """
         [
-          {"idSection":1,"codSection":1},
-          {"idSection":1,"codSection":1}
+          {"idPlot":1,"codPlot":1,"idSection":1},
+          {"idPlot":1,"codPlot":1,"idSection":1}
         ]
     """.trimIndent()
 
-    private val resultSectionList = """
+    private val resultPlotList = """
         [
-          {"idSection":1,"codSection":1},
-          {"idSection":2,"codSection":2}
+          {"idPlot":1,"codPlot":1,"idSection":1},
+          {"idPlot":2,"codPlot":2,"idSection":1}
         ]
     """.trimIndent()
 
@@ -62,7 +62,7 @@ class SectionScreenTest {
     lateinit var configSharedPreferencesDatasource: ConfigSharedPreferencesDatasource
 
     @Inject
-    lateinit var osSharedPreferencesDatasource: OSSharedPreferencesDatasource
+    lateinit var plotDao: PlotDao
 
     @Inject
     lateinit var headerSharedPreferencesDatasource: IHeaderSharedPreferencesDatasource
@@ -79,6 +79,7 @@ class SectionScreenTest {
             setContent()
 
             composeTestRule.waitUntilTimeout(10_000)
+
 
         }
 
@@ -97,7 +98,7 @@ class SectionScreenTest {
             composeTestRule.waitUntilTimeout()
 
             composeTestRule.onNodeWithTag("text_alert_dialog_simple").assertIsDisplayed()
-            composeTestRule.onNodeWithTag("text_alert_dialog_simple").assertTextEquals("CAMPO VAZIO! POR FAVOR, PREENCHA O CAMPO \"NRO SEÇÃO\" PARA DAR CONTINUIDADE AO APONTAMENTO.")
+            composeTestRule.onNodeWithTag("text_alert_dialog_simple").assertTextEquals("CAMPO VAZIO! POR FAVOR, PREENCHA O CAMPO \"NRO TALHÃO\" PARA DAR CONTINUIDADE AO APONTAMENTO.")
 
             composeTestRule.waitUntilTimeout()
 
@@ -118,7 +119,7 @@ class SectionScreenTest {
             composeTestRule.waitUntilTimeout()
 
             composeTestRule.onNodeWithTag("text_alert_dialog_simple").assertIsDisplayed()
-            composeTestRule.onNodeWithTag("text_alert_dialog_simple").assertTextEquals("FALHA DE ATUALIZAÇÃO DE DADOS! POR FAVOR ENTRE EM CONTATO COM TI. SectionViewModel.updateAllDatabase -> IUpdateTableSection -> IGetToken -> java.lang.NullPointerException")
+            composeTestRule.onNodeWithTag("text_alert_dialog_simple").assertTextEquals("FALHA DE ATUALIZAÇÃO DE DADOS! POR FAVOR ENTRE EM CONTATO COM TI. PlotViewModel.updateAllDatabase -> IUpdateTablePlot -> IGetToken -> java.lang.NullPointerException")
 
             composeTestRule.waitUntilTimeout()
 
@@ -141,7 +142,7 @@ class SectionScreenTest {
             composeTestRule.waitUntilTimeout()
 
             composeTestRule.onNodeWithTag("text_alert_dialog_simple").assertIsDisplayed()
-            composeTestRule.onNodeWithTag("text_alert_dialog_simple").assertTextEquals("FALHA DE ATUALIZAÇÃO DE DADOS! POR FAVOR ENTRE EM CONTATO COM TI. SectionViewModel.updateAllDatabase -> IUpdateTableSection -> ISectionRepository.listAll -> ISectionRetrofitDatasource.listAll -> java.net.ConnectException: Failed to connect to localhost/127.0.0.1:8080")
+            composeTestRule.onNodeWithTag("text_alert_dialog_simple").assertTextEquals("FALHA INESPERADA NO APLICATIVO! POR FAVOR ENTRE EM CONTATO COM TI. OSViewModel.checkAndSet -> ICheckNroOS -> IOSRepository.getByNroOS -> IOSRetrofitDatasource.getByNroOS -> java.net.ConnectException: Failed to connect to localhost/127.0.0.1:8080")
 
             composeTestRule.waitUntilTimeout()
 
@@ -171,7 +172,7 @@ class SectionScreenTest {
             composeTestRule.waitUntilTimeout()
 
             composeTestRule.onNodeWithTag("text_alert_dialog_simple").assertIsDisplayed()
-            composeTestRule.onNodeWithTag("text_alert_dialog_simple").assertTextEquals("FALHA DE ATUALIZAÇÃO DE DADOS! POR FAVOR ENTRE EM CONTATO COM TI. SectionViewModel.updateAllDatabase -> IUpdateTableSection -> ISectionRepository.listAll -> ISectionRetrofitDatasource.listAll -> java.lang.IllegalStateException: Expected BEGIN_ARRAY but was BEGIN_OBJECT at line 1 column 2 path \$")
+            composeTestRule.onNodeWithTag("text_alert_dialog_simple").assertTextEquals("FALHA DE ATUALIZAÇÃO DE DADOS! POR FAVOR ENTRE EM CONTATO COM TI. PlotViewModel.updateAllDatabase -> IUpdateTablePlot -> IPlotRepository.listAll -> IPlotRetrofitDatasource.listAll -> java.lang.IllegalStateException: Expected BEGIN_ARRAY but was BEGIN_OBJECT at line 1 column 2 path \$")
 
             composeTestRule.waitUntilTimeout()
 
@@ -201,7 +202,7 @@ class SectionScreenTest {
             composeTestRule.waitUntilTimeout()
 
             composeTestRule.onNodeWithTag("text_alert_dialog_simple").assertIsDisplayed()
-            composeTestRule.onNodeWithTag("text_alert_dialog_simple").assertTextEquals("FALHA DE ATUALIZAÇÃO DE DADOS! POR FAVOR ENTRE EM CONTATO COM TI. SectionViewModel.updateAllDatabase -> IUpdateTableSection -> ISectionRepository.listAll -> ISectionRetrofitDatasource.listAll -> java.lang.NullPointerException")
+            composeTestRule.onNodeWithTag("text_alert_dialog_simple").assertTextEquals("FALHA DE ATUALIZAÇÃO DE DADOS! POR FAVOR ENTRE EM CONTATO COM TI. PlotViewModel.updateAllDatabase -> IUpdateTablePlot -> IPlotRepository.listAll -> IPlotRetrofitDatasource.listAll -> java.lang.NullPointerException")
 
             composeTestRule.waitUntilTimeout()
 
@@ -214,7 +215,7 @@ class SectionScreenTest {
             val server = MockWebServer()
             server.start()
             server.enqueue(
-                MockResponse().setBody(resultSectionListIncorrect)
+                MockResponse().setBody(resultPlotListIncorrect)
             )
             BaseUrlModuleTest.url = server.url("/").toString()
 
@@ -231,7 +232,7 @@ class SectionScreenTest {
             composeTestRule.waitUntilTimeout()
 
             composeTestRule.onNodeWithTag("text_alert_dialog_simple").assertIsDisplayed()
-            composeTestRule.onNodeWithTag("text_alert_dialog_simple").assertTextEquals("FALHA DE ATUALIZAÇÃO DE DADOS! POR FAVOR ENTRE EM CONTATO COM TI. SectionViewModel.updateAllDatabase -> IUpdateTableSection -> ISectionRepository.listAll -> ISectionRetrofitDatasource.listAll -> com.google.gson.stream.MalformedJsonException: Use JsonReader.setLenient(true) to accept malformed JSON at line 2 column 16 path \$[0].idSection")
+            composeTestRule.onNodeWithTag("text_alert_dialog_simple").assertTextEquals("FALHA DE ATUALIZAÇÃO DE DADOS! POR FAVOR ENTRE EM CONTATO COM TI. PlotViewModel.updateAllDatabase -> IUpdateTablePlot -> IPlotRepository.listAll -> IPlotRetrofitDatasource.listAll -> com.google.gson.stream.MalformedJsonException: Use JsonReader.setLenient(true) to accept malformed JSON at line 2 column 13 path \$[0].idPlot")
 
             composeTestRule.waitUntilTimeout()
 
@@ -244,7 +245,7 @@ class SectionScreenTest {
             val server = MockWebServer()
             server.start()
             server.enqueue(
-                MockResponse().setBody(resultSectionListRepeated)
+                MockResponse().setBody(resultPlotListRepeated)
             )
             BaseUrlModuleTest.url = server.url("/").toString()
 
@@ -261,7 +262,7 @@ class SectionScreenTest {
             composeTestRule.waitUntilTimeout()
 
             composeTestRule.onNodeWithTag("text_alert_dialog_simple").assertIsDisplayed()
-            composeTestRule.onNodeWithTag("text_alert_dialog_simple").assertTextEquals("FALHA DE ATUALIZAÇÃO DE DADOS! POR FAVOR ENTRE EM CONTATO COM TI. SectionViewModel.updateAllDatabase -> IUpdateTableSection -> ISectionRepository.addAll -> ISectionRoomDatasource.addAll -> android.database.sqlite.SQLiteConstraintException: UNIQUE constraint failed: tb_section.idSection (code 1555 SQLITE_CONSTRAINT_PRIMARYKEY[1555])")
+            composeTestRule.onNodeWithTag("text_alert_dialog_simple").assertTextEquals("FALHA DE ATUALIZAÇÃO DE DADOS! POR FAVOR ENTRE EM CONTATO COM TI. PlotViewModel.updateAllDatabase -> IUpdateTablePlot -> IPlotRepository.addAll -> IPlotRoomDatasource.addAll -> android.database.sqlite.SQLiteConstraintException: UNIQUE constraint failed: tb_plot.idPlot (code 1555 SQLITE_CONSTRAINT_PRIMARYKEY[1555])")
 
             composeTestRule.waitUntilTimeout()
 
@@ -274,7 +275,7 @@ class SectionScreenTest {
             val server = MockWebServer()
             server.start()
             server.enqueue(
-                MockResponse().setBody(resultSectionList)
+                MockResponse().setBody(resultPlotList)
             )
             BaseUrlModuleTest.url = server.url("/").toString()
 
@@ -295,55 +296,37 @@ class SectionScreenTest {
 
             composeTestRule.waitUntilTimeout()
 
-            val list = sectionDao.all()
+            val list = plotDao.all()
             assertEquals(
                 list.size,
                 2
             )
             val model1 = list[0]
             assertEquals(
-                model1.idSection,
+                model1.idPlot,
                 1
             )
             assertEquals(
-                model1.codSection,
+                model1.nroPlot,
+                1
+            )
+            assertEquals(
+                model1.idSection,
                 1
             )
             val model2 = list[1]
             assertEquals(
-                model2.idSection,
+                model2.idPlot,
                 2
             )
             assertEquals(
-                model2.codSection,
+                model2.nroPlot,
                 2
             )
-
-            composeTestRule.waitUntilTimeout()
-
-        }
-
-    @Test
-    fun check_failure_return_if_not_have_data_in_section_room() =
-        runTest {
-
-            hiltRule.inject()
-
-            setContent()
-
-            initialRegister(1)
-
-            composeTestRule.waitUntilTimeout()
-
-            composeTestRule.onNodeWithText("1").performClick()
-            composeTestRule.onNodeWithText("2").performClick()
-            composeTestRule.onNodeWithText("3").performClick()
-            composeTestRule.onNodeWithText("OK").performClick()
-
-            composeTestRule.waitUntilTimeout()
-
-            composeTestRule.onNodeWithTag("text_alert_dialog_simple").assertIsDisplayed()
-            composeTestRule.onNodeWithTag("text_alert_dialog_simple").assertTextEquals("DADO INVÁLIDO! POR FAVOR, VERIFIQUE SE O CAMPO \"NRO SEÇÃO\" FOI DIGITADO CORRETAMENTE OU ATUALIZE OS DADOS PARA VERIFICAR SE OS MESMOS NÃO ESTÃO DESATUALIZADOS.")
+            assertEquals(
+                model2.idSection,
+                1
+            )
 
             composeTestRule.waitUntilTimeout()
 
@@ -357,26 +340,50 @@ class SectionScreenTest {
 
             setContent()
 
-            initialRegister(2)
+            initialRegister(1)
 
             composeTestRule.waitUntilTimeout()
 
             composeTestRule.onNodeWithText("1").performClick()
-            composeTestRule.onNodeWithText("2").performClick()
-            composeTestRule.onNodeWithText("3").performClick()
+            composeTestRule.onNodeWithText("0").performClick()
             composeTestRule.onNodeWithText("OK").performClick()
 
             composeTestRule.waitUntilTimeout()
 
             composeTestRule.onNodeWithTag("text_alert_dialog_simple").assertIsDisplayed()
-            composeTestRule.onNodeWithTag("text_alert_dialog_simple").assertTextEquals("FALHA INESPERADA NO APLICATIVO! POR FAVOR ENTRE EM CONTATO COM TI. SectionViewModel.setNroSection -> ICheckSection -> IAnalysisRepository.getOSHeaderOpen -> IHeaderSharedPreferencesDatasource.getOS -> java.lang.NullPointerException")
+            composeTestRule.onNodeWithTag("text_alert_dialog_simple").assertTextEquals("FALHA INESPERADA NO APLICATIVO! POR FAVOR ENTRE EM CONTATO COM TI. PlotViewModel.setNroPlot -> ICheckPlot -> IAnalysisRepository.getSectionHeader -> IHeaderSharedPreferencesDatasource.getSection -> java.lang.NullPointerException")
 
             composeTestRule.waitUntilTimeout()
 
         }
 
     @Test
-    fun check_date_return_if_not_have_data_os_shared_preferences() =
+    fun check_failure_return_if_not_have_data_in_section_room() =
+        runTest {
+
+            hiltRule.inject()
+
+            setContent()
+
+            initialRegister(2)
+
+            composeTestRule.waitUntilTimeout()
+
+            composeTestRule.onNodeWithText("1").performClick()
+            composeTestRule.onNodeWithText("0").performClick()
+            composeTestRule.onNodeWithText("OK").performClick()
+
+            composeTestRule.waitUntilTimeout()
+
+            composeTestRule.onNodeWithTag("text_alert_dialog_simple").assertIsDisplayed()
+            composeTestRule.onNodeWithTag("text_alert_dialog_simple").assertTextEquals("DADO INVÁLIDO! POR FAVOR, VERIFIQUE SE O CAMPO \"NRO TALHÃO\" FOI DIGITADO CORRETAMENTE OU ATUALIZE OS DADOS PARA VERIFICAR SE OS MESMOS NÃO ESTÃO DESATUALIZADOS.")
+
+            composeTestRule.waitUntilTimeout()
+
+        }
+
+    @Test
+    fun check_failure_return_if_not_have_data_in_plot_room() =
         runTest {
 
             hiltRule.inject()
@@ -388,33 +395,45 @@ class SectionScreenTest {
             composeTestRule.waitUntilTimeout()
 
             composeTestRule.onNodeWithText("1").performClick()
-            composeTestRule.onNodeWithText("2").performClick()
-            composeTestRule.onNodeWithText("3").performClick()
+            composeTestRule.onNodeWithText("0").performClick()
             composeTestRule.onNodeWithText("OK").performClick()
 
             composeTestRule.waitUntilTimeout()
 
-            val resultGet = headerSharedPreferencesDatasource.get()
-            assertEquals(
-                resultGet.isSuccess,
-                true
-            )
-            val model = resultGet.getOrNull()!!
-            assertEquals(
-                model.nroOS,
-                123456
-            )
-            assertEquals(
-                model.codSection,
-                123
-            )
+            composeTestRule.onNodeWithTag("text_alert_dialog_simple").assertIsDisplayed()
+            composeTestRule.onNodeWithTag("text_alert_dialog_simple").assertTextEquals("DADO INVÁLIDO! POR FAVOR, VERIFIQUE SE O CAMPO \"NRO TALHÃO\" FOI DIGITADO CORRETAMENTE OU ATUALIZE OS DADOS PARA VERIFICAR SE OS MESMOS NÃO ESTÃO DESATUALIZADOS.")
 
             composeTestRule.waitUntilTimeout()
 
         }
 
     @Test
-    fun check_failure_return_if_data_incorrect() =
+    fun check_failure_return_if_nroPlot_is_incorrect() =
+        runTest {
+
+            hiltRule.inject()
+
+            setContent()
+
+            initialRegister(4)
+
+            composeTestRule.waitUntilTimeout()
+
+            composeTestRule.onNodeWithText("1").performClick()
+            composeTestRule.onNodeWithText("2").performClick()
+            composeTestRule.onNodeWithText("OK").performClick()
+
+            composeTestRule.waitUntilTimeout()
+
+            composeTestRule.onNodeWithTag("text_alert_dialog_simple").assertIsDisplayed()
+            composeTestRule.onNodeWithTag("text_alert_dialog_simple").assertTextEquals("DADO INVÁLIDO! POR FAVOR, VERIFIQUE SE O CAMPO \"NRO TALHÃO\" FOI DIGITADO CORRETAMENTE OU ATUALIZE OS DADOS PARA VERIFICAR SE OS MESMOS NÃO ESTÃO DESATUALIZADOS.")
+
+            composeTestRule.waitUntilTimeout()
+
+        }
+
+    @Test
+    fun check_failure_return_if_idSection_is_incorrect() =
         runTest {
 
             hiltRule.inject()
@@ -427,13 +446,12 @@ class SectionScreenTest {
 
             composeTestRule.onNodeWithText("1").performClick()
             composeTestRule.onNodeWithText("2").performClick()
-            composeTestRule.onNodeWithText("3").performClick()
             composeTestRule.onNodeWithText("OK").performClick()
 
             composeTestRule.waitUntilTimeout()
 
             composeTestRule.onNodeWithTag("text_alert_dialog_simple").assertIsDisplayed()
-            composeTestRule.onNodeWithTag("text_alert_dialog_simple").assertTextEquals("DADO INVÁLIDO! POR FAVOR, VERIFIQUE SE O CAMPO \"NRO SEÇÃO\" FOI DIGITADO CORRETAMENTE OU ATUALIZE OS DADOS PARA VERIFICAR SE OS MESMOS NÃO ESTÃO DESATUALIZADOS.")
+            composeTestRule.onNodeWithTag("text_alert_dialog_simple").assertTextEquals("DADO INVÁLIDO! POR FAVOR, VERIFIQUE SE O CAMPO \"NRO TALHÃO\" FOI DIGITADO CORRETAMENTE OU ATUALIZE OS DADOS PARA VERIFICAR SE OS MESMOS NÃO ESTÃO DESATUALIZADOS.")
 
             composeTestRule.waitUntilTimeout()
 
@@ -453,7 +471,6 @@ class SectionScreenTest {
 
             composeTestRule.onNodeWithText("1").performClick()
             composeTestRule.onNodeWithText("2").performClick()
-            composeTestRule.onNodeWithText("3").performClick()
             composeTestRule.onNodeWithText("OK").performClick()
 
             composeTestRule.waitUntilTimeout()
@@ -465,12 +482,12 @@ class SectionScreenTest {
             )
             val model = resultGet.getOrNull()!!
             assertEquals(
-                model.nroOS,
-                123456
+                model.codSection,
+                1
             )
             assertEquals(
-                model.codSection,
-                123
+                model.nroPlot,
+                10
             )
 
             composeTestRule.waitUntilTimeout()
@@ -491,45 +508,50 @@ class SectionScreenTest {
 
         if (level == 1) return
 
-        sectionDao.insertAll(
-            listOf(
-                SectionRoomModel(
-                    idSection = 1,
-                    codSection = 123
-                ),
+        headerSharedPreferencesDatasource.save(
+            HeaderSharedPreferencesModel(
+                codSection = 1,
             )
         )
 
         if (level == 2) return
 
-        headerSharedPreferencesDatasource.save(
-            HeaderSharedPreferencesModel(
-                nroOS = 123456
+        sectionDao.insertAll(
+            listOf(
+                SectionRoomModel(
+                    idSection = if(failure) 2 else 1,
+                    codSection = 1
+                )
             )
         )
 
         if (level == 3) return
 
-        osSharedPreferencesDatasource.save(
-            OSSharedPreferencesModel(
-                nroOS = 123456,
-                idSection = if(failure) 2 else 1
+        plotDao.insertAll(
+            listOf(
+                PlotRoomModel(
+                    idPlot = 1,
+                    nroPlot = 1,
+                    idSection = 1
+                ),
+                PlotRoomModel(
+                    idPlot = 2,
+                    nroPlot = 10,
+                    idSection = 1
+                )
             )
         )
 
         if (level == 4) return
 
     }
-
-
-    private fun setContent(){
+    private fun setContent() {
         composeTestRule.setContent {
-            SectionScreen(
-                onNavOS = {},
-                onNavPlot = {}
+            PlotScreen(
+                onNavFront = {},
+                onNavSection = {}
             )
         }
     }
-
 
 }

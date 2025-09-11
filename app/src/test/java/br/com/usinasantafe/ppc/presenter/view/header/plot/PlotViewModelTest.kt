@@ -1,10 +1,10 @@
-package br.com.usinasantafe.ppc.presenter.view.header.section
+package br.com.usinasantafe.ppc.presenter.view.header.plot
 
 import br.com.usinasantafe.ppc.MainCoroutineRule
 import br.com.usinasantafe.ppc.domain.errors.resultFailure
-import br.com.usinasantafe.ppc.domain.usecases.flow.CheckSection
-import br.com.usinasantafe.ppc.domain.usecases.flow.SetSectionHeader
-import br.com.usinasantafe.ppc.domain.usecases.update.UpdateTableSection
+import br.com.usinasantafe.ppc.domain.usecases.flow.CheckPlot
+import br.com.usinasantafe.ppc.domain.usecases.flow.SetPlotHeader
+import br.com.usinasantafe.ppc.domain.usecases.update.UpdateTablePlot
 import br.com.usinasantafe.ppc.presenter.model.ResultUpdateModel
 import br.com.usinasantafe.ppc.utils.Errors
 import br.com.usinasantafe.ppc.utils.LevelUpdate
@@ -14,7 +14,6 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.test.runTest
-import org.junit.Assert.*
 import org.junit.Rule
 import org.mockito.Mockito.mock
 import org.mockito.kotlin.whenever
@@ -22,19 +21,19 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 
 @ExperimentalCoroutinesApi
-class SectionViewModelTest {
+class PlotViewModelTest {
 
     @ExperimentalCoroutinesApi
     @get:Rule
     val mainCoroutineRule = MainCoroutineRule()
 
-    private val checkSection = mock<CheckSection>()
-    private val updateTableSection = mock<UpdateTableSection>()
-    private val setSectionHeader = mock<SetSectionHeader>()
-    private val viewModel = SectionViewModel(
-        checkSection = checkSection,
-        updateTableSection = updateTableSection,
-        setSectionHeader = setSectionHeader
+    private val checkPlot = mock<CheckPlot>()
+    private val updateTablePlot = mock<UpdateTablePlot>()
+    private val setPlotHeader = mock<SetPlotHeader>()
+    private val viewModel = PlotViewModel(
+        checkPlot = checkPlot,
+        updateTablePlot = updateTablePlot,
+        setPlotHeader = setPlotHeader
     )
 
     @Test
@@ -43,7 +42,7 @@ class SectionViewModelTest {
             viewModel.setTextField("1", TypeButton.NUMERIC
             )
             assertEquals(
-                viewModel.uiState.value.nroSection,
+                viewModel.uiState.value.nroPlot,
                 "1"
             )
         }
@@ -60,7 +59,7 @@ class SectionViewModelTest {
             viewModel.setTextField("APAGAR", TypeButton.CLEAN)
             viewModel.setTextField("APAGAR", TypeButton.CLEAN)
             viewModel.setTextField("1", TypeButton.NUMERIC)
-            assertEquals(viewModel.uiState.value.nroSection, "121")
+            assertEquals(viewModel.uiState.value.nroPlot, "121")
         }
 
     @Test
@@ -73,7 +72,7 @@ class SectionViewModelTest {
             )
             assertEquals(
                 viewModel.uiState.value.failure,
-                "SectionViewModel.setTextField.OK -> Field Empty!"
+                "PlotViewModel.setTextField.OK -> Field Empty!"
             )
             assertEquals(
                 viewModel.uiState.value.flagAccess,
@@ -90,10 +89,10 @@ class SectionViewModelTest {
         }
 
     @Test
-    fun `updateAllDatabase - Check return failure if have error in UpdateTableSection`() =
+    fun `updateAllDatabase - Check return failure if have error in UpdateTablePlot`() =
         runTest {
             whenever(
-                updateTableSection(
+                updateTablePlot(
                     sizeAll = 4f,
                     count = 1f
                 )
@@ -102,14 +101,14 @@ class SectionViewModelTest {
                     ResultUpdateModel(
                         flagProgress = true,
                         levelUpdate = LevelUpdate.RECOVERY,
-                        tableUpdate = "tb_section",
+                        tableUpdate = "tb_plot",
                         currentProgress = percentage(1f, 4f)
                     ),
                     ResultUpdateModel(
                         errors = Errors.UPDATE,
                         flagDialog = true,
                         flagFailure = true,
-                        failure = "ICleanSection -> java.lang.NullPointerException",
+                        failure = "ICleanPlot -> java.lang.NullPointerException",
                         currentProgress = 1f,
                         levelUpdate = null,
                     ),
@@ -122,20 +121,20 @@ class SectionViewModelTest {
             )
             assertEquals(
                 result[0],
-                SectionState(
+                PlotState(
                     flagProgress = true,
                     levelUpdate = LevelUpdate.RECOVERY,
-                    tableUpdate = "tb_section",
+                    tableUpdate = "tb_plot",
                     currentProgress = percentage(1f, 4f)
                 )
             )
             assertEquals(
                 result[1],
-                SectionState(
+                PlotState(
                     errors = Errors.UPDATE,
                     flagDialog = true,
                     flagFailure = true,
-                    failure = "SectionViewModel.updateAllDatabase -> ICleanSection -> java.lang.NullPointerException",
+                    failure = "PlotViewModel.updateAllDatabase -> ICleanPlot -> java.lang.NullPointerException",
                     currentProgress = 1f,
                     levelUpdate = null,
                 )
@@ -146,7 +145,7 @@ class SectionViewModelTest {
     fun `updateAllDatabase - Check return success if update execute successfully`() =
         runTest {
             whenever(
-                updateTableSection(
+                updateTablePlot(
                     sizeAll = 4f,
                     count = 1f
                 )
@@ -155,19 +154,19 @@ class SectionViewModelTest {
                     ResultUpdateModel(
                         flagProgress = true,
                         levelUpdate = LevelUpdate.RECOVERY,
-                        tableUpdate = "tb_section",
+                        tableUpdate = "tb_plot",
                         currentProgress = percentage(1f, 4f)
                     ),
                     ResultUpdateModel(
                         flagProgress = true,
                         levelUpdate = LevelUpdate.CLEAN,
-                        tableUpdate = "tb_section",
+                        tableUpdate = "tb_plot",
                         currentProgress = percentage(2f, 4f)
                     ),
                     ResultUpdateModel(
                         flagProgress = true,
                         levelUpdate = LevelUpdate.SAVE,
-                        tableUpdate = "tb_section",
+                        tableUpdate = "tb_plot",
                         currentProgress = percentage(3f, 4f)
                     ),
                 )
@@ -179,34 +178,34 @@ class SectionViewModelTest {
             )
             assertEquals(
                 result[0],
-                SectionState(
+                PlotState(
                     flagProgress = true,
                     levelUpdate = LevelUpdate.RECOVERY,
-                    tableUpdate = "tb_section",
+                    tableUpdate = "tb_plot",
                     currentProgress = percentage(1f, 4f)
                 )
             )
             assertEquals(
                 result[1],
-                SectionState(
+                PlotState(
                     flagProgress = true,
                     levelUpdate = LevelUpdate.CLEAN,
-                    tableUpdate = "tb_section",
+                    tableUpdate = "tb_plot",
                     currentProgress = percentage(2f, 4f)
                 )
             )
             assertEquals(
                 result[2],
-                SectionState(
+                PlotState(
                     flagProgress = true,
                     levelUpdate = LevelUpdate.SAVE,
-                    tableUpdate = "tb_section",
+                    tableUpdate = "tb_plot",
                     currentProgress = percentage(3f, 4f)
                 )
             )
             assertEquals(
                 result[3],
-                SectionState(
+                PlotState(
                     flagDialog = true,
                     flagProgress = false,
                     flagFailure = false,
@@ -217,10 +216,10 @@ class SectionViewModelTest {
         }
 
     @Test
-    fun `setTextField - Check return failure if have error in UpdateTableSection`() =
+    fun `setTextField - Check return failure if have error in UpdateTablePlot`() =
         runTest {
             whenever(
-                updateTableSection(
+                updateTablePlot(
                     sizeAll = 4f,
                     count = 1f
                 )
@@ -229,14 +228,14 @@ class SectionViewModelTest {
                     ResultUpdateModel(
                         flagProgress = true,
                         levelUpdate = LevelUpdate.RECOVERY,
-                        tableUpdate = "tb_section",
+                        tableUpdate = "tb_plot",
                         currentProgress = percentage(1f, 4f)
                     ),
                     ResultUpdateModel(
                         errors = Errors.UPDATE,
                         flagDialog = true,
                         flagFailure = true,
-                        failure = "ICleanSection -> java.lang.NullPointerException",
+                        failure = "ICleanPlot -> java.lang.NullPointerException",
                         currentProgress = 1f,
                         levelUpdate = null,
                     ),
@@ -249,20 +248,20 @@ class SectionViewModelTest {
             )
             assertEquals(
                 result[0],
-                SectionState(
+                PlotState(
                     flagProgress = true,
                     levelUpdate = LevelUpdate.RECOVERY,
-                    tableUpdate = "tb_section",
+                    tableUpdate = "tb_plot",
                     currentProgress = percentage(1f, 4f)
                 )
             )
             assertEquals(
                 result[1],
-                SectionState(
+                PlotState(
                     errors = Errors.UPDATE,
                     flagDialog = true,
                     flagFailure = true,
-                    failure = "SectionViewModel.updateAllDatabase -> ICleanSection -> java.lang.NullPointerException",
+                    failure = "PlotViewModel.updateAllDatabase -> ICleanPlot -> java.lang.NullPointerException",
                     currentProgress = 1f,
                     levelUpdate = null,
                 )
@@ -282,7 +281,7 @@ class SectionViewModelTest {
             )
             assertEquals(
                 viewModel.uiState.value.failure,
-                "SectionViewModel.updateAllDatabase -> ICleanSection -> java.lang.NullPointerException"
+                "PlotViewModel.updateAllDatabase -> ICleanPlot -> java.lang.NullPointerException"
             )
             assertEquals(
                 viewModel.uiState.value.currentProgress,
@@ -302,7 +301,7 @@ class SectionViewModelTest {
     fun `setTextField - Check return success if update execute successfully`() =
         runTest {
             whenever(
-                updateTableSection(
+                updateTablePlot(
                     sizeAll = 4f,
                     count = 1f
                 )
@@ -311,19 +310,19 @@ class SectionViewModelTest {
                     ResultUpdateModel(
                         flagProgress = true,
                         levelUpdate = LevelUpdate.RECOVERY,
-                        tableUpdate = "tb_section",
+                        tableUpdate = "tb_plot",
                         currentProgress = percentage(1f, 4f)
                     ),
                     ResultUpdateModel(
                         flagProgress = true,
                         levelUpdate = LevelUpdate.CLEAN,
-                        tableUpdate = "tb_section",
+                        tableUpdate = "tb_plot",
                         currentProgress = percentage(2f, 4f)
                     ),
                     ResultUpdateModel(
                         flagProgress = true,
                         levelUpdate = LevelUpdate.SAVE,
-                        tableUpdate = "tb_section",
+                        tableUpdate = "tb_plot",
                         currentProgress = percentage(3f, 4f)
                     ),
                 )
@@ -335,34 +334,34 @@ class SectionViewModelTest {
             )
             assertEquals(
                 result[0],
-                SectionState(
+                PlotState(
                     flagProgress = true,
                     levelUpdate = LevelUpdate.RECOVERY,
-                    tableUpdate = "tb_section",
+                    tableUpdate = "tb_plot",
                     currentProgress = percentage(1f, 4f)
                 )
             )
             assertEquals(
                 result[1],
-                SectionState(
+                PlotState(
                     flagProgress = true,
                     levelUpdate = LevelUpdate.CLEAN,
-                    tableUpdate = "tb_section",
+                    tableUpdate = "tb_plot",
                     currentProgress = percentage(2f, 4f)
                 )
             )
             assertEquals(
                 result[2],
-                SectionState(
+                PlotState(
                     flagProgress = true,
                     levelUpdate = LevelUpdate.SAVE,
-                    tableUpdate = "tb_section",
+                    tableUpdate = "tb_plot",
                     currentProgress = percentage(3f, 4f)
                 )
             )
             assertEquals(
                 result[3],
-                SectionState(
+                PlotState(
                     flagDialog = true,
                     flagProgress = false,
                     flagFailure = false,
@@ -394,13 +393,13 @@ class SectionViewModelTest {
         }
 
     @Test
-    fun `setTextField - Check return failure if have error in CheckSection`() =
+    fun `setTextField - Check return failure if have error in CheckPlot`() =
         runTest {
             whenever(
-                checkSection("19759")
+                checkPlot("19759")
             ).thenReturn(
                 resultFailure(
-                    context = "CheckSection",
+                    context = "CheckPlot",
                     message = "-",
                     cause = Exception()
                 )
@@ -417,7 +416,7 @@ class SectionViewModelTest {
             )
             assertEquals(
                 viewModel.uiState.value.failure,
-                "SectionViewModel.setNroSection -> CheckSection -> java.lang.Exception"
+                "PlotViewModel.setNroPlot -> CheckPlot -> java.lang.Exception"
             )
             assertEquals(
                 viewModel.uiState.value.flagFailure,
@@ -434,10 +433,10 @@ class SectionViewModelTest {
         }
 
     @Test
-    fun `setTextField - Check return false if nroSection is invalid`() =
+    fun `setTextField - Check return false if nroPlot is invalid`() =
         runTest {
             whenever(
-                checkSection("19759")
+                checkPlot("19759")
             ).thenReturn(
                 Result.success(false)
             )
@@ -453,7 +452,7 @@ class SectionViewModelTest {
             )
             assertEquals(
                 viewModel.uiState.value.failure,
-                "SectionViewModel.setNroSection -> NroSection Invalid!"
+                "PlotViewModel.setNroPlot -> NroPlot Invalid!"
             )
             assertEquals(
                 viewModel.uiState.value.flagFailure,
@@ -470,20 +469,20 @@ class SectionViewModelTest {
         }
 
     @Test
-    fun `setTextField - Check return failure if have error in SetNroSection`() =
+    fun `setTextField - Check return failure if have error in SetNroPlot`() =
         runTest {
             whenever(
-                checkSection("19759")
+                checkPlot("19759")
             ).thenReturn(
                 Result.success(true)
             )
             whenever(
-                setSectionHeader(
-                    codSection = "19759"
+                setPlotHeader(
+                    nroPlot = "19759"
                 )
             ).thenReturn(
                 resultFailure(
-                    context = "SetNroSection",
+                    context = "SetNroPlot",
                     message = "-",
                     cause = Exception()
                 )
@@ -500,7 +499,7 @@ class SectionViewModelTest {
             )
             assertEquals(
                 viewModel.uiState.value.failure,
-                "SectionViewModel.setNroSection -> SetNroSection -> java.lang.Exception"
+                "PlotViewModel.setNroPlot -> SetNroPlot -> java.lang.Exception"
             )
             assertEquals(
                 viewModel.uiState.value.flagFailure,
@@ -517,16 +516,16 @@ class SectionViewModelTest {
         }
 
     @Test
-    fun `setTextField - Check return success if SetNroSection execute successfully`() =
+    fun `setTextField - Check return success if SetNroPlot execute successfully`() =
         runTest {
             whenever(
-                checkSection("19759")
+                checkPlot("19759")
             ).thenReturn(
                 Result.success(true)
             )
             whenever(
-                setSectionHeader(
-                    codSection = "19759"
+                setPlotHeader(
+                    nroPlot = "19759"
                 )
             ).thenReturn(
                 Result.success(true)
@@ -542,5 +541,5 @@ class SectionViewModelTest {
                 true
             )
         }
-
+    
 }

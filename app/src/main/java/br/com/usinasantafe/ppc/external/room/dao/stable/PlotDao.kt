@@ -17,4 +17,10 @@ interface PlotDao {
     @Query("SELECT * FROM TB_PLOT")
     suspend fun all(): List<PlotRoomModel>
 
+    @Query("SELECT count(*) FROM TB_PLOT WHERE nroPlot = :nroPlot AND idSection = :idSection")
+    suspend fun checkByNroPlotAndIdSection(
+        nroPlot: Int,
+        idSection: Int
+    ): Int
+
 }

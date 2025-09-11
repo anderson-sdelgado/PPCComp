@@ -12,10 +12,13 @@ import br.com.usinasantafe.ppc.presenter.Args.POS_AUDITOR_ARGS
 import br.com.usinasantafe.ppc.presenter.Routes.AUDITOR_HEADER_ROUTE
 import br.com.usinasantafe.ppc.presenter.Routes.CONFIG_ROUTE
 import br.com.usinasantafe.ppc.presenter.Routes.DATE_HEADER_ROUTE
+import br.com.usinasantafe.ppc.presenter.Routes.FRONT_HEADER_ROUTE
 import br.com.usinasantafe.ppc.presenter.Routes.HEADER_LIST_ROUTE
 import br.com.usinasantafe.ppc.presenter.Routes.INITIAL_MENU_ROUTE
 import br.com.usinasantafe.ppc.presenter.Routes.OS_HEADER_ROUTE
 import br.com.usinasantafe.ppc.presenter.Routes.PASSWORD_ROUTE
+import br.com.usinasantafe.ppc.presenter.Routes.PLOT_HEADER_ROUTE
+import br.com.usinasantafe.ppc.presenter.Routes.SECTION_HEADER_ROUTE
 import br.com.usinasantafe.ppc.presenter.Routes.SPLASH_ROUTE
 import br.com.usinasantafe.ppc.presenter.Routes.TURN_HEADER_ROUTE
 import br.com.usinasantafe.ppc.presenter.view.configuration.config.ConfigScreen
@@ -23,8 +26,11 @@ import br.com.usinasantafe.ppc.presenter.view.configuration.initial.InitialMenuS
 import br.com.usinasantafe.ppc.presenter.view.configuration.password.PasswordScreen
 import br.com.usinasantafe.ppc.presenter.view.header.auditor.AuditorScreen
 import br.com.usinasantafe.ppc.presenter.view.header.date.DateScreen
+import br.com.usinasantafe.ppc.presenter.view.header.front.FrontScreen
 import br.com.usinasantafe.ppc.presenter.view.header.headerlist.HeaderListScreen
 import br.com.usinasantafe.ppc.presenter.view.header.os.OSScreen
+import br.com.usinasantafe.ppc.presenter.view.header.plot.PlotScreen
+import br.com.usinasantafe.ppc.presenter.view.header.section.SectionScreen
 import br.com.usinasantafe.ppc.presenter.view.header.turn.TurnScreen
 import br.com.usinasantafe.ppc.presenter.view.splash.SplashScreen
 
@@ -154,8 +160,36 @@ fun NavigationGraph(
             )
         }
 
+        composable(SECTION_HEADER_ROUTE) {
+            SectionScreen(
+                onNavOS = {
+                    navActions.navigateToOSHeader()
+                },
+                onNavPlot = {
+                    navActions.navigateToPlotHeader()
+                }
+            )
+        }
 
-        
+        composable(PLOT_HEADER_ROUTE) {
+            PlotScreen(
+                onNavSection = {
+                    navActions.navigateToSectionHeader()
+                },
+                onNavFront = {
+                    navActions.navigateToFrontHeader()
+                }
+            )
+        }
+
+        composable(FRONT_HEADER_ROUTE) {
+            FrontScreen(
+                onNavPlot = {
+                    navActions.navigateToPlotHeader()
+                },
+                onNavHarvester = {}
+            )
+        }
 
         ////////////////////////////////////////////////////////////////////
 

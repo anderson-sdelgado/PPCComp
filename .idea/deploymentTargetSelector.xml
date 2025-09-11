@@ -5,19 +5,19 @@
       <SelectionState runConfigName="app">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
+      <SelectionState runConfigName="check_failure_return_if_not_have_data_in_plot_room()">
+        <option name="selectionMode" value="DROPDOWN" />
+      </SelectionState>
       <SelectionState runConfigName="check_failure_return_if_not_have_data_in_header_shared_preferences()">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
-      <SelectionState runConfigName="check_date_return_if_not_have_data_os_shared_preferences()">
+      <SelectionState runConfigName="check_failure_return_if_not_have_data_in_section()">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
-      <SelectionState runConfigName="check_failure_return_if_data_incorrect()">
+      <SelectionState runConfigName="check_failure_return_if_nroPlot_is_incorrect()">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
-      <SelectionState runConfigName="check_failure_return_if_not_have_data_in_section_room()">
-        <option name="selectionMode" value="DROPDOWN" />
-      </SelectionState>
-      <SelectionState runConfigName="check_date_return_if_all_data_is_correct()">
+      <SelectionState runConfigName="check_failure_return_if_idSection_is_incorrect()">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
     </selectionStates>

@@ -448,4 +448,96 @@ class IAnalysisRepositoryTest {
             )
         }
 
+    @Test
+    fun `getSectionHeader - Check return failure if have error in HeaderSharedPreferencesDatasource getSection`() =
+        runTest {
+            whenever(
+                headerSharedPreferencesDatasource.getSection()
+            ).thenReturn(
+                resultFailure(
+                    "IHeaderSharedPreferencesDatasource.getSection",
+                    "-",
+                    Exception()
+                )
+            )
+            val result = repository.getSectionHeader()
+            assertEquals(
+                result.isFailure,
+                true
+            )
+            assertEquals(
+                result.exceptionOrNull()!!.message,
+                "IAnalysisRepository.getSectionHeader -> IHeaderSharedPreferencesDatasource.getSection"
+            )
+            assertEquals(
+                result.exceptionOrNull()!!.cause.toString(),
+                "java.lang.Exception"
+            )
+        }
+
+    @Test
+    fun `getSection - Check return correct if function execute successfully`() =
+        runTest {
+            whenever(
+                headerSharedPreferencesDatasource.getSection()
+            ).thenReturn(
+                Result.success(1)
+            )
+            val result = repository.getSectionHeader()
+            assertEquals(
+                result.isSuccess,
+                true
+            )
+            assertEquals(
+                result.getOrNull()!!,
+               1
+            )
+        }
+
+    @Test
+    fun `setPlotHeader - Check return failure if have error in HeaderSharedPreferencesDatasource setPlot`() =
+        runTest {
+            whenever(
+                headerSharedPreferencesDatasource.setPlot(20)
+            ).thenReturn(
+                resultFailure(
+                    "IHeaderSharedPreferencesDatasource.setPlot",
+                    "-",
+                    Exception()
+                )
+            )
+            val result = repository.setPlotHeader(20)
+            assertEquals(
+                result.isFailure,
+                true
+            )
+            assertEquals(
+                result.exceptionOrNull()!!.message,
+                "IAnalysisRepository.setPlotHeader -> IHeaderSharedPreferencesDatasource.setPlot"
+            )
+            assertEquals(
+                result.exceptionOrNull()!!.cause.toString(),
+                "java.lang.Exception"
+            )
+        }
+
+    @Test
+    fun `setPlotHeader - Check return correct if function execute successfully`() =
+        runTest {
+            whenever(
+                headerSharedPreferencesDatasource.setPlot(20)
+            ).thenReturn(
+                Result.success(true)
+            )
+            val result = repository.setPlotHeader(20)
+            assertEquals(
+                result.isSuccess,
+                true
+            )
+            assertEquals(
+                result.getOrNull()!!,
+                true
+            )
+        }
+
 }

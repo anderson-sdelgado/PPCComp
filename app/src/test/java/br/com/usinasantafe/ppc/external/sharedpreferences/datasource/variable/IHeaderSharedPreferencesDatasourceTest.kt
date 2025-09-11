@@ -315,4 +315,75 @@ class IHeaderSharedPreferencesDatasourceTest {
             )
         }
 
+    @Test
+    fun `getSection - Check failure return if not have data in header shared preferences`() =
+        runTest {
+            val result = datasource.getSection()
+            assertEquals(
+                result.isFailure,
+                true
+            )
+            assertEquals(
+                result.exceptionOrNull()!!.message,
+                "IHeaderSharedPreferencesDatasource.getSection"
+            )
+            assertEquals(
+                result.exceptionOrNull()!!.cause.toString(),
+                "java.lang.NullPointerException"
+            )
+        }
+
+    @Test
+    fun `getSection - Check codSection return if have data in header shared preferences`() =
+        runTest {
+            datasource.save(
+                HeaderSharedPreferencesModel(
+                    codSection = 1
+                )
+            )
+            val result = datasource.getSection()
+            assertEquals(
+                result.isSuccess,
+                true
+            )
+            assertEquals(
+                result.getOrNull()!!,
+                1
+            )
+        }
+
+    @Test
+    fun `setPlot - Check alter data in shared preferences`() =
+        runTest {
+            val resultBefore = datasource.get()
+            assertEquals(
+                resultBefore.isSuccess,
+                true
+            )
+            val modelBefore = resultBefore.getOrNull()!!
+            assertEquals(
+                modelBefore.nroPlot,
+                null
+            )
+            val result = datasource.setPlot(1)
+            assertEquals(
+                result.isSuccess,
+                true
+            )
+            assertEquals(
+                result.getOrNull()!!,
+                true
+            )
+            val resultGetAfter = datasource.get()
+            assertEquals(
+                resultGetAfter.isSuccess,
+                true
+            )
+            val modelAfter = resultGetAfter.getOrNull()!!
+            assertEquals(
+                modelAfter.nroPlot,
+                1
+            )
+        }
+
 }

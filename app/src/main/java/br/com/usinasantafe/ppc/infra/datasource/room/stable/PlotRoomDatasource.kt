@@ -5,4 +5,8 @@ import br.com.usinasantafe.ppc.infra.models.room.stable.PlotRoomModel
 interface PlotRoomDatasource {
     suspend fun addAll(list: List<PlotRoomModel>): Result<Boolean>
     suspend fun deleteAll(): Result<Boolean>
+    suspend fun checkByNroPlotAndIdSection(
+        nroPlot: Int,
+        idSection: Int
+    ): Result<Boolean>
 }

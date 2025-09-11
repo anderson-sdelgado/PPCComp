@@ -7,9 +7,13 @@ import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import br.com.usinasantafe.ppc.di.provider.BaseUrlModuleTest
 import br.com.usinasantafe.ppc.external.room.dao.stable.ColabDao
+import br.com.usinasantafe.ppc.external.room.dao.stable.PlotDao
+import br.com.usinasantafe.ppc.external.room.dao.stable.SectionDao
 import br.com.usinasantafe.ppc.external.sharedpreferences.datasource.variable.IHeaderSharedPreferencesDatasource
 import br.com.usinasantafe.ppc.infra.datasource.sharedpreferences.variable.ConfigSharedPreferencesDatasource
 import br.com.usinasantafe.ppc.infra.models.room.stable.ColabRoomModel
+import br.com.usinasantafe.ppc.infra.models.room.stable.PlotRoomModel
+import br.com.usinasantafe.ppc.infra.models.room.stable.SectionRoomModel
 import br.com.usinasantafe.ppc.infra.models.sharedpreferences.variable.ConfigSharedPreferencesModel
 import br.com.usinasantafe.ppc.presenter.MainActivity
 import br.com.usinasantafe.ppc.utils.FlagUpdate
@@ -49,6 +53,12 @@ class HeaderFlowTest {
 
     @Inject
     lateinit var headerSharedPreferencesDatasource: IHeaderSharedPreferencesDatasource
+
+    @Inject
+    lateinit var sectionDao: SectionDao
+
+    @Inject
+    lateinit var plotDao: PlotDao
 
     @Test
     fun header_flow() =
@@ -345,6 +355,186 @@ class HeaderFlowTest {
 
             composeTestRule.waitUntilTimeout()
 
+            composeTestRule.onNodeWithText("1").performClick()
+            composeTestRule.onNodeWithText("2").performClick()
+            composeTestRule.onNodeWithText("3").performClick()
+            composeTestRule.onNodeWithText("4").performClick()
+            composeTestRule.onNodeWithText("5").performClick()
+            composeTestRule.onNodeWithText("6").performClick()
+            composeTestRule.onNodeWithText("OK").performClick()
+
+            Log.d("TestDebug", "Position 27")
+
+            composeTestRule.waitUntilTimeout()
+
+            val resultGetOS = headerSharedPreferencesDatasource.get()
+            assertEquals(
+                resultGetOS.isSuccess,
+                true
+            )
+            val modelOS = resultGetOS.getOrNull()!!
+            assertEquals(
+                modelOS.regAuditor1,
+                19759L
+            )
+            assertEquals(
+                modelOS.regAuditor2,
+                null
+            )
+            assertEquals(
+                modelOS.regAuditor3,
+                null
+            )
+            assertEquals(
+                modelOS.date,
+                midnightDateObject
+            )
+            assertEquals(
+                modelOS.nroTurn,
+                1
+            )
+            assertEquals(
+                modelOS.nroOS,
+                123456
+            )
+
+            Log.d("TestDebug", "Position 28")
+
+            composeTestRule.waitUntilTimeout()
+
+            composeTestRule.onNodeWithText("3").performClick()
+            composeTestRule.onNodeWithText("0").performClick()
+            composeTestRule.onNodeWithText("0").performClick()
+            composeTestRule.onNodeWithText("OK").performClick()
+
+            composeTestRule.waitUntilTimeout()
+
+            Log.d("TestDebug", "Position 29")
+
+            composeTestRule.waitUntilTimeout()
+
+            composeTestRule.activityRule.scenario.onActivity { activity ->
+                activity.onBackPressedDispatcher.onBackPressed()
+            }
+
+            Log.d("TestDebug", "Position 30")
+
+            composeTestRule.waitUntilTimeout()
+
+            composeTestRule.onNodeWithText("3").performClick()
+            composeTestRule.onNodeWithText("0").performClick()
+            composeTestRule.onNodeWithText("0").performClick()
+            composeTestRule.onNodeWithText("OK").performClick()
+
+            Log.d("TestDebug", "Position 31")
+
+            composeTestRule.waitUntilTimeout()
+
+            val resultGetSection = headerSharedPreferencesDatasource.get()
+            assertEquals(
+                resultGetSection.isSuccess,
+                true
+            )
+            val modelSection = resultGetSection.getOrNull()!!
+            assertEquals(
+                modelSection.regAuditor1,
+                19759L
+            )
+            assertEquals(
+                modelSection.regAuditor2,
+                null
+            )
+            assertEquals(
+                modelSection.regAuditor3,
+                null
+            )
+            assertEquals(
+                modelSection.date,
+                midnightDateObject
+            )
+            assertEquals(
+                modelSection.nroTurn,
+                1
+            )
+            assertEquals(
+                modelSection.nroOS,
+                123456
+            )
+            assertEquals(
+                modelSection.codSection,
+                300
+            )
+
+            Log.d("TestDebug", "Position 32")
+
+            composeTestRule.waitUntilTimeout()
+
+            composeTestRule.onNodeWithText("1").performClick()
+            composeTestRule.onNodeWithText("0").performClick()
+            composeTestRule.onNodeWithText("OK").performClick()
+
+            Log.d("TestDebug", "Position 33")
+
+            composeTestRule.waitUntilTimeout()
+
+            composeTestRule.activityRule.scenario.onActivity { activity ->
+                activity.onBackPressedDispatcher.onBackPressed()
+            }
+
+            Log.d("TestDebug", "Position 34")
+
+            composeTestRule.waitUntilTimeout()
+
+            composeTestRule.onNodeWithText("1").performClick()
+            composeTestRule.onNodeWithText("0").performClick()
+            composeTestRule.onNodeWithText("OK").performClick()
+
+            Log.d("TestDebug", "Position 35")
+
+            composeTestRule.waitUntilTimeout()
+
+            val resultGetPlot = headerSharedPreferencesDatasource.get()
+            assertEquals(
+                resultGetPlot.isSuccess,
+                true
+            )
+            val modelPlot = resultGetPlot.getOrNull()!!
+            assertEquals(
+                modelPlot.regAuditor1,
+                19759L
+            )
+            assertEquals(
+                modelPlot.regAuditor2,
+                null
+            )
+            assertEquals(
+                modelPlot.regAuditor3,
+                null
+            )
+            assertEquals(
+                modelPlot.date,
+                midnightDateObject
+            )
+            assertEquals(
+                modelPlot.nroTurn,
+                1
+            )
+            assertEquals(
+                modelPlot.nroOS,
+                123456
+            )
+            assertEquals(
+                modelSection.codSection,
+                300
+            )
+            assertEquals(
+                modelPlot.nroPlot,
+                10
+            )
+
+            Log.d("TestDebug", "Position 32")
+
+            composeTestRule.waitUntilTimeout()
 
         }
 
@@ -367,5 +557,34 @@ class HeaderFlowTest {
                 )
             )
         )
+
+        sectionDao.insertAll(
+            listOf(
+                SectionRoomModel(
+                    idSection = 1,
+                    codSection = 100,
+                ),
+                SectionRoomModel(
+                    idSection = 2,
+                    codSection = 300,
+                )
+            )
+        )
+
+        plotDao.insertAll(
+            listOf(
+                PlotRoomModel(
+                    idPlot = 100,
+                    nroPlot = 1,
+                    idSection = 1
+                ),
+                PlotRoomModel(
+                    idPlot = 102,
+                    nroPlot = 10,
+                    idSection = 2
+                )
+            )
+        )
+
     }
 }

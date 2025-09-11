@@ -119,4 +119,26 @@ class IAnalysisRepository @Inject constructor(
         return result
     }
 
+    override suspend fun getSectionHeader(): Result<Int> {
+        val result = headerSharedPreferencesDatasource.getSection()
+        if(result.isFailure){
+            return resultFailure(
+                context = getClassAndMethod(),
+                cause = result.exceptionOrNull()!!
+            )
+        }
+        return result
+    }
+
+    override suspend fun setPlotHeader(nroPlot: Int): Result<Boolean> {
+        val result = headerSharedPreferencesDatasource.setPlot(nroPlot)
+        if(result.isFailure){
+            return resultFailure(
+                context = getClassAndMethod(),
+                cause = result.exceptionOrNull()!!
+            )
+        }
+        return result
+    }
+
 }

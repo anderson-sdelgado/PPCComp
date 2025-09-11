@@ -35,4 +35,22 @@ class IPlotRoomDatasource @Inject constructor(
         }
     }
 
+    override suspend fun checkByNroPlotAndIdSection(
+        nroPlot: Int,
+        idSection: Int
+    ): Result<Boolean> {
+        try {
+            val qtd = plotDao.checkByNroPlotAndIdSection(
+                nroPlot = nroPlot,
+                idSection = idSection
+            )
+            return Result.success(qtd > 0)
+        } catch (e: Exception) {
+            return resultFailure(
+                context = getClassAndMethod(),
+                cause = e
+            )
+        }
+    }
+
 }

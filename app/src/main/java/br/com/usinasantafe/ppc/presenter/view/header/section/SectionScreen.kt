@@ -117,7 +117,6 @@ fun SectionContent(
         }
     }
 
-
     if (flagProgress) {
         val msgProgress = when(levelUpdate){
             LevelUpdate.RECOVERY -> stringResource(id = R.string.text_msg_recovery, tableUpdate)
@@ -174,6 +173,7 @@ fun SectionContent(
 
     LaunchedEffect(flagAccess) {
         if(flagAccess) {
+            onNavPlot()
         }
     }
 }
@@ -247,7 +247,7 @@ fun SectionPagePreviewUpdateSuccess() {
                 flagProgress = false,
                 currentProgress = 1f,
                 levelUpdate = LevelUpdate.SAVE,
-                tableUpdate = "tb_colab",
+                tableUpdate = "tb_section",
                 onNavOS = {},
                 onNavPlot = {},
                 modifier = Modifier.padding(innerPadding)
@@ -273,7 +273,7 @@ fun SectionPagePreviewFieldEmpty() {
                 flagProgress = false,
                 currentProgress = 1f,
                 levelUpdate = LevelUpdate.SAVE,
-                tableUpdate = "tb_colab",
+                tableUpdate = "tb_section",
                 onNavOS = {},
                 onNavPlot = {},
                 modifier = Modifier.padding(innerPadding)
@@ -299,7 +299,7 @@ fun SectionPagePreviewFieldInvalid() {
                 flagProgress = false,
                 currentProgress = 1f,
                 levelUpdate = LevelUpdate.SAVE,
-                tableUpdate = "tb_colab",
+                tableUpdate = "tb_section",
                 onNavOS = {},
                 onNavPlot = {},
                 modifier = Modifier.padding(innerPadding)
@@ -325,7 +325,7 @@ fun SectionPagePreviewFailure() {
                 flagProgress = false,
                 currentProgress = 1f,
                 levelUpdate = LevelUpdate.SAVE,
-                tableUpdate = "tb_colab",
+                tableUpdate = "tb_section",
                 onNavOS = {},
                 onNavPlot = {},
                 modifier = Modifier.padding(innerPadding)

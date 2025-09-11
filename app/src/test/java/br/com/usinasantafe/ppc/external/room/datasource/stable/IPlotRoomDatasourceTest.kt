@@ -177,4 +177,73 @@ class IPlotRoomDatasourceTest {
             )
         }
 
+    @Test
+    fun `checkByNroPlotAndIdSection - Check false return if there was no data searched`() =
+        runTest {
+            val result = datasource.checkByNroPlotAndIdSection(
+                nroPlot = 1,
+                idSection = 1
+            )
+            assertEquals(
+                result.isSuccess,
+                true
+            )
+            assertEquals(
+                result.getOrNull()!!,
+                false
+            )
+        }
+
+    @Test
+    fun `checkByNroPlotAndIdSection - Check return true if there is data searched`() =
+        runTest {
+            plotDao.insertAll(
+                listOf(
+                    PlotRoomModel(
+                        idPlot = 1,
+                        nroPlot = 10,
+                        idSection = 1
+                    )
+                )
+            )
+            val result = datasource.checkByNroPlotAndIdSection(
+                nroPlot = 10,
+                idSection = 1
+            )
+            assertEquals(
+                result.isSuccess,
+                true
+            )
+            assertEquals(
+                result.getOrNull()!!,
+                true
+            )
+        }
+
+    @Test
+    fun `checkByNroPlotAndIdSection - Check false return if there was no data searched and data in database is different`() =
+        runTest {
+            plotDao.insertAll(
+                listOf(
+                    PlotRoomModel(
+                        idPlot = 1,
+                        nroPlot = 10,
+                        idSection = 1
+                    )
+                )
+            )
+            val result = datasource.checkByNroPlotAndIdSection(
+                nroPlot = 1,
+                idSection = 1
+            )
+            assertEquals(
+                result.isSuccess,
+                true
+            )
+            assertEquals(
+                result.getOrNull()!!,
+                false
+            )
+        }
+
 }

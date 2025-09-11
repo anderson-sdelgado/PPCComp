@@ -47,4 +47,12 @@ interface FlowModule {
     @Singleton
     fun bindSetSectionHeader(usecase: ISetSectionHeader): SetSectionHeader
 
+    @Binds
+    @Singleton
+    fun bindCheckPlot(usecase: ICheckPlot): CheckPlot
+
+    @Binds
+    @Singleton
+    fun bindSetPlotHeader(usecase: ISetPlotHeader): SetPlotHeader
+
 }

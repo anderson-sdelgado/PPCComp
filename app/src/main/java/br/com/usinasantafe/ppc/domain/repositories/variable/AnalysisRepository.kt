@@ -12,4 +12,6 @@ interface AnalysisRepository {
     suspend fun setOSHeader(nroOS: Int): Result<Boolean>
     suspend fun getOSHeaderOpen(): Result<Int>
     suspend fun setSectionHeader(codSection: Int): Result<Boolean>
+    suspend fun getSectionHeader(): Result<Int>
+    suspend fun setPlotHeader(nroPlot: Int): Result<Boolean>
 }

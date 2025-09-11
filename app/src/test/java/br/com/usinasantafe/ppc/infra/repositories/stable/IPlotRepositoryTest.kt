@@ -213,4 +213,62 @@ class IPlotRepositoryTest {
             )
         }
 
+    @Test
+    fun `checkByNroPlotAndIdSection - Check return failure if have error in PlotRoomDatasource checkByNroPlotAndIdSection`() =
+        runTest {
+            whenever(
+                plotRoomDatasource.checkByNroPlotAndIdSection(
+                    nroPlot = 10,
+                    idSection = 1
+                )
+            ).thenReturn(
+                resultFailure(
+                    "IPlotRoomDatasource.checkByNroPlotAndIdSection",
+                    "-",
+                    Exception()
+                )
+            )
+            val result = repository.checkByNroPlotAndIdSection(
+                nroPlot = 10,
+                idSection = 1
+            )
+            assertEquals(
+                result.isFailure,
+                true
+            )
+            assertEquals(
+                result.exceptionOrNull()!!.message,
+                "IPlotRepository.checkByNroPlotAndIdSection -> IPlotRoomDatasource.checkByNroPlotAndIdSection"
+            )
+            assertEquals(
+                result.exceptionOrNull()!!.cause.toString(),
+                "java.lang.Exception"
+            )
+        }
+
+    @Test
+    fun `checkByNroPlotAndIdSection - Check return correct if function execute successfully`() =
+        runTest {
+            whenever(
+                plotRoomDatasource.checkByNroPlotAndIdSection(
+                    nroPlot = 10,
+                    idSection = 1
+                )
+            ).thenReturn(
+                Result.success(true)
+            )
+            val result = repository.checkByNroPlotAndIdSection(
+                nroPlot = 10,
+                idSection = 1
+            )
+            assertEquals(
+                result.isSuccess,
+                true
+            )
+            assertEquals(
+                result.getOrNull()!!,
+                true
+            )
+        }
+
 }

@@ -238,4 +238,50 @@ class IHeaderSharedPreferencesDatasource @Inject constructor(
         }
     }
 
+    override suspend fun getSection(): Result<Int> {
+        try {
+            val resultGet = get()
+            if (resultGet.isFailure) {
+                return resultFailure(
+                    context = getClassAndMethod(),
+                    cause = resultGet.exceptionOrNull()!!
+                )
+            }
+            val model = resultGet.getOrNull()!!
+            return Result.success(model.codSection!!)
+        } catch (e: Exception){
+            return resultFailure(
+                context = getClassAndMethod(),
+                cause = e
+            )
+        }
+    }
+
+    override suspend fun setPlot(nroPlot: Int): Result<Boolean> {
+        try {
+            val resultGet = get()
+            if (resultGet.isFailure) {
+                return resultFailure(
+                    context = getClassAndMethod(),
+                    cause = resultGet.exceptionOrNull()!!
+                )
+            }
+            val model = resultGet.getOrNull()!!
+            model.nroPlot = nroPlot
+            val resultSave = save(model)
+            if (resultSave.isFailure) {
+                return resultFailure(
+                    context = getClassAndMethod(),
+                    cause = resultSave.exceptionOrNull()!!
+                )
+            }
+            return Result.success(true)
+        } catch (e: Exception){
+            return resultFailure(
+                context = getClassAndMethod(),
+                cause = e
+            )
+        }
+    }
+
 }
