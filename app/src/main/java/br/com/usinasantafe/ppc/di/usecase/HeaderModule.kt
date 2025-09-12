@@ -1,0 +1,74 @@
+package br.com.usinasantafe.ppc.di.usecase
+
+import br.com.usinasantafe.ppc.domain.usecases.header.*
+import dagger.Binds
+import dagger.Module
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
+import javax.inject.Singleton
+
+@Module
+@InstallIn(SingletonComponent::class)
+interface HeaderModule {
+
+    @Binds
+    @Singleton
+    fun bindListHeader(usecase: IListHeader): ListHeader
+
+    @Binds
+    @Singleton
+    fun bindSetAuditorHeader(usecase: ISetAuditorHeader): SetAuditorHeader
+
+    @Binds
+    @Singleton
+    fun bindCheckColab(usecase: ICheckColab): CheckColab
+
+    @Binds
+    @Singleton
+    fun bindSetDateHeader(usecase: ISetDateHeader): SetDateHeader
+
+    @Binds
+    @Singleton
+    fun bindSetTurnHeader(usecase: ISetTurnHeader): SetTurnHeader
+
+    @Binds
+    @Singleton
+    fun bindCheckNroOS(usecase: ICheckOS): CheckOS
+
+    @Binds
+    @Singleton
+    fun bindSetNroOSHeader(usecase: ISetOSHeader): SetOSHeader
+
+    @Binds
+    @Singleton
+    fun bindCheckSection(usecase: ICheckSection): CheckSection
+
+    @Binds
+    @Singleton
+    fun bindSetSectionHeader(usecase: ISetSectionHeader): SetSectionHeader
+
+    @Binds
+    @Singleton
+    fun bindCheckPlot(usecase: ICheckPlot): CheckPlot
+
+    @Binds
+    @Singleton
+    fun bindSetPlotHeader(usecase: ISetPlotHeader): SetPlotHeader
+
+    @Binds
+    @Singleton
+    fun bindSetFrontHeader(usecase: ISetFrontHeader): SetFrontHeader
+
+    @Binds
+    @Singleton
+    fun bindCheckHarvester(usecase: ICheckHarvester): CheckHarvester
+
+    @Binds
+    @Singleton
+    fun bindSetHarvesterHeader(usecase: ISetHarvesterHeader): SetHarvesterHeader
+
+    @Binds
+    @Singleton
+    fun bindSetOperatorHeader(usecase: ISetOperatorHeader): SetOperatorHeader
+
+}

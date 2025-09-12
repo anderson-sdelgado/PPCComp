@@ -10,8 +10,8 @@ import androidx.compose.ui.test.performClick
 import androidx.lifecycle.SavedStateHandle
 import br.com.usinasantafe.ppc.HiltTestActivity
 import br.com.usinasantafe.ppc.di.provider.BaseUrlModuleTest
-import br.com.usinasantafe.ppc.domain.usecases.flow.CheckColab
-import br.com.usinasantafe.ppc.domain.usecases.flow.SetAuditorHeader
+import br.com.usinasantafe.ppc.domain.usecases.header.CheckColab
+import br.com.usinasantafe.ppc.domain.usecases.header.SetAuditorHeader
 import br.com.usinasantafe.ppc.domain.usecases.update.UpdateTableColab
 import br.com.usinasantafe.ppc.external.room.dao.stable.ColabDao
 import br.com.usinasantafe.ppc.external.sharedpreferences.datasource.variable.IHeaderSharedPreferencesDatasource

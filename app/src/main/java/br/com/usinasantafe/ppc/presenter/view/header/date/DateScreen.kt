@@ -127,7 +127,6 @@ fun DateContent(
         }
     }
 
-
 }
 
 @Preview(showBackground = true)

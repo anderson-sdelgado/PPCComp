@@ -2,14 +2,12 @@ package br.com.usinasantafe.ppc.presenter.view.header.section
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import br.com.usinasantafe.ppc.domain.usecases.flow.CheckSection
-import br.com.usinasantafe.ppc.domain.usecases.flow.SetSectionHeader
+import br.com.usinasantafe.ppc.domain.usecases.header.CheckSection
+import br.com.usinasantafe.ppc.domain.usecases.header.SetSectionHeader
 import br.com.usinasantafe.ppc.domain.usecases.update.UpdateTableSection
 import br.com.usinasantafe.ppc.presenter.model.ResultUpdateModel
 import br.com.usinasantafe.ppc.presenter.theme.addTextField
 import br.com.usinasantafe.ppc.presenter.theme.clearTextField
-import br.com.usinasantafe.ppc.presenter.view.header.auditor.AuditorState
-import br.com.usinasantafe.ppc.presenter.view.header.auditor.resultUpdateToAuditor
 import br.com.usinasantafe.ppc.utils.Errors
 import br.com.usinasantafe.ppc.utils.LevelUpdate
 import br.com.usinasantafe.ppc.utils.TypeButton

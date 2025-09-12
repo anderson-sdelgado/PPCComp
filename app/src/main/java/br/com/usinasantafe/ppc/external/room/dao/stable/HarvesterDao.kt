@@ -16,4 +16,7 @@ interface HarvesterDao {
 
     @Query("SELECT * FROM TB_HARVESTER")
     suspend fun all(): List<HarvesterRoomModel>
+
+    @Query("SELECT count(*) FROM TB_HARVESTER WHERE nroHarvester = :nroHarvester")
+    suspend fun checkNroHarvester(nroHarvester: Int): Int
 }

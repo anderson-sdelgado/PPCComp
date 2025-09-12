@@ -321,7 +321,7 @@ fun PlotPagePreviewFieldFailure() {
                 flagDialog = true,
                 failure = "Failure",
                 flagFailure = true,
-                errors = Errors.INVALID,
+                errors = Errors.EXCEPTION,
                 flagProgress = false,
                 currentProgress = 1f,
                 levelUpdate = LevelUpdate.SAVE,

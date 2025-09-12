@@ -13,6 +13,7 @@ import br.com.usinasantafe.ppc.presenter.Routes.AUDITOR_HEADER_ROUTE
 import br.com.usinasantafe.ppc.presenter.Routes.CONFIG_ROUTE
 import br.com.usinasantafe.ppc.presenter.Routes.DATE_HEADER_ROUTE
 import br.com.usinasantafe.ppc.presenter.Routes.FRONT_HEADER_ROUTE
+import br.com.usinasantafe.ppc.presenter.Routes.HARVESTER_HEADER_ROUTE
 import br.com.usinasantafe.ppc.presenter.Routes.HEADER_LIST_ROUTE
 import br.com.usinasantafe.ppc.presenter.Routes.INITIAL_MENU_ROUTE
 import br.com.usinasantafe.ppc.presenter.Routes.OS_HEADER_ROUTE
@@ -27,6 +28,7 @@ import br.com.usinasantafe.ppc.presenter.view.configuration.password.PasswordScr
 import br.com.usinasantafe.ppc.presenter.view.header.auditor.AuditorScreen
 import br.com.usinasantafe.ppc.presenter.view.header.date.DateScreen
 import br.com.usinasantafe.ppc.presenter.view.header.front.FrontScreen
+import br.com.usinasantafe.ppc.presenter.view.header.harvester.HarvesterScreen
 import br.com.usinasantafe.ppc.presenter.view.header.headerlist.HeaderListScreen
 import br.com.usinasantafe.ppc.presenter.view.header.os.OSScreen
 import br.com.usinasantafe.ppc.presenter.view.header.plot.PlotScreen
@@ -188,6 +190,16 @@ fun NavigationGraph(
                     navActions.navigateToPlotHeader()
                 },
                 onNavHarvester = {}
+            )
+        }
+
+        composable(HARVESTER_HEADER_ROUTE) {
+            HarvesterScreen(
+                onNavFront = {
+                    navActions.navigateToFrontHeader()
+                },
+                onNavOperator = {
+                }
             )
         }
 

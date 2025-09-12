@@ -128,4 +128,77 @@ class IHeaderRoomDatasourceTest {
             )
         }
 
+    @Test
+    fun `save - Check data correct saved`() =
+        runTest {
+            val model = HeaderRoomModel(
+                regAuditor1 = 1,
+                regAuditor2 = 2,
+                regAuditor3 = 3,
+                date = Date(),
+                nroTurn = 1,
+                codSection = 1,
+                nroPlot = 1,
+                nroOS = 1,
+                codFront = 1,
+                nroHarvester = 1,
+                regOperator = 1,
+            )
+            val result = datasource.save(model)
+            assertEquals(
+                result.isSuccess,
+                true
+            )
+            val list = headerDao.listByStatus(Status.OPEN)
+            assertEquals(
+                list.size,
+                1
+            )
+            val entity = list[0]
+            assertEquals(
+                entity.regAuditor1,
+                1
+            )
+            assertEquals(
+                entity.regAuditor2,
+                2
+            )
+            assertEquals(
+                entity.regAuditor3,
+                3
+            )
+            assertEquals(
+                entity.nroTurn,
+                1
+            )
+            assertEquals(
+                entity.codSection,
+                1
+            )
+            assertEquals(
+                entity.nroPlot,
+                1
+            )
+            assertEquals(
+                entity.nroOS,
+                1
+            )
+            assertEquals(
+                entity.codFront,
+                1
+            )
+            assertEquals(
+                entity.nroHarvester,
+                1
+            )
+            assertEquals(
+                entity.regOperator,
+                1
+            )
+            assertEquals(
+                entity.status,
+                Status.OPEN
+            )
+        }
+
 }

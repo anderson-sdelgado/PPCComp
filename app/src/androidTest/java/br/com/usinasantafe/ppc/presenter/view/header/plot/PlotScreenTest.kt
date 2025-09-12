@@ -142,7 +142,7 @@ class PlotScreenTest {
             composeTestRule.waitUntilTimeout()
 
             composeTestRule.onNodeWithTag("text_alert_dialog_simple").assertIsDisplayed()
-            composeTestRule.onNodeWithTag("text_alert_dialog_simple").assertTextEquals("FALHA INESPERADA NO APLICATIVO! POR FAVOR ENTRE EM CONTATO COM TI. OSViewModel.checkAndSet -> ICheckNroOS -> IOSRepository.getByNroOS -> IOSRetrofitDatasource.getByNroOS -> java.net.ConnectException: Failed to connect to localhost/127.0.0.1:8080")
+            composeTestRule.onNodeWithTag("text_alert_dialog_simple").assertTextEquals("FALHA DE ATUALIZAÇÃO DE DADOS! POR FAVOR ENTRE EM CONTATO COM TI. PlotViewModel.updateAllDatabase -> IUpdateTablePlot -> IPlotRepository.listAll -> IPlotRetrofitDatasource.listAll -> java.net.ConnectException: Failed to connect to localhost/127.0.0.1:8080")
 
             composeTestRule.waitUntilTimeout()
 
@@ -445,7 +445,7 @@ class PlotScreenTest {
             composeTestRule.waitUntilTimeout()
 
             composeTestRule.onNodeWithText("1").performClick()
-            composeTestRule.onNodeWithText("2").performClick()
+            composeTestRule.onNodeWithText("0").performClick()
             composeTestRule.onNodeWithText("OK").performClick()
 
             composeTestRule.waitUntilTimeout()
@@ -470,7 +470,7 @@ class PlotScreenTest {
             composeTestRule.waitUntilTimeout()
 
             composeTestRule.onNodeWithText("1").performClick()
-            composeTestRule.onNodeWithText("2").performClick()
+            composeTestRule.onNodeWithText("0").performClick()
             composeTestRule.onNodeWithText("OK").performClick()
 
             composeTestRule.waitUntilTimeout()
@@ -545,6 +545,7 @@ class PlotScreenTest {
         if (level == 4) return
 
     }
+
     private fun setContent() {
         composeTestRule.setContent {
             PlotScreen(

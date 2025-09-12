@@ -7,6 +7,7 @@ import br.com.usinasantafe.ppc.infra.datasource.room.variable.HeaderRoomDatasour
 import br.com.usinasantafe.ppc.infra.datasource.room.variable.SampleRoomDatasource
 import br.com.usinasantafe.ppc.infra.datasource.sharedpreferences.variable.HeaderSharedPreferencesDatasource
 import br.com.usinasantafe.ppc.infra.models.room.variable.roomModelToEntity
+import br.com.usinasantafe.ppc.infra.models.sharedpreferences.variable.sharedPreferencesModelToRoomModel
 import br.com.usinasantafe.ppc.utils.Status
 import br.com.usinasantafe.ppc.utils.getClassAndMethod
 import java.util.Date
@@ -139,6 +140,62 @@ class IAnalysisRepository @Inject constructor(
             )
         }
         return result
+    }
+
+    override suspend fun setFrontHeader(nroFront: Int): Result<Boolean> {
+        val result = headerSharedPreferencesDatasource.setFront(nroFront)
+        if(result.isFailure){
+            return resultFailure(
+                context = getClassAndMethod(),
+                cause = result.exceptionOrNull()!!
+            )
+        }
+        return result
+    }
+
+    override suspend fun setHarvesterHeader(nroHarvester: Int): Result<Boolean> {
+        val result = headerSharedPreferencesDatasource.setHarvester(nroHarvester)
+        if(result.isFailure){
+            return resultFailure(
+                context = getClassAndMethod(),
+                cause = result.exceptionOrNull()!!
+            )
+        }
+        return result
+
+    }
+
+    override suspend fun setOperatorHeader(regOperator: Int): Result<Boolean> {
+        try {
+            val resultSet = headerSharedPreferencesDatasource.setOperator(regOperator)
+            if(resultSet.isFailure){
+                return resultFailure(
+                    context = getClassAndMethod(),
+                    cause = resultSet.exceptionOrNull()!!
+                )
+            }
+            val resultGet = headerSharedPreferencesDatasource.get()
+            if(resultGet.isFailure){
+                return resultFailure(
+                    context = getClassAndMethod(),
+                    cause = resultGet.exceptionOrNull()!!
+                )
+            }
+            val model = resultGet.getOrNull()!!
+            val resultSave = headerRoomDatasource.save(model.sharedPreferencesModelToRoomModel())
+            if(resultSave.isFailure){
+                return resultFailure(
+                    context = getClassAndMethod(),
+                    cause = resultSave.exceptionOrNull()!!
+                )
+            }
+            return resultSave
+        } catch (e: Exception){
+            return resultFailure(
+                context = getClassAndMethod(),
+                cause = e
+            )
+        }
     }
 
 }

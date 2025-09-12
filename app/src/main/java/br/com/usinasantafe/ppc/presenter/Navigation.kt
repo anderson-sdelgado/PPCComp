@@ -6,6 +6,7 @@ import br.com.usinasantafe.ppc.presenter.Screens.AUDITOR_HEADER_SCREEN
 import br.com.usinasantafe.ppc.presenter.Screens.CONFIG_SCREEN
 import br.com.usinasantafe.ppc.presenter.Screens.DATE_HEADER_SCREEN
 import br.com.usinasantafe.ppc.presenter.Screens.FRONT_HEADER_SCREEN
+import br.com.usinasantafe.ppc.presenter.Screens.HARVESTER_HEADER_SCREEN
 import br.com.usinasantafe.ppc.presenter.Screens.HEADER_LIST_SCREEN
 import br.com.usinasantafe.ppc.presenter.Screens.INITIAL_MENU_SCREEN
 import br.com.usinasantafe.ppc.presenter.Screens.OS_HEADER_SCREEN
@@ -28,6 +29,7 @@ object Screens {
     const val SECTION_HEADER_SCREEN = "sectionHeaderScreen"
     const val PLOT_HEADER_SCREEN = "plotHeaderScreen"
     const val FRONT_HEADER_SCREEN = "frontHeaderScreen"
+    const val HARVESTER_HEADER_SCREEN = "harvesterHeaderScreen"
 }
 
 object Args {
@@ -47,6 +49,7 @@ object Routes {
     const val SECTION_HEADER_ROUTE = SECTION_HEADER_SCREEN
     const val PLOT_HEADER_ROUTE = PLOT_HEADER_SCREEN
     const val FRONT_HEADER_ROUTE = FRONT_HEADER_SCREEN
+    const val HARVESTER_HEADER_ROUTE = HARVESTER_HEADER_SCREEN
 }
 
 class NavigationActions(private val navController: NavHostController) {
@@ -109,6 +112,10 @@ class NavigationActions(private val navController: NavHostController) {
 
     fun navigateToFrontHeader() {
         navController.navigate(FRONT_HEADER_SCREEN)
+    }
+
+    fun navigateToHarvesterHeader() {
+        navController.navigate(HARVESTER_HEADER_SCREEN)
     }
 
     ////////////////////////////////////////////////////////////////////

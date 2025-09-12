@@ -68,4 +68,6 @@
     <string name="text_title_section">NRO SEÇÃO</string>
     <string name="text_title_plot">NRO TALHÃO</string>
     <string name="text_title_front">NRO FRENTE</string>
+    <string name="text_title_harvester">NRO COLHEDORA</string>
+    <string name="text_title_operator">MATRICULA OPERADOR</string>
 </resources>

@@ -2,8 +2,8 @@ package br.com.usinasantafe.ppc.presenter.view.header.os
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import br.com.usinasantafe.ppc.domain.usecases.flow.CheckOS
-import br.com.usinasantafe.ppc.domain.usecases.flow.SetOSHeader
+import br.com.usinasantafe.ppc.domain.usecases.header.CheckOS
+import br.com.usinasantafe.ppc.domain.usecases.header.SetOSHeader
 import br.com.usinasantafe.ppc.presenter.theme.addTextField
 import br.com.usinasantafe.ppc.presenter.theme.clearTextField
 import br.com.usinasantafe.ppc.utils.Errors

@@ -34,4 +34,17 @@ class IHarvesterRoomDatasource @Inject constructor(
             )
         }
     }
+
+    override suspend fun checkNroHarvester(nroHarvester: Int): Result<Boolean> {
+        try {
+            val result = harvesterDao.checkNroHarvester(nroHarvester) > 0
+            return Result.success(result)
+        } catch (e: Exception) {
+            return resultFailure(
+                context = getClassAndMethod(),
+                cause = e
+            )
+        }
+
+    }
 }

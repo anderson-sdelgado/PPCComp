@@ -2,7 +2,7 @@ package br.com.usinasantafe.ppc.presenter.view.header.headerlist
 
 import br.com.usinasantafe.ppc.MainCoroutineRule
 import br.com.usinasantafe.ppc.domain.errors.resultFailure
-import br.com.usinasantafe.ppc.domain.usecases.flow.ListHeader
+import br.com.usinasantafe.ppc.domain.usecases.header.ListHeader
 import br.com.usinasantafe.ppc.presenter.model.HeaderScreenModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest

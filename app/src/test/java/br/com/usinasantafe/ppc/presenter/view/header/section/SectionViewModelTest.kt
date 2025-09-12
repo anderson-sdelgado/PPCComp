@@ -2,8 +2,8 @@ package br.com.usinasantafe.ppc.presenter.view.header.section
 
 import br.com.usinasantafe.ppc.MainCoroutineRule
 import br.com.usinasantafe.ppc.domain.errors.resultFailure
-import br.com.usinasantafe.ppc.domain.usecases.flow.CheckSection
-import br.com.usinasantafe.ppc.domain.usecases.flow.SetSectionHeader
+import br.com.usinasantafe.ppc.domain.usecases.header.CheckSection
+import br.com.usinasantafe.ppc.domain.usecases.header.SetSectionHeader
 import br.com.usinasantafe.ppc.domain.usecases.update.UpdateTableSection
 import br.com.usinasantafe.ppc.presenter.model.ResultUpdateModel
 import br.com.usinasantafe.ppc.utils.Errors
@@ -14,7 +14,6 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.test.runTest
-import org.junit.Assert.*
 import org.junit.Rule
 import org.mockito.Mockito.mock
 import org.mockito.kotlin.whenever

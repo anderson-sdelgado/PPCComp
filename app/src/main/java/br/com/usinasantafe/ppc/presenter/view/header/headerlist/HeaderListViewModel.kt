@@ -2,7 +2,7 @@ package br.com.usinasantafe.ppc.presenter.view.header.headerlist
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import br.com.usinasantafe.ppc.domain.usecases.flow.ListHeader
+import br.com.usinasantafe.ppc.domain.usecases.header.ListHeader
 import br.com.usinasantafe.ppc.presenter.model.HeaderScreenModel
 import br.com.usinasantafe.ppc.utils.getClassAndMethod
 import dagger.hilt.android.lifecycle.HiltViewModel

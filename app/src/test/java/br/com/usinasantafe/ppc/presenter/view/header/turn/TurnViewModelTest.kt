@@ -2,7 +2,7 @@ package br.com.usinasantafe.ppc.presenter.view.header.turn
 
 import br.com.usinasantafe.ppc.MainCoroutineRule
 import br.com.usinasantafe.ppc.domain.errors.resultFailure
-import br.com.usinasantafe.ppc.domain.usecases.flow.SetTurnHeader
+import br.com.usinasantafe.ppc.domain.usecases.header.SetTurnHeader
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.*

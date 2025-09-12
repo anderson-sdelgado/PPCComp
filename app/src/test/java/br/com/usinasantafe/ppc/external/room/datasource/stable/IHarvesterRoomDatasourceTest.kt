@@ -5,6 +5,7 @@ import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import br.com.usinasantafe.ppc.external.room.DatabaseRoom
 import br.com.usinasantafe.ppc.external.room.dao.stable.HarvesterDao
+import br.com.usinasantafe.ppc.infra.models.room.stable.ColabRoomModel
 import br.com.usinasantafe.ppc.infra.models.room.stable.HarvesterRoomModel
 import kotlinx.coroutines.test.runTest
 import org.junit.After
@@ -148,6 +149,41 @@ class IHarvesterRoomDatasourceTest {
             assertEquals(
                 qtdAfter,
                 0
+            )
+        }
+
+    @Test
+    fun `checkNroHarvester - Check return false if not have data in table Harvester`() =
+        runTest {
+            val result = datasource.checkNroHarvester(1)
+            assertEquals(
+                result.isSuccess,
+                true
+            )
+            assertEquals(
+                result.getOrNull()!!,
+                false
+            )
+        }
+
+    @Test
+    fun `checkNroHarvester - Check return true if have data fielded in table Harvester`() =
+        runTest {
+            harvesterDao.insertAll(
+                listOf(
+                    HarvesterRoomModel(
+                        nroHarvester = 1,
+                    )
+                )
+            )
+            val result = datasource.checkNroHarvester(1)
+            assertEquals(
+                result.isSuccess,
+                true
+            )
+            assertEquals(
+                result.getOrNull()!!,
+                true
             )
         }
 

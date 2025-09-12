@@ -2,8 +2,8 @@ package br.com.usinasantafe.ppc.presenter.view.header.os
 
 import br.com.usinasantafe.ppc.MainCoroutineRule
 import br.com.usinasantafe.ppc.domain.errors.resultFailure
-import br.com.usinasantafe.ppc.domain.usecases.flow.CheckOS
-import br.com.usinasantafe.ppc.domain.usecases.flow.SetOSHeader
+import br.com.usinasantafe.ppc.domain.usecases.header.CheckOS
+import br.com.usinasantafe.ppc.domain.usecases.header.SetOSHeader
 import br.com.usinasantafe.ppc.presenter.model.ResultCheckDataWebServiceModel
 import br.com.usinasantafe.ppc.utils.Errors
 import br.com.usinasantafe.ppc.utils.StatusCon

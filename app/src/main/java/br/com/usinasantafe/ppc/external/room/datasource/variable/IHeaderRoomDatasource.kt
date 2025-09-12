@@ -24,4 +24,16 @@ class IHeaderRoomDatasource @Inject constructor(
         }
     }
 
+    override suspend fun save(model: HeaderRoomModel): Result<Boolean> {
+        try {
+            headerDao.insert(model)
+            return Result.success(true)
+        } catch (e: Exception) {
+            return resultFailure(
+                context = getClassAndMethod(),
+                cause = e
+            )
+        }
+    }
+
 }

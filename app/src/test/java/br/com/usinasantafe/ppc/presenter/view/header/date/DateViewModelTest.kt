@@ -2,7 +2,7 @@ package br.com.usinasantafe.ppc.presenter.view.header.date
 
 import br.com.usinasantafe.ppc.MainCoroutineRule
 import br.com.usinasantafe.ppc.domain.errors.resultFailure
-import br.com.usinasantafe.ppc.domain.usecases.flow.SetDateHeader
+import br.com.usinasantafe.ppc.domain.usecases.header.SetDateHeader
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.*

@@ -2,8 +2,8 @@ package br.com.usinasantafe.ppc.presenter.view.header.plot
 
 import br.com.usinasantafe.ppc.MainCoroutineRule
 import br.com.usinasantafe.ppc.domain.errors.resultFailure
-import br.com.usinasantafe.ppc.domain.usecases.flow.CheckPlot
-import br.com.usinasantafe.ppc.domain.usecases.flow.SetPlotHeader
+import br.com.usinasantafe.ppc.domain.usecases.header.CheckPlot
+import br.com.usinasantafe.ppc.domain.usecases.header.SetPlotHeader
 import br.com.usinasantafe.ppc.domain.usecases.update.UpdateTablePlot
 import br.com.usinasantafe.ppc.presenter.model.ResultUpdateModel
 import br.com.usinasantafe.ppc.utils.Errors

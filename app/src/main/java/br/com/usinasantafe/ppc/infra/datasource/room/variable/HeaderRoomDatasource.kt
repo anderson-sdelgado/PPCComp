@@ -5,4 +5,5 @@ import br.com.usinasantafe.ppc.utils.Status
 
 interface HeaderRoomDatasource {
     suspend fun listByStatus(status: Status): Result<List<HeaderRoomModel>>
+    suspend fun save(model: HeaderRoomModel): Result<Boolean>
 }

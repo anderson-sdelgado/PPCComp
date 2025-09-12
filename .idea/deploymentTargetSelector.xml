@@ -5,19 +5,19 @@
       <SelectionState runConfigName="app">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
-      <SelectionState runConfigName="check_failure_return_if_not_have_data_in_plot_room()">
+      <SelectionState runConfigName="check_update_failure_return_if_token_is_invalid()">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
-      <SelectionState runConfigName="check_failure_return_if_not_have_data_in_header_shared_preferences()">
+      <SelectionState runConfigName="check_update_failure_return_if_have_error_404()">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
-      <SelectionState runConfigName="check_failure_return_if_not_have_data_in_section()">
+      <SelectionState runConfigName="check_update_failure_return_if_web_service_returns_data_incorrect()">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
-      <SelectionState runConfigName="check_failure_return_if_nroPlot_is_incorrect()">
+      <SelectionState runConfigName="check_update_failure_return_if_web_service_returns_data_repeated()">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
-      <SelectionState runConfigName="check_failure_return_if_idSection_is_incorrect()">
+      <SelectionState runConfigName="check_update_failure_return_if_web_service_returns_data_success()">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
     </selectionStates>

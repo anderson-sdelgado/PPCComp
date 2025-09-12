@@ -5,10 +5,13 @@ import br.com.usinasantafe.ppc.infra.datasource.room.variable.HeaderRoomDatasour
 import br.com.usinasantafe.ppc.infra.datasource.room.variable.SampleRoomDatasource
 import br.com.usinasantafe.ppc.infra.datasource.sharedpreferences.variable.HeaderSharedPreferencesDatasource
 import br.com.usinasantafe.ppc.infra.models.room.variable.HeaderRoomModel
+import br.com.usinasantafe.ppc.infra.models.sharedpreferences.variable.HeaderSharedPreferencesModel
+import br.com.usinasantafe.ppc.infra.models.sharedpreferences.variable.sharedPreferencesModelToRoomModel
 import br.com.usinasantafe.ppc.utils.Status
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.*
 import org.mockito.Mockito.mock
+import org.mockito.kotlin.argumentCaptor
 import org.mockito.kotlin.whenever
 import java.util.Date
 import kotlin.test.Test
@@ -537,6 +540,343 @@ class IAnalysisRepositoryTest {
             assertEquals(
                 result.getOrNull()!!,
                 true
+            )
+        }
+
+    @Test
+    fun `setFrontHeader - Check return failure if have error in HeaderSharedPreferencesDatasource setFront`() =
+        runTest {
+            whenever(
+                headerSharedPreferencesDatasource.setFront(3)
+            ).thenReturn(
+                resultFailure(
+                    "IHeaderSharedPreferencesDatasource.setFront",
+                    "-",
+                    Exception()
+                )
+            )
+            val result = repository.setFrontHeader(3)
+            assertEquals(
+                result.isFailure,
+                true
+            )
+            assertEquals(
+                result.exceptionOrNull()!!.message,
+                "IAnalysisRepository.setFrontHeader -> IHeaderSharedPreferencesDatasource.setFront"
+            )
+            assertEquals(
+                result.exceptionOrNull()!!.cause.toString(),
+                "java.lang.Exception"
+            )
+        }
+
+    @Test
+    fun `setFrontHeader - Check return correct if function execute successfully`() =
+        runTest {
+            whenever(
+                headerSharedPreferencesDatasource.setFront(3)
+            ).thenReturn(
+                Result.success(true)
+            )
+            val result = repository.setFrontHeader(3)
+            assertEquals(
+                result.isSuccess,
+                true
+            )
+            assertEquals(
+                result.getOrNull()!!,
+                true
+            )
+        }
+
+    @Test
+    fun `setHarvesterHeader - Check return failure if have error in HeaderSharedPreferencesDatasource setHarvester`() =
+        runTest {
+            whenever(
+                headerSharedPreferencesDatasource.setHarvester(250)
+            ).thenReturn(
+                resultFailure(
+                    "IHeaderSharedPreferencesDatasource.setHarvester",
+                    "-",
+                    Exception()
+                )
+            )
+            val result = repository.setHarvesterHeader(250)
+            assertEquals(
+                result.isFailure,
+                true
+            )
+            assertEquals(
+                result.exceptionOrNull()!!.message,
+                "IAnalysisRepository.setHarvesterHeader -> IHeaderSharedPreferencesDatasource.setHarvester"
+            )
+            assertEquals(
+                result.exceptionOrNull()!!.cause.toString(),
+                "java.lang.Exception"
+            )
+        }
+
+    @Test
+    fun `setHarvesterHeader - Check return correct if function execute successfully`() =
+        runTest {
+            whenever(
+                headerSharedPreferencesDatasource.setHarvester(200)
+            ).thenReturn(
+                Result.success(true)
+            )
+            val result = repository.setHarvesterHeader(200)
+            assertEquals(
+                result.isSuccess,
+                true
+            )
+            assertEquals(
+                result.getOrNull()!!,
+                true
+            )
+        }
+
+    @Test
+    fun `setOperatorHeader - Check return failure if have error in HeaderSharedPreferencesDatasource setOperator`() =
+        runTest {
+            whenever(
+                headerSharedPreferencesDatasource.setOperator(19759)
+            ).thenReturn(
+                resultFailure(
+                    "IHeaderSharedPreferencesDatasource.setOperator",
+                    "-",
+                    Exception()
+                )
+            )
+            val result = repository.setOperatorHeader(19759)
+            assertEquals(
+                result.isFailure,
+                true
+            )
+            assertEquals(
+                result.exceptionOrNull()!!.message,
+                "IAnalysisRepository.setOperatorHeader -> IHeaderSharedPreferencesDatasource.setOperator"
+            )
+            assertEquals(
+                result.exceptionOrNull()!!.cause.toString(),
+                "java.lang.Exception"
+            )
+        }
+
+    @Test
+    fun `setOperatorHeader - Check return failure if have error in HeaderSharedPreferencesDatasource get`() =
+        runTest {
+            whenever(
+                headerSharedPreferencesDatasource.setOperator(19759)
+            ).thenReturn(
+                Result.success(true)
+            )
+            whenever(
+                headerSharedPreferencesDatasource.get()
+            ).thenReturn(
+                resultFailure(
+                    "IHeaderSharedPreferencesDatasource.get",
+                    "-",
+                    Exception()
+                )
+            )
+            val result = repository.setOperatorHeader(19759)
+            assertEquals(
+                result.isFailure,
+                true
+            )
+            assertEquals(
+                result.exceptionOrNull()!!.message,
+                "IAnalysisRepository.setOperatorHeader -> IHeaderSharedPreferencesDatasource.get"
+            )
+            assertEquals(
+                result.exceptionOrNull()!!.cause.toString(),
+                "java.lang.Exception"
+            )
+        }
+
+    @Test
+    fun `setOperatorHeader - Check return failure if have error in HeaderRoomDatasource save`() =
+        runTest {
+            val model = HeaderSharedPreferencesModel(
+                regAuditor1 = 19759,
+                date = Date(),
+                nroTurn = 1,
+                codSection = 1,
+                nroPlot = 1,
+                nroOS = 1,
+                codFront = 1,
+                nroHarvester = 1,
+                regOperator = 19759
+            )
+            whenever(
+                headerSharedPreferencesDatasource.setOperator(19759)
+            ).thenReturn(
+                Result.success(true)
+            )
+            whenever(
+                headerSharedPreferencesDatasource.get()
+            ).thenReturn(
+                Result.success(model)
+            )
+            val modelCaptor = argumentCaptor<HeaderRoomModel>().apply {
+                whenever(
+                    headerRoomDatasource.save(
+                        capture()
+                    )
+                ).thenReturn(
+                    resultFailure(
+                        "IHeaderRoomDatasource.save",
+                        "-",
+                        Exception()
+                    )
+                )
+            }
+            val result = repository.setOperatorHeader(19759)
+            assertEquals(
+                result.isFailure,
+                true
+            )
+            assertEquals(
+                result.exceptionOrNull()!!.message,
+                "IAnalysisRepository.setOperatorHeader -> IHeaderRoomDatasource.save"
+            )
+            assertEquals(
+                result.exceptionOrNull()!!.cause.toString(),
+                "java.lang.Exception"
+            )
+            val modelRoom = modelCaptor.firstValue
+            assertEquals(
+                modelRoom.regAuditor1,
+                19759
+            )
+            assertEquals(
+                modelRoom.regAuditor2,
+                null
+            )
+            assertEquals(
+                modelRoom.regAuditor3,
+                null
+            )
+            assertEquals(
+                modelRoom.nroTurn,
+                1
+            )
+            assertEquals(
+                modelRoom.codSection,
+                1
+            )
+            assertEquals(
+                modelRoom.nroPlot,
+                1
+            )
+            assertEquals(
+                modelRoom.nroOS,
+                1
+            )
+            assertEquals(
+                modelRoom.codFront,
+                1
+            )
+            assertEquals(
+                modelRoom.nroHarvester,
+                1
+            )
+            assertEquals(
+                modelRoom.regOperator,
+                19759
+            )
+            assertEquals(
+                modelRoom.status,
+                Status.OPEN
+            )
+        }
+
+    @Test
+    fun `setOperatorHeader - Check return correct if function execute successfully`() =
+        runTest {
+            val model = HeaderSharedPreferencesModel(
+                regAuditor1 = 19759,
+                date = Date(),
+                nroTurn = 1,
+                codSection = 1,
+                nroPlot = 1,
+                nroOS = 1,
+                codFront = 1,
+                nroHarvester = 1,
+                regOperator = 19759
+            )
+            whenever(
+                headerSharedPreferencesDatasource.setOperator(19759)
+            ).thenReturn(
+                Result.success(true)
+            )
+            whenever(
+                headerSharedPreferencesDatasource.get()
+            ).thenReturn(
+                Result.success(model)
+            )
+            val modelCaptor = argumentCaptor<HeaderRoomModel>().apply {
+                whenever(
+                    headerRoomDatasource.save(
+                        capture()
+                    )
+                ).thenReturn(
+                    Result.success(true)
+                )
+            }
+            val result = repository.setOperatorHeader(19759)
+            assertEquals(
+                result.isSuccess,
+                true
+            )
+            assertEquals(
+                result.getOrNull()!!,
+                true
+            )
+            val modelRoom = modelCaptor.firstValue
+            assertEquals(
+                modelRoom.regAuditor1,
+                19759
+            )
+            assertEquals(
+                modelRoom.regAuditor2,
+                null
+            )
+            assertEquals(
+                modelRoom.regAuditor3,
+                null
+            )
+            assertEquals(
+                modelRoom.nroTurn,
+                1
+            )
+            assertEquals(
+                modelRoom.codSection,
+                1
+            )
+            assertEquals(
+                modelRoom.nroPlot,
+                1
+            )
+            assertEquals(
+                modelRoom.nroOS,
+                1
+            )
+            assertEquals(
+                modelRoom.codFront,
+                1
+            )
+            assertEquals(
+                modelRoom.nroHarvester,
+                1
+            )
+            assertEquals(
+                modelRoom.regOperator,
+                19759
+            )
+            assertEquals(
+                modelRoom.status,
+                Status.OPEN
             )
         }
 

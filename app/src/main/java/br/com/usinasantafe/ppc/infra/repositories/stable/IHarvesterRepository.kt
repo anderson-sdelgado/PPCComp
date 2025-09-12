@@ -65,4 +65,16 @@ class IHarvesterRepository @Inject constructor(
 
     }
 
+    override suspend fun checkNroHarvester(nroHarvester: Int): Result<Boolean> {
+        val result = harvesterRoomDatasource.checkNroHarvester(nroHarvester)
+        if (result.isFailure) {
+            return resultFailure(
+                context = getClassAndMethod(),
+                cause = result.exceptionOrNull()!!
+            )
+        }
+        return result
+
+    }
+
 }

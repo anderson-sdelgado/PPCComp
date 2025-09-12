@@ -197,4 +197,50 @@ class IHarvesterRepositoryTest {
             )
         }
 
+    @Test
+    fun `checkNroHarvester - Check return failure if have error in HarvesterDatasource checkNroHarvester`() =
+        runTest {
+            whenever(
+                harvesterRoomDatasource.checkNroHarvester(100)
+            ).thenReturn(
+                resultFailure(
+                    "IHarvesterDatasource.checkNroHarvester",
+                    "-",
+                    Exception()
+                )
+            )
+            val result = repository.checkNroHarvester(100)
+            assertEquals(
+                result.isFailure,
+                true
+            )
+            assertEquals(
+                result.exceptionOrNull()!!.message,
+                "IHarvesterRepository.checkNroHarvester -> IHarvesterDatasource.checkNroHarvester"
+            )
+            assertEquals(
+                result.exceptionOrNull()!!.cause.toString(),
+                "java.lang.Exception"
+            )
+        }
+
+    @Test
+    fun `checkNroHarvester - Check return correct if function execute successfully`() =
+        runTest {
+            whenever(
+                harvesterRoomDatasource.checkNroHarvester(100)
+            ).thenReturn(
+                Result.success(true)
+            )
+            val result = repository.checkNroHarvester(100)
+            assertEquals(
+                result.isSuccess,
+                true
+            )
+            assertEquals(
+                result.getOrNull()!!,
+                true
+            )
+        }
+
 }

@@ -3,8 +3,8 @@ package br.com.usinasantafe.ppc.presenter.view.header.auditor
 import androidx.lifecycle.SavedStateHandle
 import br.com.usinasantafe.ppc.MainCoroutineRule
 import br.com.usinasantafe.ppc.domain.errors.resultFailure
-import br.com.usinasantafe.ppc.domain.usecases.flow.CheckColab
-import br.com.usinasantafe.ppc.domain.usecases.flow.SetAuditorHeader
+import br.com.usinasantafe.ppc.domain.usecases.header.CheckColab
+import br.com.usinasantafe.ppc.domain.usecases.header.SetAuditorHeader
 import br.com.usinasantafe.ppc.domain.usecases.update.UpdateTableColab
 import br.com.usinasantafe.ppc.presenter.Args.POS_AUDITOR_ARGS
 import br.com.usinasantafe.ppc.presenter.model.ResultUpdateModel

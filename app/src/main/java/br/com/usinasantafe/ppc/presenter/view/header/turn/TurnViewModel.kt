@@ -2,7 +2,7 @@ package br.com.usinasantafe.ppc.presenter.view.header.turn
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import br.com.usinasantafe.ppc.domain.usecases.flow.SetTurnHeader
+import br.com.usinasantafe.ppc.domain.usecases.header.SetTurnHeader
 import br.com.usinasantafe.ppc.utils.getClassAndMethod
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow

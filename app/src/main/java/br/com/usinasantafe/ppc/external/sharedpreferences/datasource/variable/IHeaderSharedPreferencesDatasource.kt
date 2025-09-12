@@ -33,30 +33,6 @@ class IHeaderSharedPreferencesDatasource @Inject constructor(
         }
     }
 
-    fun get(): Result<HeaderSharedPreferencesModel> {
-        try {
-            val header = sharedPreferences.getString(
-                BASE_SHARED_PREFERENCES_TABLE_HEADER,
-                null
-            )
-            if(header.isNullOrEmpty())
-                return Result.success(
-                    HeaderSharedPreferencesModel()
-                )
-            return Result.success(
-                Gson().fromJson(
-                    header,
-                    HeaderSharedPreferencesModel::class.java
-                )
-            )
-        } catch (e: Exception){
-            return resultFailure(
-                context = getClassAndMethod(),
-                cause = e
-            )
-        }
-    }
-
     fun save(model: HeaderSharedPreferencesModel): Result<Boolean> {
         try {
             sharedPreferences.edit {
@@ -276,6 +252,111 @@ class IHeaderSharedPreferencesDatasource @Inject constructor(
                 )
             }
             return Result.success(true)
+        } catch (e: Exception){
+            return resultFailure(
+                context = getClassAndMethod(),
+                cause = e
+            )
+        }
+    }
+
+    override suspend fun setFront(codFront: Int): Result<Boolean> {
+        try {
+            val resultGet = get()
+            if (resultGet.isFailure) {
+                return resultFailure(
+                    context = getClassAndMethod(),
+                    cause = resultGet.exceptionOrNull()!!
+                )
+            }
+            val model = resultGet.getOrNull()!!
+            model.codFront = codFront
+            val resultSave = save(model)
+            if (resultSave.isFailure) {
+                return resultFailure(
+                    context = getClassAndMethod(),
+                    cause = resultSave.exceptionOrNull()!!
+                )
+            }
+            return Result.success(true)
+        } catch (e: Exception){
+            return resultFailure(
+                context = getClassAndMethod(),
+                cause = e
+            )
+        }
+    }
+
+    override suspend fun setHarvester(nroHarvester: Int): Result<Boolean> {
+        try {
+            val resultGet = get()
+            if (resultGet.isFailure) {
+                return resultFailure(
+                    context = getClassAndMethod(),
+                    cause = resultGet.exceptionOrNull()!!
+                )
+            }
+            val model = resultGet.getOrNull()!!
+            model.nroHarvester = nroHarvester
+            val resultSave = save(model)
+            if (resultSave.isFailure) {
+                return resultFailure(
+                    context = getClassAndMethod(),
+                    cause = resultSave.exceptionOrNull()!!
+                )
+            }
+            return Result.success(true)
+        } catch (e: Exception){
+            return resultFailure(
+                context = getClassAndMethod(),
+                cause = e
+            )
+        }
+    }
+
+    override suspend fun setOperator(regOperator: Int): Result<Boolean> {
+        try {
+            val resultGet = get()
+            if (resultGet.isFailure) {
+                return resultFailure(
+                    context = getClassAndMethod(),
+                    cause = resultGet.exceptionOrNull()!!
+                )
+            }
+            val model = resultGet.getOrNull()!!
+            model.regOperator = regOperator.toLong()
+            val resultSave = save(model)
+            if (resultSave.isFailure) {
+                return resultFailure(
+                    context = getClassAndMethod(),
+                    cause = resultSave.exceptionOrNull()!!
+                )
+            }
+            return Result.success(true)
+        } catch (e: Exception){
+            return resultFailure(
+                context = getClassAndMethod(),
+                cause = e
+            )
+        }
+    }
+
+    override suspend fun get(): Result<HeaderSharedPreferencesModel> {
+        try {
+            val header = sharedPreferences.getString(
+                BASE_SHARED_PREFERENCES_TABLE_HEADER,
+                null
+            )
+            if(header.isNullOrEmpty())
+                return Result.success(
+                    HeaderSharedPreferencesModel()
+                )
+            return Result.success(
+                Gson().fromJson(
+                    header,
+                    HeaderSharedPreferencesModel::class.java
+                )
+            )
         } catch (e: Exception){
             return resultFailure(
                 context = getClassAndMethod(),

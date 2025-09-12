@@ -14,4 +14,7 @@ interface AnalysisRepository {
     suspend fun setSectionHeader(codSection: Int): Result<Boolean>
     suspend fun getSectionHeader(): Result<Int>
     suspend fun setPlotHeader(nroPlot: Int): Result<Boolean>
+    suspend fun setFrontHeader(nroFront: Int): Result<Boolean>
+    suspend fun setHarvesterHeader(nroHarvester: Int): Result<Boolean>
+    suspend fun setOperatorHeader(regOperator: Int): Result<Boolean>
 }
