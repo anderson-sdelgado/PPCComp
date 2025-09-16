@@ -44,7 +44,7 @@
     <string name="text_update_failure">FALHA DE ATUALIZAÇÃO DE DADOS! POR FAVOR ENTRE EM CONTATO COM TI. %1$s</string>
     <string name="text_config_success">CONFIGURAÇÃO REALIZADA COM SUCESSO!</string>
     <string name="text_flow_inexistent">FLUXO INEXISTENTE. POR FAVOR ENTRAR EM CONTATO COM A TI.</string>
-    <string name="text_title_header_list">LISTA DE CABEÇALHO</string>
+    <string name="text_title_header_list">LISTA DE CABEÇALHO(S)</string>
     <string name="text_msg_no_data_header">NÃO CONTÉM CABEÇALHO CADASTRADO.</string>">
     <string name="text_item_harvester">COLHEDORA: %1$s</string>
     <string name="text_item_operator">OPERADOR: %1$s</string>
@@ -70,4 +70,19 @@
     <string name="text_title_front">NRO FRENTE</string>
     <string name="text_title_harvester">NRO COLHEDORA</string>
     <string name="text_title_operator">MATRICULA OPERADOR</string>
+    <string name="text_title_sample_list">LISTA DE AMOSTRA(S)</string>
+    <string name="text_item_sample">AMOSTRA %1$s</string>
+    <string name="text_item_stalk">TOLETE: %1$s</string>
+    <string name="text_item_whole_cane">CANA INTEIRA: %1$s</string>
+    <string name="text_item_stump">TOCO: %1$s</string>
+    <string name="text_item_piece">PEDAÇO: %1$s</string>
+    <string name="text_item_tip">PONTEIRO: %1$s</string>
+    <string name="text_item_slivers">LASCAS: %1$s</string>
+    <string name="text_item_obs">OBS.: %1$s</string>
+    <string name="text_msg_no_data_sample">NÃO CONTÉM AMOSTRA CADASTRADA.</string>
+    <string name="text_pattern_close">FECHAR</string>
+    <string name="text_pattern_delete">EXCLUIR</string>
+    <string name="text_msg_close_header">DESEJA REALMENTE FECHAR TODA(S) A(S) AMOSTRA(S) APONTADO(S)?</string>
+    <string name="text_msg_delete_header">DESEJA REALMENTE EXCLUIR ANALISE? ISSO EXCLUÍ-LA O CABEÇALHO E TODAS AS AMOSTRAS CONTIDA NELA.</string>
+    <string name="text_msg_delete_sample">DESEJA EXCLUIR A AMOSTRA %1$s?</string>
 </resources>

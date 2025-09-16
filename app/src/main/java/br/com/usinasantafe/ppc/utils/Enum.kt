@@ -6,6 +6,7 @@ enum class TypeButton { NUMERIC, CLEAN, OK, UPDATE }
 enum class FlagUpdate { OUTDATED, UPDATED }
 enum class Status { OPEN, CLOSE, FINISH }
 enum class StatusCon { WITHOUT, SLOW, OK }
+enum class TypeStateSampleList { CLOSE, DELETE_ALL, DELETE_ITEM }
 
 enum class LevelUpdate { RECOVERY, CLEAN, SAVE, GET_TOKEN, SAVE_TOKEN, FINISH_UPDATE_INITIAL, FINISH_UPDATE_COMPLETED, CHECK }
 

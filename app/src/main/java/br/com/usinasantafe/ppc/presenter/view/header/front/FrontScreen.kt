@@ -1,6 +1,5 @@
 package br.com.usinasantafe.ppc.presenter.view.header.front
 
-import android.app.FragmentContainer
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer

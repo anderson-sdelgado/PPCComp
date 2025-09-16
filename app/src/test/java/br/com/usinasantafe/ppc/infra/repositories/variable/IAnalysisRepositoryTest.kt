@@ -6,7 +6,6 @@ import br.com.usinasantafe.ppc.infra.datasource.room.variable.SampleRoomDatasour
 import br.com.usinasantafe.ppc.infra.datasource.sharedpreferences.variable.HeaderSharedPreferencesDatasource
 import br.com.usinasantafe.ppc.infra.models.room.variable.HeaderRoomModel
 import br.com.usinasantafe.ppc.infra.models.sharedpreferences.variable.HeaderSharedPreferencesModel
-import br.com.usinasantafe.ppc.infra.models.sharedpreferences.variable.sharedPreferencesModelToRoomModel
 import br.com.usinasantafe.ppc.utils.Status
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.*
@@ -28,10 +27,42 @@ class IAnalysisRepositoryTest {
     )
 
     @Test
+    fun `listHeader - Check return failure if have error in HeaderRoomDatasource updateStatus`() =
+        runTest {
+            whenever(
+                headerRoomDatasource.updateStatus()
+            ).thenReturn(
+                resultFailure(
+                    "IHeaderRoomDatasource.updateStatus",
+                    "-",
+                    Exception()
+                )
+            )
+            val result = repository.listHeader()
+            assertEquals(
+                result.isFailure,
+                true
+            )
+            assertEquals(
+                result.exceptionOrNull()!!.message,
+                "IAnalysisRepository.listHeader -> IHeaderRoomDatasource.updateStatus"
+            )
+            assertEquals(
+                result.exceptionOrNull()!!.cause.toString(),
+                "java.lang.Exception"
+            )
+        }
+
+    @Test
     fun `listHeader - Check return failure if have error in HeaderRoomDatasource listByStatus`() =
         runTest {
             whenever(
-                headerRoomDatasource.listByStatus(Status.OPEN)
+                headerRoomDatasource.updateStatus()
+            ).thenReturn(
+                Result.success(true)
+            )
+            whenever(
+                headerRoomDatasource.listByStatus(Status.CLOSE)
             ).thenReturn(
                 resultFailure(
                     "IHeaderRoomDatasource.listByStatus",
@@ -39,14 +70,14 @@ class IAnalysisRepositoryTest {
                     Exception()
                 )
             )
-            val result = repository.listHeaderByStatusOpen()
+            val result = repository.listHeader()
             assertEquals(
                 result.isFailure,
                 true
             )
             assertEquals(
                 result.exceptionOrNull()!!.message,
-                "IAnalysisRepository.listHeaderByStatusOpen -> IHeaderRoomDatasource.listByStatus"
+                "IAnalysisRepository.listHeader -> IHeaderRoomDatasource.listByStatus"
             )
             assertEquals(
                 result.exceptionOrNull()!!.cause.toString(),
@@ -58,7 +89,12 @@ class IAnalysisRepositoryTest {
     fun `listHeader - Check return correct if function execute successfully`() =
         runTest {
             whenever(
-                headerRoomDatasource.listByStatus(Status.OPEN)
+                headerRoomDatasource.updateStatus()
+            ).thenReturn(
+                Result.success(true)
+            )
+            whenever(
+                headerRoomDatasource.listByStatus(Status.CLOSE)
             ).thenReturn(
                 Result.success(
                     listOf(
@@ -79,7 +115,7 @@ class IAnalysisRepositoryTest {
                     )
                 )
             )
-            val result = repository.listHeaderByStatusOpen()
+            val result = repository.listHeader()
             assertEquals(
                 result.isSuccess,
                 true
@@ -787,7 +823,7 @@ class IAnalysisRepositoryTest {
             )
             assertEquals(
                 modelRoom.status,
-                Status.OPEN
+                Status.CLOSE
             )
         }
 
@@ -876,7 +912,7 @@ class IAnalysisRepositoryTest {
             )
             assertEquals(
                 modelRoom.status,
-                Status.OPEN
+                Status.CLOSE
             )
         }
 

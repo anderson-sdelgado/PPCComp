@@ -7,16 +7,20 @@ import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import br.com.usinasantafe.ppc.di.provider.BaseUrlModuleTest
 import br.com.usinasantafe.ppc.external.room.dao.stable.ColabDao
+import br.com.usinasantafe.ppc.external.room.dao.stable.HarvesterDao
 import br.com.usinasantafe.ppc.external.room.dao.stable.PlotDao
 import br.com.usinasantafe.ppc.external.room.dao.stable.SectionDao
+import br.com.usinasantafe.ppc.external.room.dao.variable.HeaderDao
 import br.com.usinasantafe.ppc.external.sharedpreferences.datasource.variable.IHeaderSharedPreferencesDatasource
 import br.com.usinasantafe.ppc.infra.datasource.sharedpreferences.variable.ConfigSharedPreferencesDatasource
 import br.com.usinasantafe.ppc.infra.models.room.stable.ColabRoomModel
+import br.com.usinasantafe.ppc.infra.models.room.stable.HarvesterRoomModel
 import br.com.usinasantafe.ppc.infra.models.room.stable.PlotRoomModel
 import br.com.usinasantafe.ppc.infra.models.room.stable.SectionRoomModel
 import br.com.usinasantafe.ppc.infra.models.sharedpreferences.variable.ConfigSharedPreferencesModel
 import br.com.usinasantafe.ppc.presenter.MainActivity
 import br.com.usinasantafe.ppc.utils.FlagUpdate
+import br.com.usinasantafe.ppc.utils.Status
 import br.com.usinasantafe.ppc.utils.waitUntilTimeout
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
@@ -42,6 +46,7 @@ class HeaderFlowTest {
 
     @get:Rule(order = 0)
     val hiltRule = HiltAndroidRule(this)
+
     @get:Rule(order = 1)
     val composeTestRule = createAndroidComposeRule<MainActivity>()
 
@@ -59,6 +64,12 @@ class HeaderFlowTest {
 
     @Inject
     lateinit var plotDao: PlotDao
+
+    @Inject
+    lateinit var harvesterDao: HarvesterDao
+
+    @Inject
+    lateinit var headerDao: HeaderDao
 
     @Test
     fun header_flow() =
@@ -524,7 +535,7 @@ class HeaderFlowTest {
                 123456
             )
             assertEquals(
-                modelSection.codSection,
+                modelPlot.codSection,
                 300
             )
             assertEquals(
@@ -532,9 +543,280 @@ class HeaderFlowTest {
                 10
             )
 
-            Log.d("TestDebug", "Position 32")
+            Log.d("TestDebug", "Position 36")
 
             composeTestRule.waitUntilTimeout()
+
+            composeTestRule.onNodeWithText("2").performClick()
+            composeTestRule.onNodeWithText("OK").performClick()
+
+            Log.d("TestDebug", "Position 37")
+
+            composeTestRule.waitUntilTimeout()
+
+            composeTestRule.activityRule.scenario.onActivity { activity ->
+                activity.onBackPressedDispatcher.onBackPressed()
+            }
+
+            Log.d("TestDebug", "Position 38")
+
+            composeTestRule.waitUntilTimeout()
+
+            composeTestRule.onNodeWithText("2").performClick()
+            composeTestRule.onNodeWithText("OK").performClick()
+
+            Log.d("TestDebug", "Position 39")
+
+            composeTestRule.waitUntilTimeout()
+
+            val resultGetFront = headerSharedPreferencesDatasource.get()
+            assertEquals(
+                resultGetFront.isSuccess,
+                true
+            )
+            val modelFront = resultGetFront.getOrNull()!!
+            assertEquals(
+                modelFront.regAuditor1,
+                19759L
+            )
+            assertEquals(
+                modelFront.regAuditor2,
+                null
+            )
+            assertEquals(
+                modelFront.regAuditor3,
+                null
+            )
+            assertEquals(
+                modelFront.date,
+                midnightDateObject
+            )
+            assertEquals(
+                modelFront.nroTurn,
+                1
+            )
+            assertEquals(
+                modelFront.nroOS,
+                123456
+            )
+            assertEquals(
+                modelFront.codSection,
+                300
+            )
+            assertEquals(
+                modelFront.nroPlot,
+                10
+            )
+            assertEquals(
+                modelFront.codFront,
+                2
+            )
+
+            Log.d("TestDebug", "Position 40")
+
+            composeTestRule.waitUntilTimeout()
+
+            composeTestRule.onNodeWithText("2").performClick()
+            composeTestRule.onNodeWithText("0").performClick()
+            composeTestRule.onNodeWithText("0").performClick()
+            composeTestRule.onNodeWithText("OK").performClick()
+
+            Log.d("TestDebug", "Position 41")
+
+            composeTestRule.waitUntilTimeout()
+
+            composeTestRule.activityRule.scenario.onActivity { activity ->
+                activity.onBackPressedDispatcher.onBackPressed()
+            }
+
+            Log.d("TestDebug", "Position 42")
+
+            composeTestRule.waitUntilTimeout()
+
+            composeTestRule.onNodeWithText("2").performClick()
+            composeTestRule.onNodeWithText("0").performClick()
+            composeTestRule.onNodeWithText("0").performClick()
+            composeTestRule.onNodeWithText("OK").performClick()
+
+            Log.d("TestDebug", "Position 43")
+
+            composeTestRule.waitUntilTimeout()
+
+            val resultGetHarvester = headerSharedPreferencesDatasource.get()
+            assertEquals(
+                resultGetHarvester.isSuccess,
+                true
+            )
+            val modelHarvester = resultGetHarvester.getOrNull()!!
+            assertEquals(
+                modelHarvester.regAuditor1,
+                19759L
+            )
+            assertEquals(
+                modelHarvester.regAuditor2,
+                null
+            )
+            assertEquals(
+                modelHarvester.regAuditor3,
+                null
+            )
+            assertEquals(
+                modelHarvester.date,
+                midnightDateObject
+            )
+            assertEquals(
+                modelHarvester.nroTurn,
+                1
+            )
+            assertEquals(
+                modelHarvester.nroOS,
+                123456
+            )
+            assertEquals(
+                modelHarvester.codSection,
+                300
+            )
+            assertEquals(
+                modelHarvester.nroPlot,
+                10
+            )
+            assertEquals(
+                modelHarvester.codFront,
+                2
+            )
+            assertEquals(
+                modelHarvester.nroHarvester,
+                200
+            )
+
+            Log.d("TestDebug", "Position 44")
+
+            composeTestRule.waitUntilTimeout()
+
+            composeTestRule.onNodeWithText("1").performClick()
+            composeTestRule.onNodeWithText("8").performClick()
+            composeTestRule.onNodeWithText("0").performClick()
+            composeTestRule.onNodeWithText("3").performClick()
+            composeTestRule.onNodeWithText("5").performClick()
+            composeTestRule.onNodeWithText("OK").performClick()
+
+            Log.d("TestDebug", "Position 45")
+
+            composeTestRule.waitUntilTimeout()
+
+            val resultGetOperator = headerSharedPreferencesDatasource.get()
+            assertEquals(
+                resultGetHarvester.isSuccess,
+                true
+            )
+            val modelOperator = resultGetOperator.getOrNull()!!
+            assertEquals(
+                modelOperator.regAuditor1,
+                19759L
+            )
+            assertEquals(
+                modelOperator.regAuditor2,
+                null
+            )
+            assertEquals(
+                modelOperator.regAuditor3,
+                null
+            )
+            assertEquals(
+                modelOperator.date,
+                midnightDateObject
+            )
+            assertEquals(
+                modelOperator.nroTurn,
+                1
+            )
+            assertEquals(
+                modelOperator.nroOS,
+                123456
+            )
+            assertEquals(
+                modelOperator.codSection,
+                300
+            )
+            assertEquals(
+                modelOperator.nroPlot,
+                10
+            )
+            assertEquals(
+                modelOperator.codFront,
+                2
+            )
+            assertEquals(
+                modelOperator.nroHarvester,
+                200
+            )
+            assertEquals(
+                modelOperator.regOperator,
+                18035L
+            )
+
+            val list = headerDao.all()
+            assertEquals(
+                list.size,
+                1
+            )
+            val model = list[0]
+            assertEquals(
+                model.id,
+                1
+            )
+            assertEquals(
+                model.regAuditor1,
+                19759L
+            )
+            assertEquals(
+                model.regAuditor2,
+                null
+            )
+            assertEquals(
+                model.regAuditor3,
+                null
+            )
+            assertEquals(
+                model.date,
+                midnightDateObject
+            )
+            assertEquals(
+                model.nroTurn,
+                1
+            )
+            assertEquals(
+                model.nroOS,
+                123456
+            )
+            assertEquals(
+                model.codSection,
+                300
+            )
+            assertEquals(
+                model.nroPlot,
+                10
+            )
+            assertEquals(
+                model.codFront,
+                2
+            )
+            assertEquals(
+                model.nroHarvester,
+                200
+            )
+            assertEquals(
+                model.regOperator,
+                18035L
+            )
+            assertEquals(
+                model.status,
+                Status.OPEN
+            )
+
+            Log.d("TestDebug", "Position 46")
+
+            composeTestRule.waitUntilTimeout(10_000)
 
         }
 
@@ -554,6 +836,9 @@ class HeaderFlowTest {
             listOf(
                 ColabRoomModel(
                     regColab = 19759
+                ),
+                ColabRoomModel(
+                    regColab = 18035
                 )
             )
         )
@@ -582,6 +867,14 @@ class HeaderFlowTest {
                     idPlot = 102,
                     nroPlot = 10,
                     idSection = 2
+                )
+            )
+        )
+
+        harvesterDao.insertAll(
+            listOf(
+                HarvesterRoomModel(
+                    nroHarvester = 200
                 )
             )
         )

@@ -18,5 +18,8 @@ interface HeaderDao {
     @Query("SELECT * FROM TB_HEADER WHERE status = :status")
     suspend fun listByStatus(status: Status): List<HeaderRoomModel>
 
+    @Query("UPDATE TB_HEADER SET status = :statusClose WHERE status != :statusFinish")
+    suspend fun updateStatus(statusClose: Status = Status.CLOSE, statusFinish: Status = Status.FINISH)
+
 
 }

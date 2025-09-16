@@ -1,10 +1,12 @@
 package br.com.usinasantafe.ppc.presenter.theme
 
+import android.R.attr.contentDescription
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import br.com.usinasantafe.ppc.R
@@ -90,11 +92,12 @@ fun ButtonsGenericNumeric(
                 {
                     setActionButton(
                         text_number_1,
-                        TypeButton.NUMERIC
+                        TypeButton.NUMERIC,
                     )
                 },
                 Modifier
                     .weight(1f)
+                    .testTag("btn_1")
             )
             ButtonNumericDesign(
                 {
@@ -110,6 +113,7 @@ fun ButtonsGenericNumeric(
                 },
                 Modifier
                     .weight(1f)
+                    .testTag("btn_2")
             )
             ButtonNumericDesign(
                 {
@@ -125,6 +129,7 @@ fun ButtonsGenericNumeric(
                 },
                 Modifier
                     .weight(1f)
+                    .testTag("btn_3")
             )
         }
         Row(
@@ -146,6 +151,7 @@ fun ButtonsGenericNumeric(
                 },
                 Modifier
                     .weight(1f)
+                    .testTag("btn_4")
             )
             ButtonNumericDesign(
                 {
@@ -161,6 +167,7 @@ fun ButtonsGenericNumeric(
                 },
                 Modifier
                     .weight(1f)
+                    .testTag("btn_5")
             )
             ButtonNumericDesign(
                 {
@@ -176,6 +183,7 @@ fun ButtonsGenericNumeric(
                 },
                 Modifier
                     .weight(1f)
+                    .testTag("btn_6")
             )
         }
         Row(
@@ -197,6 +205,7 @@ fun ButtonsGenericNumeric(
                 },
                 Modifier
                     .weight(1f)
+                    .testTag("btn_7")
             )
             ButtonNumericDesign(
                 {
@@ -212,6 +221,7 @@ fun ButtonsGenericNumeric(
                 },
                 Modifier
                     .weight(1f)
+                    .testTag("btn_8")
             )
             ButtonNumericDesign(
                 {
@@ -227,6 +237,7 @@ fun ButtonsGenericNumeric(
                 },
                 Modifier
                     .weight(1f)
+                    .testTag("btn_9")
             )
         }
         Row(
@@ -248,6 +259,7 @@ fun ButtonsGenericNumeric(
                 },
                 modifier = Modifier
                     .weight(1f)
+                    .testTag("btn_clean")
             )
             ButtonNumericDesign(
                 {
@@ -263,6 +275,7 @@ fun ButtonsGenericNumeric(
                 },
                 Modifier
                     .weight(1f)
+                    .testTag("btn_0")
             )
             ButtonNumericDesign(
                 {
@@ -278,6 +291,7 @@ fun ButtonsGenericNumeric(
                 },
                 Modifier
                     .weight(1f)
+                    .testTag("btn_ok")
             )
         }
         if(flagUpdate){
@@ -300,8 +314,10 @@ fun ButtonsGenericNumeric(
                     },
                     Modifier
                         .weight(1f)
+                        .testTag("btn_update")
                 )
             }
         }
     }
 }
+

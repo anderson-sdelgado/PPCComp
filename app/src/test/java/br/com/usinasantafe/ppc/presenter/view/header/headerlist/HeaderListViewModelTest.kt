@@ -3,6 +3,7 @@ package br.com.usinasantafe.ppc.presenter.view.header.headerlist
 import br.com.usinasantafe.ppc.MainCoroutineRule
 import br.com.usinasantafe.ppc.domain.errors.resultFailure
 import br.com.usinasantafe.ppc.domain.usecases.header.ListHeader
+import br.com.usinasantafe.ppc.domain.usecases.header.SetHeaderOpen
 import br.com.usinasantafe.ppc.presenter.model.HeaderScreenModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
@@ -20,8 +21,10 @@ class HeaderListViewModelTest {
     val mainCoroutineRule = MainCoroutineRule()
 
     private val listHeader = mock<ListHeader>()
+    private val setHeaderOpen = mock<SetHeaderOpen>()
     private val viewModel = HeaderListViewModel(
-        listHeader = listHeader
+        listHeader = listHeader,
+        setHeaderOpen = setHeaderOpen
     )
 
     @Test
@@ -96,6 +99,44 @@ class HeaderListViewModelTest {
                         qtdSample = 1
                     )
                 )
+            )
+        }
+
+    @Test
+    fun `setOpen - Check return failure if have error in SetHeaderOpen`() =
+        runTest {
+            whenever(
+                setHeaderOpen(1)
+            ).thenReturn(
+                resultFailure(
+                    context = "SetHeaderOpen",
+                    message = "-",
+                    cause = Exception()
+                )
+            )
+            viewModel.setOpen(1)
+            assertEquals(
+                viewModel.uiState.value.flagDialog,
+                true
+            )
+            assertEquals(
+                viewModel.uiState.value.failure,
+                "HeaderListViewModel.setOpen -> SetHeaderOpen -> java.lang.Exception"
+            )
+        }
+
+    @Test
+    fun `setOpen - Check return true if SetHeaderOpen execute successfully`() =
+        runTest {
+            whenever(
+                setHeaderOpen(1)
+            ).thenReturn(
+                Result.success(true)
+            )
+            viewModel.setOpen(1)
+            assertEquals(
+                viewModel.uiState.value.flagAccess,
+                true
             )
         }
 

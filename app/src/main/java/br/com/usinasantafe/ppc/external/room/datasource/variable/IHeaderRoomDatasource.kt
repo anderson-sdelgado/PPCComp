@@ -12,6 +12,18 @@ class IHeaderRoomDatasource @Inject constructor(
     private val headerDao: HeaderDao
 ): HeaderRoomDatasource {
 
+    override suspend fun updateStatus(): Result<Boolean> {
+        try {
+            headerDao.updateStatus()
+            return Result.success(true)
+        } catch (e: Exception) {
+            return resultFailure(
+                context = getClassAndMethod(),
+                cause = e
+            )
+        }
+    }
+
     override suspend fun listByStatus(status: Status): Result<List<HeaderRoomModel>> {
         try {
             val list = headerDao.listByStatus(status)

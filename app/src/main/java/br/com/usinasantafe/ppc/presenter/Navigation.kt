@@ -1,6 +1,7 @@
 package br.com.usinasantafe.ppc.presenter
 
 import androidx.navigation.NavHostController
+import br.com.usinasantafe.ppc.presenter.Args.ID_HEADER_ARGS
 import br.com.usinasantafe.ppc.presenter.Args.POS_AUDITOR_ARGS
 import br.com.usinasantafe.ppc.presenter.Screens.AUDITOR_HEADER_SCREEN
 import br.com.usinasantafe.ppc.presenter.Screens.CONFIG_SCREEN
@@ -9,9 +10,11 @@ import br.com.usinasantafe.ppc.presenter.Screens.FRONT_HEADER_SCREEN
 import br.com.usinasantafe.ppc.presenter.Screens.HARVESTER_HEADER_SCREEN
 import br.com.usinasantafe.ppc.presenter.Screens.HEADER_LIST_SCREEN
 import br.com.usinasantafe.ppc.presenter.Screens.INITIAL_MENU_SCREEN
+import br.com.usinasantafe.ppc.presenter.Screens.OPERATOR_HEADER_SCREEN
 import br.com.usinasantafe.ppc.presenter.Screens.OS_HEADER_SCREEN
 import br.com.usinasantafe.ppc.presenter.Screens.PASSWORD_SCREEN
 import br.com.usinasantafe.ppc.presenter.Screens.PLOT_HEADER_SCREEN
+import br.com.usinasantafe.ppc.presenter.Screens.SAMPLE_LIST_SCREEN
 import br.com.usinasantafe.ppc.presenter.Screens.SECTION_HEADER_SCREEN
 import br.com.usinasantafe.ppc.presenter.Screens.SPLASH_SCREEN
 import br.com.usinasantafe.ppc.presenter.Screens.TURN_HEADER_SCREEN
@@ -30,10 +33,13 @@ object Screens {
     const val PLOT_HEADER_SCREEN = "plotHeaderScreen"
     const val FRONT_HEADER_SCREEN = "frontHeaderScreen"
     const val HARVESTER_HEADER_SCREEN = "harvesterHeaderScreen"
+    const val OPERATOR_HEADER_SCREEN = "operatorHeaderScreen"
+    const val SAMPLE_LIST_SCREEN = "sampleListScreen"
 }
 
 object Args {
     const val POS_AUDITOR_ARGS = "posAuditor"
+    const val ID_HEADER_ARGS = "idHeader"
 }
 
 object Routes {
@@ -50,6 +56,8 @@ object Routes {
     const val PLOT_HEADER_ROUTE = PLOT_HEADER_SCREEN
     const val FRONT_HEADER_ROUTE = FRONT_HEADER_SCREEN
     const val HARVESTER_HEADER_ROUTE = HARVESTER_HEADER_SCREEN
+    const val OPERATOR_HEADER_ROUTE = OPERATOR_HEADER_SCREEN
+    const val SAMPLE_LIST_ROUTE = "$SAMPLE_LIST_SCREEN/{$ID_HEADER_ARGS}"
 }
 
 class NavigationActions(private val navController: NavHostController) {
@@ -116,6 +124,18 @@ class NavigationActions(private val navController: NavHostController) {
 
     fun navigateToHarvesterHeader() {
         navController.navigate(HARVESTER_HEADER_SCREEN)
+    }
+
+    fun navigateToOperatorHeader() {
+        navController.navigate(OPERATOR_HEADER_SCREEN)
+    }
+
+    ////////////////////////////////////////////////////////////////////
+
+    ////////////////////////// Sample //////////////////////////////////
+
+    fun navigateToSampleList() {
+        navController.navigate(SAMPLE_LIST_SCREEN)
     }
 
     ////////////////////////////////////////////////////////////////////

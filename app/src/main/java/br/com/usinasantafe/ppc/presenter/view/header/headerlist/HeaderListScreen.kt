@@ -39,7 +39,7 @@ import br.com.usinasantafe.ppc.presenter.theme.TextButtonDesign
 fun HeaderListScreen(
     viewModel: HeaderListViewModel = hiltViewModel(),
     onNavAuditor: () -> Unit,
-    onNavSampleList: (Int) -> Unit,
+    onNavSampleList: () -> Unit,
     onNavInitialMenu: () -> Unit
 ) {
     PPCTheme {
@@ -52,7 +52,9 @@ fun HeaderListScreen(
 
             HeaderListContent(
                 headerList = uiState.headerList,
+                setOpen = viewModel::setOpen,
                 setCloseDialog = viewModel::setCloseDialog,
+                flagAccess = uiState.flagAccess,
                 flagDialog = uiState.flagDialog,
                 failure = uiState.failure,
                 onNavAuditor = onNavAuditor,
@@ -67,11 +69,13 @@ fun HeaderListScreen(
 @Composable
 fun HeaderListContent(
     headerList: List<HeaderScreenModel>,
+    setOpen: (Int) -> Unit,
+    flagAccess: Boolean,
     setCloseDialog: () -> Unit,
     flagDialog: Boolean,
     failure: String,
     onNavAuditor: () -> Unit,
-    onNavSampleList: (Int) -> Unit,
+    onNavSampleList: () -> Unit,
     onNavInitialMenu: () -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -119,7 +123,7 @@ fun HeaderListContent(
                         front = header.front,
                         turn = header.turn,
                         sample = header.qtdSample,
-                        setActionItem = { onNavSampleList(header.id) },
+                        setActionItem = { setOpen(header.id) },
                         font = 24,
                         padding = 6
                     )
@@ -157,6 +161,12 @@ fun HeaderListContent(
         )
     }
 
+    LaunchedEffect(flagAccess) {
+        if(flagAccess) {
+            onNavSampleList()
+        }
+    }
+
 }
 
 @Preview(showBackground = true)
@@ -166,6 +176,8 @@ fun HeaderListPagePreview() {
         Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
             HeaderListContent(
                 headerList = emptyList(),
+                setOpen = {},
+                flagAccess = false,
                 setCloseDialog = {},
                 flagDialog = false,
                 failure = "",
@@ -202,6 +214,8 @@ fun HeaderListPagePreviewWithData() {
                         qtdSample = 0
                     )
                 ),
+                setOpen = {},
+                flagAccess = false,
                 setCloseDialog = {},
                 flagDialog = false,
                 failure = "",
@@ -238,6 +252,8 @@ fun HeaderListPagePreviewFailure() {
                         qtdSample = 0
                     )
                 ),
+                setOpen = {},
+                flagAccess = false,
                 setCloseDialog = {},
                 flagDialog = true,
                 failure = "Failure",

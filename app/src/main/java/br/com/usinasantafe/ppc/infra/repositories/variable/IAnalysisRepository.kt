@@ -19,9 +19,16 @@ class IAnalysisRepository @Inject constructor(
     private val sampleRoomDatasource: SampleRoomDatasource,
 ): AnalysisRepository {
 
-    override suspend fun listHeaderByStatusOpen(): Result<List<Header>> {
+    override suspend fun listHeader(): Result<List<Header>> {
         try {
-            val resultList = headerRoomDatasource.listByStatus(Status.OPEN)
+            val resultSetClose = headerRoomDatasource.updateStatus()
+            if(resultSetClose.isFailure){
+                return resultFailure(
+                    context = getClassAndMethod(),
+                    cause = resultSetClose.exceptionOrNull()!!
+                )
+            }
+            val resultList = headerRoomDatasource.listByStatus(Status.CLOSE)
             if(resultList.isFailure){
                 return resultFailure(
                     context = getClassAndMethod(),
@@ -106,7 +113,6 @@ class IAnalysisRepository @Inject constructor(
             )
         }
         return result
-
     }
 
     override suspend fun setSectionHeader(codSection: Int): Result<Boolean> {
@@ -196,6 +202,20 @@ class IAnalysisRepository @Inject constructor(
                 cause = e
             )
         }
+    }
+
+    override suspend fun setStatusHeaderById(
+        status: Status,
+        id: Int
+    ): Result<Boolean> {
+        val result = headerRoomDatasource.setStatusById(status, id)
+        if(result.isFailure){
+            return resultFailure(
+                context = getClassAndMethod(),
+                cause = result.exceptionOrNull()!!
+            )
+        }
+        return result
     }
 
 }

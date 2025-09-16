@@ -5,19 +5,7 @@
       <SelectionState runConfigName="app">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
-      <SelectionState runConfigName="check_update_failure_return_if_token_is_invalid()">
-        <option name="selectionMode" value="DROPDOWN" />
-      </SelectionState>
-      <SelectionState runConfigName="check_update_failure_return_if_have_error_404()">
-        <option name="selectionMode" value="DROPDOWN" />
-      </SelectionState>
-      <SelectionState runConfigName="check_update_failure_return_if_web_service_returns_data_incorrect()">
-        <option name="selectionMode" value="DROPDOWN" />
-      </SelectionState>
-      <SelectionState runConfigName="check_update_failure_return_if_web_service_returns_data_repeated()">
-        <option name="selectionMode" value="DROPDOWN" />
-      </SelectionState>
-      <SelectionState runConfigName="check_update_failure_return_if_web_service_returns_data_success()">
+      <SelectionState runConfigName="check_return_list_if_have_data_header_database_and_sample_database()">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
     </selectionStates>

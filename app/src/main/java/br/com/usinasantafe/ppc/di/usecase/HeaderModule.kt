@@ -71,4 +71,8 @@ interface HeaderModule {
     @Singleton
     fun bindSetOperatorHeader(usecase: ISetOperatorHeader): SetOperatorHeader
 
+    @Binds
+    @Singleton
+    fun bindSetHeaderOpen(usecase: ISetHeaderOpen): SetHeaderOpen
+
 }

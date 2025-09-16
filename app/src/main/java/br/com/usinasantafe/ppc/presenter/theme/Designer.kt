@@ -1,5 +1,6 @@
 package br.com.usinasantafe.ppc.presenter.theme
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -138,6 +139,134 @@ fun ItemListHeaderDesign(
                 .fillMaxWidth()
         )
     }
+}
+
+@Composable
+fun ItemListSampleDesign(
+    id: Int = 0,
+    pos: Int,
+    stalk: Double,
+    wholeCane: Double,
+    stump: Double,
+    piece: Double,
+    tip: Double,
+    slivers: Double,
+    obs: String,
+    font: Int = 22,
+    padding: Int = 8,
+    setActionItem: () -> Unit
+) {
+    return  Column(
+        modifier = Modifier
+            .testTag("item_list_$id")
+            .padding(vertical = padding.dp)
+            .clickable {
+                setActionItem()
+            }
+    ) {
+        Text(
+            textAlign = TextAlign.Left,
+            text = stringResource(
+                id = R.string.text_item_sample,
+                pos
+            ),
+            style = TextStyle(
+                fontSize = font.sp,
+                fontWeight = FontWeight.Bold
+            ),
+            modifier = Modifier
+                .fillMaxWidth()
+        )
+        Text(
+            textAlign = TextAlign.Left,
+            text = stringResource(
+                id = R.string.text_item_stalk,
+                formatDouble(stalk)
+            ),
+            style = TextStyle(
+                fontSize = font.sp,
+            ),
+            modifier = Modifier
+                .fillMaxWidth()
+        )
+        Text(
+            textAlign = TextAlign.Left,
+            text = stringResource(
+                id = R.string.text_item_whole_cane,
+                formatDouble(wholeCane)
+            ),
+            style = TextStyle(
+                fontSize = font.sp
+            ),
+            modifier = Modifier
+                .fillMaxWidth()
+        )
+        Text(
+            textAlign = TextAlign.Left,
+            text = stringResource(
+                id = R.string.text_item_stump,
+                formatDouble(stump)
+            ),
+            style = TextStyle(
+                fontSize = font.sp
+            ),
+            modifier = Modifier
+                .fillMaxWidth()
+        )
+        Text(
+            textAlign = TextAlign.Left,
+            text = stringResource(
+                id = R.string.text_item_piece,
+                formatDouble(piece)
+            ),
+            style = TextStyle(
+                fontSize = font.sp,
+            ),
+            modifier = Modifier
+                .fillMaxWidth()
+        )
+        Text(
+            textAlign = TextAlign.Left,
+            text = stringResource(
+                id = R.string.text_item_tip,
+                formatDouble(tip)
+            ),
+            style = TextStyle(
+                fontSize = font.sp,
+            ),
+            modifier = Modifier
+                .fillMaxWidth()
+        )
+        Text(
+            textAlign = TextAlign.Left,
+            text = stringResource(
+                id = R.string.text_item_slivers,
+                formatDouble(slivers)
+            ),
+            style = TextStyle(
+                fontSize = font.sp,
+            ),
+            modifier = Modifier
+                .fillMaxWidth()
+        )
+        Text(
+            textAlign = TextAlign.Left,
+            text = stringResource(
+                id = R.string.text_item_obs,
+                obs
+            ),
+            style = TextStyle(
+                fontSize = font.sp,
+            ),
+            modifier = Modifier
+                .fillMaxWidth()
+        )
+    }
+}
+
+@SuppressLint("DefaultLocale")
+fun formatDouble(value: Double): String {
+    return String.format("%.3f", value)
 }
 
 @Composable

@@ -16,7 +16,7 @@ class IListHeader @Inject constructor(
 
     override suspend fun invoke(): Result<List<HeaderScreenModel>> {
         try {
-            val resultList = analysisRepository.listHeaderByStatusOpen()
+            val resultList = analysisRepository.listHeader()
             if(resultList.isFailure){
                 return resultFailure(
                     context = getClassAndMethod(),

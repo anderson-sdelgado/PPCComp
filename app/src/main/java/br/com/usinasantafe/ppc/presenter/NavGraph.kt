@@ -16,6 +16,7 @@ import br.com.usinasantafe.ppc.presenter.Routes.FRONT_HEADER_ROUTE
 import br.com.usinasantafe.ppc.presenter.Routes.HARVESTER_HEADER_ROUTE
 import br.com.usinasantafe.ppc.presenter.Routes.HEADER_LIST_ROUTE
 import br.com.usinasantafe.ppc.presenter.Routes.INITIAL_MENU_ROUTE
+import br.com.usinasantafe.ppc.presenter.Routes.OPERATOR_HEADER_ROUTE
 import br.com.usinasantafe.ppc.presenter.Routes.OS_HEADER_ROUTE
 import br.com.usinasantafe.ppc.presenter.Routes.PASSWORD_ROUTE
 import br.com.usinasantafe.ppc.presenter.Routes.PLOT_HEADER_ROUTE
@@ -30,6 +31,7 @@ import br.com.usinasantafe.ppc.presenter.view.header.date.DateScreen
 import br.com.usinasantafe.ppc.presenter.view.header.front.FrontScreen
 import br.com.usinasantafe.ppc.presenter.view.header.harvester.HarvesterScreen
 import br.com.usinasantafe.ppc.presenter.view.header.headerlist.HeaderListScreen
+import br.com.usinasantafe.ppc.presenter.view.header.operator.OperatorScreen
 import br.com.usinasantafe.ppc.presenter.view.header.os.OSScreen
 import br.com.usinasantafe.ppc.presenter.view.header.plot.PlotScreen
 import br.com.usinasantafe.ppc.presenter.view.header.section.SectionScreen
@@ -189,7 +191,9 @@ fun NavigationGraph(
                 onNavPlot = {
                     navActions.navigateToPlotHeader()
                 },
-                onNavHarvester = {}
+                onNavHarvester = {
+                    navActions.navigateToHarvesterHeader()
+                }
             )
         }
 
@@ -199,6 +203,18 @@ fun NavigationGraph(
                     navActions.navigateToFrontHeader()
                 },
                 onNavOperator = {
+                    navActions.navigateToOperatorHeader()
+                }
+            )
+        }
+
+        composable(OPERATOR_HEADER_ROUTE) {
+            OperatorScreen(
+                onNavHarvester = {
+                    navActions.navigateToHarvesterHeader()
+                },
+                onNavHeaderList = {
+                    navActions.navigateToHeaderList()
                 }
             )
         }
