@@ -28,8 +28,7 @@ class FrontViewModelTest {
     @Test
     fun `setTextField - Check add char`() =
         runTest {
-            viewModel.setTextField("1", TypeButton.NUMERIC
-            )
+            viewModel.setTextField("1", TypeButton.NUMERIC)
             assertEquals(
                 viewModel.uiState.value.nroFront,
                 "1"

@@ -4,26 +4,31 @@ import br.com.usinasantafe.ppc.domain.errors.resultFailure
 import br.com.usinasantafe.ppc.infra.datasource.room.variable.HeaderRoomDatasource
 import br.com.usinasantafe.ppc.infra.datasource.room.variable.SampleRoomDatasource
 import br.com.usinasantafe.ppc.infra.datasource.sharedpreferences.variable.HeaderSharedPreferencesDatasource
+import br.com.usinasantafe.ppc.infra.datasource.sharedpreferences.variable.SampleSharedPreferencesDatasource
 import br.com.usinasantafe.ppc.infra.models.room.variable.HeaderRoomModel
+import br.com.usinasantafe.ppc.infra.models.room.variable.SampleRoomModel
 import br.com.usinasantafe.ppc.infra.models.sharedpreferences.variable.HeaderSharedPreferencesModel
+import br.com.usinasantafe.ppc.utils.Field
 import br.com.usinasantafe.ppc.utils.Status
 import kotlinx.coroutines.test.runTest
-import org.junit.Assert.*
+import org.junit.Assert.assertEquals
+import org.junit.Test
 import org.mockito.Mockito.mock
 import org.mockito.kotlin.argumentCaptor
 import org.mockito.kotlin.whenever
 import java.util.Date
-import kotlin.test.Test
 
 class IAnalysisRepositoryTest {
 
     private val headerRoomDatasource = mock<HeaderRoomDatasource>()
     private val headerSharedPreferencesDatasource = mock<HeaderSharedPreferencesDatasource>()
     private val sampleRoomDatasource = mock<SampleRoomDatasource>()
+    private val sampleSharedPreferencesDatasource = mock<SampleSharedPreferencesDatasource>()
     private val repository = IAnalysisRepository(
         headerRoomDatasource = headerRoomDatasource,
         headerSharedPreferencesDatasource = headerSharedPreferencesDatasource,
-        sampleRoomDatasource = sampleRoomDatasource
+        sampleRoomDatasource = sampleRoomDatasource,
+        sampleSharedPreferencesDatasource = sampleSharedPreferencesDatasource
     )
 
     @Test
@@ -913,6 +918,559 @@ class IAnalysisRepositoryTest {
             assertEquals(
                 modelRoom.status,
                 Status.CLOSE
+            )
+        }
+
+    @Test
+    fun `setStatusHeaderById - Check return failure if have error in HeaderRoomDatasource setStatusById`() =
+        runTest {
+            whenever(
+                headerRoomDatasource.setStatusById(
+                    Status.OPEN,
+                    1
+                )
+            ).thenReturn(
+                resultFailure(
+                    "IHeaderRoomDatasource.setStatusById",
+                    "-",
+                    Exception()
+                )
+            )
+            val result = repository.setStatusHeaderById(
+                Status.OPEN,
+                1
+            )
+            assertEquals(
+                result.isFailure,
+                true
+            )
+            assertEquals(
+                result.exceptionOrNull()!!.message,
+                "IAnalysisRepository.setStatusHeaderById -> IHeaderRoomDatasource.setStatusById"
+            )
+            assertEquals(
+                result.exceptionOrNull()!!.cause.toString(),
+                "java.lang.Exception"
+            )
+        }
+
+    @Test
+    fun `setStatusHeaderById - Check return correct if function execute successfully`() =
+        runTest {
+            whenever(
+                headerRoomDatasource.setStatusById(
+                    Status.OPEN,
+                    1
+                )
+            ).thenReturn(
+                Result.success(true)
+            )
+            val result = repository.setStatusHeaderById(
+                Status.OPEN,
+                1
+            )
+            assertEquals(
+                result.isSuccess,
+                true
+            )
+            assertEquals(
+                result.getOrNull()!!,
+                true
+            )
+        }
+
+    @Test
+    fun `getIdHeaderByStatus - Check return failure if have error in HeaderRoomDatasource getIdByStatus`() =
+        runTest {
+            whenever(
+                headerRoomDatasource.getIdByStatus(Status.OPEN)
+            ).thenReturn(
+                resultFailure(
+                    "IHeaderRoomDatasource.getIdByStatus",
+                    "-",
+                    Exception()
+                )
+            )
+            val result = repository.getIdHeaderByStatus(Status.OPEN)
+            assertEquals(
+                result.isFailure,
+                true
+            )
+            assertEquals(
+                result.exceptionOrNull()!!.message,
+                "IAnalysisRepository.getIdHeaderByStatus -> IHeaderRoomDatasource.getIdByStatus"
+            )
+            assertEquals(
+                result.exceptionOrNull()!!.cause.toString(),
+                "java.lang.Exception"
+            )
+        }
+
+    @Test
+    fun `getIdHeaderByStatus - Check return correct if function execute successfully`() =
+        runTest {
+            whenever(
+                headerRoomDatasource.getIdByStatus(Status.OPEN)
+            ).thenReturn(
+                Result.success(1)
+            )
+            val result = repository.getIdHeaderByStatus(Status.OPEN)
+            assertEquals(
+                result.isSuccess,
+                true
+            )
+            assertEquals(
+                result.getOrNull()!!,
+                1
+            )
+        }
+
+    @Test
+    fun `listSampleByIdHeader - Check return failure if have error in SampleRoomDatasource listByIdHeader`() =
+        runTest {
+            whenever(
+                sampleRoomDatasource.listByIdHeader(1)
+            ).thenReturn(
+                resultFailure(
+                    "ISampleRoomDatasource.listByIdHeader",
+                    "-",
+                    Exception()
+                )
+            )
+            val result = repository.listSampleByIdHeader(1)
+            assertEquals(
+                result.isFailure,
+                true
+            )
+            assertEquals(
+                result.exceptionOrNull()!!.message,
+                "IAnalysisRepository.listSampleByIdHeader -> ISampleRoomDatasource.listByIdHeader"
+            )
+            assertEquals(
+                result.exceptionOrNull()!!.cause.toString(),
+                "java.lang.Exception"
+            )
+        }
+
+    @Test
+    fun `listSampleByIdHeader - Check return correct if function execute successfully`() =
+        runTest {
+            whenever(
+                sampleRoomDatasource.listByIdHeader(1)
+            ).thenReturn(
+                Result.success(
+                    listOf(
+                        SampleRoomModel(
+                            id = 1,
+                            idHeader = 1,
+                            tare = 1.0,
+                            stalk = 1.0,
+                            wholeCane = 1.0,
+                            stump = 1.0,
+                            piece = 1.0,
+                            tip = 1.0,
+                            slivers = 1.0,
+                            stone = true,
+                            treeStump = true,
+                            weed = true,
+                            anthill = true,
+                            guineaGrass = false,
+                            castorOilPlant = true,
+                            signalGrass = true,
+                            mucuna = true,
+                            silkGrass = false
+                        )
+                    )
+                )
+            )
+            val result = repository.listSampleByIdHeader(1)
+            assertEquals(
+                result.isSuccess,
+                true
+            )
+            val list = result.getOrNull()!!
+            assertEquals(
+                list.size,
+                1
+            )
+            val model = list[0]
+            assertEquals(
+                model.id,
+                1
+            )
+            assertEquals(
+                model.idHeader,
+                1
+            )
+            assertEquals(
+                model.tare!!,
+                1.0,
+                0.0
+            )
+            assertEquals(
+                model.stalk!!,
+                1.0,
+                0.0
+            )
+            assertEquals(
+                model.wholeCane!!,
+                1.0,
+                0.0
+            )
+            assertEquals(
+                model.stump!!,
+                1.0,
+                0.0
+            )
+            assertEquals(
+                model.piece!!,
+                1.0,
+                0.0
+            )
+            assertEquals(
+                model.tip!!,
+                1.0,
+                0.0
+            )
+            assertEquals(
+                model.slivers!!,
+                1.0,
+                0.0
+            )
+            assertEquals(
+                model.stone,
+                true
+            )
+            assertEquals(
+                model.treeStump,
+                true
+            )
+            assertEquals(
+                model.weed,
+                true
+            )
+            assertEquals(
+                model.anthill,
+                true
+            )
+            assertEquals(
+                model.guineaGrass,
+                false
+            )
+            assertEquals(
+                model.castorOilPlant,
+                true
+            )
+            assertEquals(
+                model.signalGrass,
+                true
+            )
+            assertEquals(
+                model.mucuna,
+                true
+            )
+            assertEquals(
+                model.silkGrass,
+                false
+            )
+        }
+
+    @Test
+    fun `deleteSampleByIdHeader - Check return failure if have error in SampleRoomDatasource deleteByIdHeader`() =
+        runTest {
+            whenever(
+                sampleRoomDatasource.deleteByIdHeader(1)
+            ).thenReturn(
+                resultFailure(
+                    "ISampleRoomDatasource.deleteByIdHeader",
+                    "-",
+                    Exception()
+                )
+            )
+            val result = repository.deleteSampleByIdHeader(1)
+            assertEquals(
+                result.isFailure,
+                true
+            )
+            assertEquals(
+                result.exceptionOrNull()!!.message,
+                "IAnalysisRepository.deleteSampleByIdHeader -> ISampleRoomDatasource.deleteByIdHeader"
+            )
+            assertEquals(
+                result.exceptionOrNull()!!.cause.toString(),
+                "java.lang.Exception"
+            )
+        }
+
+    @Test
+    fun `deleteSampleByIdHeader - Check return correct if function execute successfully`() =
+        runTest {
+            whenever(
+                sampleRoomDatasource.deleteByIdHeader(1)
+            ).thenReturn(
+                Result.success(true)
+            )
+            val result = repository.deleteSampleByIdHeader(1)
+            assertEquals(
+                result.isSuccess,
+                true
+            )
+            assertEquals(
+                result.getOrNull()!!,
+                true
+            )
+        }
+
+    @Test
+    fun `deleteHeaderById - Check return failure if have error in HeaderRoomDatasource deleteById`() =
+        runTest {
+            whenever(
+                headerRoomDatasource.deleteById(1)
+            ).thenReturn(
+                resultFailure(
+                    "IHeaderRoomDatasource.deleteById",
+                    "-",
+                    Exception()
+                )
+            )
+            val result = repository.deleteHeaderById(1)
+            assertEquals(
+                result.isFailure,
+                true
+            )
+            assertEquals(
+                result.exceptionOrNull()!!.message,
+                "IAnalysisRepository.deleteHeaderById -> IHeaderRoomDatasource.deleteById"
+            )
+            assertEquals(
+                result.exceptionOrNull()!!.cause.toString(),
+                "java.lang.Exception"
+            )
+        }
+
+    @Test
+    fun `deleteHeaderById - Check return correct if function execute successfully`() =
+        runTest {
+            whenever(
+                headerRoomDatasource.deleteById(1)
+            ).thenReturn(
+                Result.success(true)
+            )
+            val result = repository.deleteHeaderById(1)
+            assertEquals(
+                result.isSuccess,
+                true
+            )
+            assertEquals(
+                result.getOrNull()!!,
+                true
+            )
+        }
+
+    @Test
+    fun `deleteSampleById - Check return failure if have error in SampleRoomDatasource deleteById`() =
+        runTest {
+            whenever(
+                sampleRoomDatasource.deleteById(1)
+            ).thenReturn(
+                resultFailure(
+                    "ISampleRoomDatasource.deleteById",
+                    "-",
+                    Exception()
+                )
+            )
+            val result = repository.deleteSampleById(1)
+            assertEquals(
+                result.isFailure,
+                true
+            )
+            assertEquals(
+                result.exceptionOrNull()!!.message,
+                "IAnalysisRepository.deleteSampleById -> ISampleRoomDatasource.deleteById"
+            )
+            assertEquals(
+                result.exceptionOrNull()!!.cause.toString(),
+                "java.lang.Exception"
+            )
+        }
+
+    @Test
+    fun `deleteSampleById - Check return correct if function execute successfully`() =
+        runTest {
+            whenever(
+                sampleRoomDatasource.deleteById(1)
+            ).thenReturn(
+                Result.success(true)
+            )
+            val result = repository.deleteSampleById(1)
+            assertEquals(
+                result.isSuccess,
+                true
+            )
+            assertEquals(
+                result.getOrNull()!!,
+                true
+            )
+        }
+
+    @Test
+    fun `setFieldSample - Check return failure if have error in SampleSharedPreferencesDatasource clean`() =
+        runTest {
+            whenever(
+                sampleSharedPreferencesDatasource.clean()
+            ).thenReturn(
+                resultFailure(
+                    "ISampleSharedPreferencesDatasource.clean",
+                    "-",
+                    Exception()
+                )
+            )
+            val result = repository.setFieldSample(
+                field = Field.TARE,
+                value = 1.023
+            )
+            assertEquals(
+                result.isFailure,
+                true
+            )
+            assertEquals(
+                result.exceptionOrNull()!!.message,
+                "IAnalysisRepository.setFieldSample -> ISampleSharedPreferencesDatasource.clean"
+            )
+            assertEquals(
+                result.exceptionOrNull()!!.cause.toString(),
+                "java.lang.Exception"
+            )
+        }
+
+    @Test
+    fun `setFieldSample - Check return failure if have error in SampleSharedPreferencesDatasource setValue and field is Tare`() =
+        runTest {
+            whenever(
+                sampleSharedPreferencesDatasource.clean()
+            ).thenReturn(
+                Result.success(true)
+            )
+            whenever(
+                sampleSharedPreferencesDatasource.setValue(
+                    Field.TARE,
+                    1.023
+                )
+            ).thenReturn(
+                resultFailure(
+                    "ISampleSharedPreferencesDatasource.setValue",
+                    "-",
+                    Exception()
+                )
+            )
+            val result = repository.setFieldSample(
+                field = Field.TARE,
+                value = 1.023
+            )
+            assertEquals(
+                result.isFailure,
+                true
+            )
+            assertEquals(
+                result.exceptionOrNull()!!.message,
+                "IAnalysisRepository.setFieldSample -> ISampleSharedPreferencesDatasource.setValue"
+            )
+            assertEquals(
+                result.exceptionOrNull()!!.cause.toString(),
+                "java.lang.Exception"
+            )
+        }
+
+    @Test
+    fun `setFieldSample - Check return correct if function execute successfully and field is Tare`() =
+        runTest {
+            whenever(
+                sampleSharedPreferencesDatasource.clean()
+            ).thenReturn(
+                Result.success(true)
+            )
+            whenever(
+                sampleSharedPreferencesDatasource.setValue(
+                    Field.TARE,
+                    1.023
+                )
+            ).thenReturn(
+                Result.success(true)
+            )
+            val result = repository.setFieldSample(
+                field = Field.TARE,
+                value = 1.023
+            )
+            assertEquals(
+                result.isSuccess,
+                true
+            )
+            assertEquals(
+                result.getOrNull()!!,
+                true
+            )
+        }
+
+    @Test
+    fun `setFieldSample - Check return failure if have error in SampleSharedPreferencesDatasource setValue and field is not Tare`() =
+        runTest {
+            whenever(
+                sampleSharedPreferencesDatasource.setValue(
+                    Field.TIP,
+                    1.023
+                )
+            ).thenReturn(
+                resultFailure(
+                    "ISampleSharedPreferencesDatasource.setValue",
+                    "-",
+                    Exception()
+                )
+            )
+            val result = repository.setFieldSample(
+                field = Field.TIP,
+                value = 1.023
+            )
+            assertEquals(
+                result.isFailure,
+                true
+            )
+            assertEquals(
+                result.exceptionOrNull()!!.message,
+                "IAnalysisRepository.setFieldSample -> ISampleSharedPreferencesDatasource.setValue"
+            )
+            assertEquals(
+                result.exceptionOrNull()!!.cause.toString(),
+                "java.lang.Exception"
+            )
+        }
+
+    @Test
+    fun `setFieldSample - Check return correct if function execute successfully and field is not Tare`() =
+        runTest {
+            whenever(
+                sampleSharedPreferencesDatasource.clean()
+            ).thenReturn(
+                Result.success(true)
+            )
+            whenever(
+                sampleSharedPreferencesDatasource.setValue(
+                    Field.TARE,
+                    1.023
+                )
+            ).thenReturn(
+                Result.success(true)
+            )
+            val result = repository.setFieldSample(
+                field = Field.TARE,
+                value = 1.023
+            )
+            assertEquals(
+                result.isSuccess,
+                true
+            )
+            assertEquals(
+                result.getOrNull()!!,
+                true
             )
         }
 

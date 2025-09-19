@@ -1,13 +1,11 @@
 package br.com.usinasantafe.ppc.presenter.view.sample.samplelist
 
-import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import br.com.usinasantafe.ppc.domain.usecases.analysis.CloseAnalysis
+import br.com.usinasantafe.ppc.domain.usecases.analysis.FinishAnalysis
 import br.com.usinasantafe.ppc.domain.usecases.analysis.DeleteAnalysis
 import br.com.usinasantafe.ppc.domain.usecases.sample.DeleteSample
 import br.com.usinasantafe.ppc.domain.usecases.sample.ListSample
-import br.com.usinasantafe.ppc.presenter.Args.ID_HEADER_ARGS
 import br.com.usinasantafe.ppc.presenter.model.SampleScreenModel
 import br.com.usinasantafe.ppc.utils.TypeStateSampleList
 import br.com.usinasantafe.ppc.utils.getClassAndMethod
@@ -21,12 +19,11 @@ import javax.inject.Inject
 
 data class SampleListState(
     val sampleList: List<SampleScreenModel> = emptyList(),
-    val typeState: TypeStateSampleList = TypeStateSampleList.CLOSE,
-    val idHeader: Int = 0,
+    val typeState: TypeStateSampleList = TypeStateSampleList.FINISH,
     val idSelection: Int = 0,
     val indexSelection: Int = 0,
     val flagDialogCheck: Boolean = false,
-    val flagAccess: Boolean? = null,
+    val flagReturn: Boolean = false,
     val flagDialog: Boolean = false,
     val failure: String = "",
 )
@@ -34,7 +31,7 @@ data class SampleListState(
 @HiltViewModel
 class SampleListViewModel @Inject constructor(
     private val listSample: ListSample,
-    private val closeAnalysis: CloseAnalysis,
+    private val finishAnalysis: FinishAnalysis,
     private val deleteAnalysis: DeleteAnalysis,
     private val deleteSample: DeleteSample,
 ) : ViewModel() {
@@ -48,13 +45,32 @@ class SampleListViewModel @Inject constructor(
         }
     }
 
-    fun setDialogCheck(flagDialogCheck: Boolean) {
+    fun onTypeState(typeState: TypeStateSampleList) {
         _uiState.update {
-            it.copy(flagDialogCheck = flagDialogCheck)
+            it.copy(typeState = typeState)
         }
     }
 
-    suspend fun recoverList() {
+    fun onSelection(idSelection: Int, indexSelection: Int) {
+        _uiState.update {
+            it.copy(
+                idSelection = idSelection,
+                indexSelection = indexSelection
+            )
+        }
+    }
+
+    fun onDialogCheck(
+        flagDialogCheck: Boolean,
+    ) {
+        _uiState.update {
+            it.copy(
+                flagDialogCheck = flagDialogCheck
+            )
+        }
+    }
+
+    fun recoverList() = viewModelScope.launch {
         val result = listSample()
         if (result.isFailure) {
             val error = result.exceptionOrNull()!!
@@ -67,18 +83,18 @@ class SampleListViewModel @Inject constructor(
                     failure = failure
                 )
             }
-            return
+            return@launch
         }
-        val list = result.getOrNull()!!
+        val sampleList = result.getOrNull()!!
         _uiState.update {
             it.copy(
-                sampleList = list
+                sampleList = sampleList
             )
         }
     }
 
-    fun close() = viewModelScope.launch {
-        val result = closeAnalysis()
+    fun finish() = viewModelScope.launch {
+        val result = finishAnalysis()
         if (result.isFailure) {
             val error = result.exceptionOrNull()!!
             val failure =
@@ -94,7 +110,7 @@ class SampleListViewModel @Inject constructor(
         }
         _uiState.update {
             it.copy(
-                flagAccess = false
+                flagReturn = true
             )
         }
     }
@@ -116,14 +132,14 @@ class SampleListViewModel @Inject constructor(
         }
         _uiState.update {
             it.copy(
-                flagAccess = false
+                flagReturn = true
             )
         }
     }
 
-    fun deleteItem(idSample: Int) = viewModelScope.launch {
+    fun deleteItem() = viewModelScope.launch {
         val result = deleteSample(
-            idSample = idSample
+            id = uiState.value.idSelection
         )
         if (result.isFailure) {
             val error = result.exceptionOrNull()!!
@@ -138,6 +154,7 @@ class SampleListViewModel @Inject constructor(
             }
             return@launch
         }
+        onDialogCheck(false)
         recoverList()
     }
 

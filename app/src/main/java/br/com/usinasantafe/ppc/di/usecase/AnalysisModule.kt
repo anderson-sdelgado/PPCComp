@@ -13,7 +13,7 @@ interface AnalysisModule {
 
     @Binds
     @Singleton
-    fun bindCloseAnalysis(usecase: ICloseAnalysis): CloseAnalysis
+    fun bindCloseAnalysis(usecase: IFinishAnalysis): FinishAnalysis
 
     @Binds
     @Singleton

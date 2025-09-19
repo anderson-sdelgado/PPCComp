@@ -10,7 +10,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material3.Button
 import androidx.compose.material3.Scaffold
@@ -42,8 +41,8 @@ import br.com.usinasantafe.ppc.utils.TypeStateSampleList
 @Composable
 fun SampleListScreen(
     viewModel: SampleListViewModel = hiltViewModel(),
-    onHeaderList: () -> Unit,
-    onSampleList: (Int) -> Unit
+    onNavHeaderList: () -> Unit,
+    onNavTare: () -> Unit,
 ) {
     PPCTheme {
         Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
@@ -54,18 +53,22 @@ fun SampleListScreen(
             }
 
             SampleListContent(
-                sampleList = emptyList(),
+                sampleList = uiState.sampleList,
                 typeState = uiState.typeState,
-                idSelection = uiState.idSelection,
                 indexSelection = uiState.indexSelection,
                 flagDialogCheck = uiState.flagDialogCheck,
-                setDialogCheck = viewModel::setDialogCheck,
-                close = viewModel::close,
+                onDialogCheck = viewModel::onDialogCheck,
+                onTypeState = viewModel::onTypeState,
+                onSelection = viewModel::onSelection,
+                finish = viewModel::finish,
                 delete = viewModel::delete,
                 deleteItem = viewModel::deleteItem,
+                flagReturn = uiState.flagReturn,
                 setCloseDialog = viewModel::setCloseDialog,
                 flagDialog = uiState.flagDialog,
                 failure = uiState.failure,
+                onNavHeaderList = onNavHeaderList,
+                onNavTare = onNavTare,
                 modifier = Modifier.padding(innerPadding)
             )
         }
@@ -76,16 +79,20 @@ fun SampleListScreen(
 fun SampleListContent(
     sampleList: List<SampleScreenModel>,
     typeState: TypeStateSampleList,
-    idSelection: Int,
     indexSelection: Int,
     flagDialogCheck: Boolean,
-    setDialogCheck: (Boolean) -> Unit,
-    close: () -> Unit,
+    onDialogCheck: (Boolean) -> Unit,
+    onTypeState: (TypeStateSampleList) -> Unit,
+    onSelection: (Int, Int) -> Unit,
+    finish: () -> Unit,
     delete: () -> Unit,
-    deleteItem: (Int) -> Unit,
+    deleteItem: () -> Unit,
+    flagReturn: Boolean,
     setCloseDialog: () -> Unit,
     flagDialog: Boolean,
     failure: String,
+    onNavHeaderList: () -> Unit,
+    onNavTare: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -97,7 +104,7 @@ fun SampleListContent(
                 id = R.string.text_title_sample_list
             )
         )
-        if(sampleList.isEmpty()){
+        if(sampleList.isEmpty()) {
             Column(
                 modifier = modifier
                     .fillMaxWidth()
@@ -135,7 +142,11 @@ fun SampleListContent(
                         tip = sample.tip,
                         slivers = sample.slivers,
                         obs = sample.obs,
-                        setActionItem = {  },
+                        setActionItem = {
+                            onSelection(sample.id, index + 1)
+                            onTypeState(TypeStateSampleList.DELETE_ITEM)
+                            onDialogCheck(true)
+                        },
                         font = 24,
                         padding = 6
                     )
@@ -144,7 +155,7 @@ fun SampleListContent(
         }
         Spacer(modifier = Modifier.height(4.dp))
         Button(
-            onClick = {},
+            onClick = onNavTare,
             modifier = Modifier.fillMaxWidth(),
         ) {
             TextButtonDesign(
@@ -154,12 +165,14 @@ fun SampleListContent(
         Spacer(modifier = Modifier.height(8.dp))
         Row(
             modifier = Modifier
-                .fillMaxWidth()
-                .padding(vertical = 8.dp),
+                .fillMaxWidth(),
             horizontalArrangement = Arrangement.Center,
         ) {
             Button(
-                onClick = {},
+                onClick = {
+                    onTypeState(TypeStateSampleList.DELETE_ALL)
+                    onDialogCheck(true)
+                },
                 modifier = Modifier.weight(1f)
             ) {
                 TextButtonDesign(
@@ -167,17 +180,20 @@ fun SampleListContent(
                 )
             }
             Button(
-                onClick = {},
+                onClick = {
+                    onTypeState(TypeStateSampleList.FINISH)
+                    onDialogCheck(true)
+                },
                 modifier = Modifier.weight(1f)
             ) {
                 TextButtonDesign(
-                    text = stringResource(id = R.string.text_pattern_close)
+                    text = stringResource(id = R.string.text_pattern_finish)
                 )
             }
         }
         Spacer(modifier = Modifier.height(8.dp))
         Button(
-            onClick = {},
+            onClick = onNavHeaderList,
             modifier = Modifier.fillMaxWidth(),
         ) {
             TextButtonDesign(
@@ -190,19 +206,21 @@ fun SampleListContent(
     if (flagDialogCheck) {
         AlertDialogCheckDesign(
             text = when (typeState) {
-                TypeStateSampleList.CLOSE -> stringResource(id = R.string.text_msg_close_header)
+                TypeStateSampleList.FINISH -> stringResource(id = R.string.text_msg_finish_header)
                 TypeStateSampleList.DELETE_ALL -> stringResource(id = R.string.text_msg_delete_header)
                 TypeStateSampleList.DELETE_ITEM -> stringResource(
                     id = R.string.text_msg_delete_sample,
                     indexSelection
                 )
             },
-            setCloseDialog = { setDialogCheck(false) },
+            setCloseDialog = {
+                onDialogCheck(false)
+            },
             setActionButtonYes = {
                 when(typeState){
-                    TypeStateSampleList.CLOSE -> TODO()
-                    TypeStateSampleList.DELETE_ALL -> TODO()
-                    TypeStateSampleList.DELETE_ITEM -> TODO()
+                    TypeStateSampleList.FINISH -> finish()
+                    TypeStateSampleList.DELETE_ALL -> delete()
+                    TypeStateSampleList.DELETE_ITEM -> deleteItem()
                 }
             }
         )
@@ -218,6 +236,11 @@ fun SampleListContent(
         )
     }
 
+    LaunchedEffect(flagReturn) {
+        if(flagReturn) {
+            onNavHeaderList()
+        }
+    }
 }
 
 @Preview(showBackground = true)
@@ -227,17 +250,21 @@ fun SampleListPagePreviewEmptyList() {
         Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
             SampleListContent(
                 sampleList = emptyList(),
-                typeState = TypeStateSampleList.CLOSE,
-                idSelection = 0,
+                typeState = TypeStateSampleList.FINISH,
                 indexSelection = 0,
                 flagDialogCheck = false,
-                setDialogCheck = {},
-                close = {},
+                onDialogCheck = {},
+                onTypeState = {},
+                onSelection = { _, _ -> },
+                finish = {},
                 delete = {},
                 deleteItem = {},
+                flagReturn = false,
                 setCloseDialog = {},
                 flagDialog = false,
                 failure = "",
+                onNavHeaderList = {},
+                onNavTare = {},
                 modifier = Modifier.padding(innerPadding)
             )
         }
@@ -273,17 +300,21 @@ fun SampleListPagePreviewList() {
                             obs = "Teste"
                         )
                     ),
-                typeState = TypeStateSampleList.CLOSE,
-                idSelection = 0,
+                typeState = TypeStateSampleList.FINISH,
                 indexSelection = 0,
                 flagDialogCheck = false,
-                setDialogCheck = {},
-                close = {},
+                onDialogCheck = {},
+                onTypeState = {},
+                onSelection = { _, _ -> },
+                finish = {},
                 delete = {},
                 deleteItem = {},
                 setCloseDialog = {},
+                flagReturn = false,
                 flagDialog = false,
                 failure = "",
+                onNavHeaderList = {},
+                onNavTare = {},
                 modifier = Modifier.padding(innerPadding)
             )
         }
@@ -319,17 +350,21 @@ fun SampleListPagePreviewListFailure() {
                             obs = "Teste"
                         )
                     ),
-                idSelection = 0,
                 indexSelection = 0,
-                setCloseDialog = {},
-                setDialogCheck = {},
+                onDialogCheck = {},
+                onTypeState = {},
+                onSelection = { _, _ -> },
                 flagDialogCheck = false,
-                typeState = TypeStateSampleList.CLOSE,
-                close = {},
+                typeState = TypeStateSampleList.FINISH,
+                finish = {},
                 delete = {},
                 deleteItem = {},
+                flagReturn = false,
+                setCloseDialog = {},
                 flagDialog = true,
                 failure = "Failure",
+                onNavHeaderList = {},
+                onNavTare = {},
                 modifier = Modifier.padding(innerPadding)
             )
         }
@@ -365,17 +400,21 @@ fun SampleListPagePreviewListClose() {
                             obs = "Teste"
                         )
                     ),
-                idSelection = 0,
                 indexSelection = 0,
-                setCloseDialog = {},
-                setDialogCheck = {},
+                onDialogCheck = {},
+                onTypeState = {},
+                onSelection = { _, _ -> },
                 flagDialogCheck = true,
-                typeState = TypeStateSampleList.CLOSE,
-                close = {},
+                typeState = TypeStateSampleList.FINISH,
+                finish = {},
                 delete = {},
                 deleteItem = {},
+                flagReturn = false,
+                setCloseDialog = {},
                 flagDialog = false,
                 failure = "Failure",
+                onNavHeaderList = {},
+                onNavTare = {},
                 modifier = Modifier.padding(innerPadding)
             )
         }
@@ -411,17 +450,21 @@ fun SampleListPagePreviewListDeleteAll() {
                             obs = "Teste"
                         )
                     ),
-                idSelection = 0,
                 indexSelection = 0,
-                setCloseDialog = {},
-                setDialogCheck = {},
+                onDialogCheck = {},
+                onTypeState = {},
+                onSelection = { _, _ -> },
                 flagDialogCheck = true,
                 typeState = TypeStateSampleList.DELETE_ALL,
-                close = {},
+                finish = {},
                 delete = {},
                 deleteItem = {},
+                flagReturn = false,
+                setCloseDialog = {},
                 flagDialog = false,
                 failure = "Failure",
+                onNavHeaderList = {},
+                onNavTare = {},
                 modifier = Modifier.padding(innerPadding)
             )
         }
@@ -457,17 +500,21 @@ fun SampleListPagePreviewListDeleteSample() {
                             obs = "Teste"
                         )
                     ),
-                idSelection = 1,
                 indexSelection = 1,
-                setCloseDialog = {},
-                setDialogCheck = {},
+                onDialogCheck = {},
+                onTypeState = {},
+                onSelection = { _, _ -> },
                 flagDialogCheck = true,
                 typeState = TypeStateSampleList.DELETE_ITEM,
-                close = {},
+                finish = {},
                 delete = {},
                 deleteItem = {},
+                flagReturn = false,
+                setCloseDialog = {},
                 flagDialog = false,
                 failure = "Failure",
+                onNavHeaderList = {},
+                onNavTare = {},
                 modifier = Modifier.padding(innerPadding)
             )
         }

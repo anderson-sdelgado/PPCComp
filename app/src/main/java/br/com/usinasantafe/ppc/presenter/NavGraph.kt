@@ -20,6 +20,7 @@ import br.com.usinasantafe.ppc.presenter.Routes.OPERATOR_HEADER_ROUTE
 import br.com.usinasantafe.ppc.presenter.Routes.OS_HEADER_ROUTE
 import br.com.usinasantafe.ppc.presenter.Routes.PASSWORD_ROUTE
 import br.com.usinasantafe.ppc.presenter.Routes.PLOT_HEADER_ROUTE
+import br.com.usinasantafe.ppc.presenter.Routes.SAMPLE_LIST_ROUTE
 import br.com.usinasantafe.ppc.presenter.Routes.SECTION_HEADER_ROUTE
 import br.com.usinasantafe.ppc.presenter.Routes.SPLASH_ROUTE
 import br.com.usinasantafe.ppc.presenter.Routes.TURN_HEADER_ROUTE
@@ -36,6 +37,7 @@ import br.com.usinasantafe.ppc.presenter.view.header.os.OSScreen
 import br.com.usinasantafe.ppc.presenter.view.header.plot.PlotScreen
 import br.com.usinasantafe.ppc.presenter.view.header.section.SectionScreen
 import br.com.usinasantafe.ppc.presenter.view.header.turn.TurnScreen
+import br.com.usinasantafe.ppc.presenter.view.sample.samplelist.SampleListScreen
 import br.com.usinasantafe.ppc.presenter.view.splash.SplashScreen
 
 @Composable
@@ -106,6 +108,7 @@ fun NavigationGraph(
                     navActions.navigateToAuditorHeader()
                 },
                 onNavSampleList = {
+                    navActions.navigateToSampleList()
                 },
                 onNavInitialMenu = {
                     navActions.navigateToInitialMenu()
@@ -220,6 +223,20 @@ fun NavigationGraph(
         }
 
         ////////////////////////////////////////////////////////////////////
+
+        ////////////////////////// Sample //////////////////////////////////
+
+        composable(SAMPLE_LIST_ROUTE) {
+            SampleListScreen(
+                onNavHeaderList = {
+                    navActions.navigateToHeaderList()
+                },
+                onNavTare = {}
+            )
+        }
+
+        ////////////////////////////////////////////////////////////////////
+
 
     }
 

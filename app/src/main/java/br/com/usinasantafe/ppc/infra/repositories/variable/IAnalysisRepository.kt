@@ -1,13 +1,16 @@
 package br.com.usinasantafe.ppc.infra.repositories.variable
 
 import br.com.usinasantafe.ppc.domain.entities.variable.Header
+import br.com.usinasantafe.ppc.domain.entities.variable.Sample
 import br.com.usinasantafe.ppc.domain.errors.resultFailure
 import br.com.usinasantafe.ppc.domain.repositories.variable.AnalysisRepository
 import br.com.usinasantafe.ppc.infra.datasource.room.variable.HeaderRoomDatasource
 import br.com.usinasantafe.ppc.infra.datasource.room.variable.SampleRoomDatasource
 import br.com.usinasantafe.ppc.infra.datasource.sharedpreferences.variable.HeaderSharedPreferencesDatasource
+import br.com.usinasantafe.ppc.infra.datasource.sharedpreferences.variable.SampleSharedPreferencesDatasource
 import br.com.usinasantafe.ppc.infra.models.room.variable.roomModelToEntity
 import br.com.usinasantafe.ppc.infra.models.sharedpreferences.variable.sharedPreferencesModelToRoomModel
+import br.com.usinasantafe.ppc.utils.Field
 import br.com.usinasantafe.ppc.utils.Status
 import br.com.usinasantafe.ppc.utils.getClassAndMethod
 import java.util.Date
@@ -17,6 +20,7 @@ class IAnalysisRepository @Inject constructor(
     private val headerRoomDatasource: HeaderRoomDatasource,
     private val headerSharedPreferencesDatasource: HeaderSharedPreferencesDatasource,
     private val sampleRoomDatasource: SampleRoomDatasource,
+    private val sampleSharedPreferencesDatasource: SampleSharedPreferencesDatasource
 ): AnalysisRepository {
 
     override suspend fun listHeader(): Result<List<Header>> {
@@ -217,5 +221,101 @@ class IAnalysisRepository @Inject constructor(
         }
         return result
     }
+
+    override suspend fun getIdHeaderByStatus(status: Status): Result<Int> {
+        val result = headerRoomDatasource.getIdByStatus(status)
+        if(result.isFailure){
+            return resultFailure(
+                context = getClassAndMethod(),
+                cause = result.exceptionOrNull()!!
+            )
+        }
+        return result
+    }
+
+    override suspend fun deleteHeaderById(id: Int): Result<Boolean> {
+        val result = headerRoomDatasource.deleteById(id)
+        if(result.isFailure){
+            return resultFailure(
+                context = getClassAndMethod(),
+                cause = result.exceptionOrNull()!!
+            )
+        }
+        return result
+    }
+
+    override suspend fun listSampleByIdHeader(idHeader: Int): Result<List<Sample>> {
+        try {
+            val result = sampleRoomDatasource.listByIdHeader(idHeader)
+            if(result.isFailure){
+                return resultFailure(
+                    context = getClassAndMethod(),
+                    cause = result.exceptionOrNull()!!
+                )
+            }
+            val modelList = result.getOrNull()!!
+            val entityList = modelList.map { it.roomModelToEntity() }
+            return Result.success(entityList)
+        } catch (e: Exception) {
+            return resultFailure(
+                context = getClassAndMethod(),
+                cause = e
+            )
+        }
+    }
+
+    override suspend fun deleteSampleByIdHeader(idHeader: Int): Result<Boolean> {
+        val result = sampleRoomDatasource.deleteByIdHeader(idHeader)
+        if(result.isFailure){
+            return resultFailure(
+                context = getClassAndMethod(),
+                cause = result.exceptionOrNull()!!
+            )
+        }
+        return result
+
+    }
+
+    override suspend fun deleteSampleById(id: Int): Result<Boolean> {
+        val result = sampleRoomDatasource.deleteById(id)
+        if(result.isFailure){
+            return resultFailure(
+                context = getClassAndMethod(),
+                cause = result.exceptionOrNull()!!
+            )
+        }
+        return result
+    }
+
+    override suspend fun setFieldSample(
+        field: Field,
+        value: Double
+    ): Result<Boolean> {
+        try {
+            if(field == Field.TARE){
+                val resultClean = sampleSharedPreferencesDatasource.clean()
+                if(resultClean.isFailure){
+                    return resultFailure(
+                        context = getClassAndMethod(),
+                        cause = resultClean.exceptionOrNull()!!
+                    )
+                }
+            }
+            val result = sampleSharedPreferencesDatasource.setValue(field, value)
+            if(result.isFailure){
+                return resultFailure(
+                    context = getClassAndMethod(),
+                    cause = result.exceptionOrNull()!!
+                )
+            }
+            return result
+        } catch (e: Exception){
+            return resultFailure(
+                context = getClassAndMethod(),
+                cause = e
+            )
+        }
+    }
+
 
 }

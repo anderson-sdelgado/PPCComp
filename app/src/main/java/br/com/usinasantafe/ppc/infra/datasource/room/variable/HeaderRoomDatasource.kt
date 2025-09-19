@@ -8,4 +8,6 @@ interface HeaderRoomDatasource {
     suspend fun listByStatus(status: Status): Result<List<HeaderRoomModel>>
     suspend fun save(model: HeaderRoomModel): Result<Boolean>
     suspend fun setStatusById(status: Status, id: Int): Result<Boolean>
+    suspend fun getIdByStatus(status: Status): Result<Int>
+    suspend fun deleteById(id: Int): Result<Boolean>
 }

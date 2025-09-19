@@ -20,4 +20,9 @@ interface VariableSharedPreferencesDatasourceModule {
     @Singleton
     fun bindHeaderSharedPreferencesDatasource(dataSource: IHeaderSharedPreferencesDatasource): HeaderSharedPreferencesDatasource
 
+    @Binds
+    @Singleton
+    fun bindSampleSharedPreferencesDatasource(dataSource: ISampleSharedPreferencesDatasource): SampleSharedPreferencesDatasource
+
+
 }

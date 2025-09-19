@@ -80,9 +80,16 @@
     <string name="text_item_slivers">LASCAS: %1$s</string>
     <string name="text_item_obs">OBS.: %1$s</string>
     <string name="text_msg_no_data_sample">NÃO CONTÉM AMOSTRA CADASTRADA.</string>
-    <string name="text_pattern_close">FECHAR</string>
+    <string name="text_pattern_finish">FINALIZAR</string>
     <string name="text_pattern_delete">EXCLUIR</string>
-    <string name="text_msg_close_header">DESEJA REALMENTE FECHAR TODA(S) A(S) AMOSTRA(S) APONTADO(S)?</string>
+    <string name="text_msg_finish_header">DESEJA REALMENTE FINALIZAR A ANALISE?</string>
     <string name="text_msg_delete_header">DESEJA REALMENTE EXCLUIR ANALISE? ISSO EXCLUÍ-LA O CABEÇALHO E TODAS AS AMOSTRAS CONTIDA NELA.</string>
     <string name="text_msg_delete_sample">DESEJA EXCLUIR A AMOSTRA %1$s?</string>
+    <string name="text_title_tare">TARA</string>
+    <string name="text_title_stalk">TOLETE</string>
+    <string name="text_title_whole_cane">CANA INTEIRA</string>
+    <string name="text_title_stump">TOCO</string>
+    <string name="text_title_piece">PEDAÇO</string>
+    <string name="text_title_tip">PONTEIRO</string>
+    <string name="text_title_slivers">LASCAS</string>
 </resources>

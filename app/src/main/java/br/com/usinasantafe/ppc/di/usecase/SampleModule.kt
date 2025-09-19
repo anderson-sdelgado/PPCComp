@@ -18,4 +18,8 @@ interface SampleModule {
     @Binds
     @Singleton
     fun bindListSample(usecase: IListSample): ListSample
+
+    @Binds
+    @Singleton
+    fun bindSetFieldSample(usecase: ISetFieldSample): SetFieldSample
 }

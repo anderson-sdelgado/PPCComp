@@ -21,5 +21,13 @@ interface HeaderDao {
     @Query("UPDATE TB_HEADER SET status = :statusClose WHERE status != :statusFinish")
     suspend fun updateStatus(statusClose: Status = Status.CLOSE, statusFinish: Status = Status.FINISH)
 
+    @Query("UPDATE TB_HEADER SET status = :status WHERE id = :id")
+    suspend fun updateStatusById(status: Status, id: Int)
+
+    @Query("SELECT id FROM TB_HEADER WHERE status = :status")
+    suspend fun getIdByStatus(status: Status): Int
+
+    @Query("DELETE FROM TB_HEADER WHERE id = :id")
+    suspend fun deleteById(id: Int)
 
 }

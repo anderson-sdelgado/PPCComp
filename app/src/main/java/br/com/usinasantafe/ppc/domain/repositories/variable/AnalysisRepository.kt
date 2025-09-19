@@ -1,6 +1,8 @@
 package br.com.usinasantafe.ppc.domain.repositories.variable
 
 import br.com.usinasantafe.ppc.domain.entities.variable.Header
+import br.com.usinasantafe.ppc.domain.entities.variable.Sample
+import br.com.usinasantafe.ppc.utils.Field
 import br.com.usinasantafe.ppc.utils.Status
 import java.util.Date
 
@@ -22,4 +24,14 @@ interface AnalysisRepository {
         status: Status,
         id: Int
     ): Result<Boolean>
+    suspend fun getIdHeaderByStatus(status: Status): Result<Int>
+    suspend fun deleteHeaderById(id: Int): Result<Boolean>
+    suspend fun listSampleByIdHeader(idHeader: Int): Result<List<Sample>>
+    suspend fun deleteSampleByIdHeader(idHeader: Int): Result<Boolean>
+    suspend fun deleteSampleById(id: Int): Result<Boolean>
+    suspend fun setFieldSample(
+        field: Field,
+        value: Double
+    ): Result<Boolean>
+
 }

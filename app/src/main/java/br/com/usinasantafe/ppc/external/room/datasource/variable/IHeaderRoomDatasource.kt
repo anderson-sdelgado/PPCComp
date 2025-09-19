@@ -48,4 +48,43 @@ class IHeaderRoomDatasource @Inject constructor(
         }
     }
 
+    override suspend fun setStatusById(
+        status: Status,
+        id: Int
+    ): Result<Boolean> {
+        try {
+            headerDao.updateStatusById(status, id)
+            return Result.success(true)
+        } catch (e: Exception) {
+            return resultFailure(
+                context = getClassAndMethod(),
+                cause = e
+            )
+        }
+    }
+
+    override suspend fun getIdByStatus(status: Status): Result<Int> {
+        try {
+            val id = headerDao.getIdByStatus(status)
+            return Result.success(id)
+        } catch (e: Exception) {
+            return resultFailure(
+                context = getClassAndMethod(),
+                cause = e
+            )
+        }
+    }
+
+    override suspend fun deleteById(id: Int): Result<Boolean> {
+        try {
+            headerDao.deleteById(id)
+            return Result.success(true)
+        } catch (e: Exception) {
+            return resultFailure(
+                context = getClassAndMethod(),
+                cause = e
+            )
+        }
+    }
+
 }

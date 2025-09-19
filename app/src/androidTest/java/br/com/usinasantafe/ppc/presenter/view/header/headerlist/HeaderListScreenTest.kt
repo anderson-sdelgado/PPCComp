@@ -47,7 +47,7 @@ class HeaderListScreenTest {
             composeTestRule.onNodeWithText("NÃO CONTÉM CABEÇALHO CADASTRADO.")
                 .assertIsDisplayed()
 
-            composeTestRule.waitUntilTimeout(10_000)
+            composeTestRule.waitUntilTimeout(20_000)
 
         }
 
@@ -61,12 +61,12 @@ class HeaderListScreenTest {
 
             setContent()
 
-            composeTestRule.waitUntilTimeout()
+            composeTestRule.waitUntilTimeout(20_000)
 
             composeTestRule.onNodeWithText("NÃO CONTÉM AMOSTRAS")
                 .assertIsDisplayed()
 
-            composeTestRule.waitUntilTimeout(10_000)
+            composeTestRule.waitUntilTimeout()
 
         }
 

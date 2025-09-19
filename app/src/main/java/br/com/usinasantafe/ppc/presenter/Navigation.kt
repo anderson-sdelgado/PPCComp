@@ -57,7 +57,7 @@ object Routes {
     const val FRONT_HEADER_ROUTE = FRONT_HEADER_SCREEN
     const val HARVESTER_HEADER_ROUTE = HARVESTER_HEADER_SCREEN
     const val OPERATOR_HEADER_ROUTE = OPERATOR_HEADER_SCREEN
-    const val SAMPLE_LIST_ROUTE = "$SAMPLE_LIST_SCREEN/{$ID_HEADER_ARGS}"
+    const val SAMPLE_LIST_ROUTE = SAMPLE_LIST_SCREEN
 }
 
 class NavigationActions(private val navController: NavHostController) {

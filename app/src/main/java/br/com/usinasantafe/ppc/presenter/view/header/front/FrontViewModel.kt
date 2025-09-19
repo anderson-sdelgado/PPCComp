@@ -76,9 +76,9 @@ class FrontViewModel @Inject constructor(
     }
 
     private fun setNroFront() = viewModelScope.launch {
-        val resultSet = setFrontHeader(nroFront = uiState.value.nroFront)
-        if(resultSet.isFailure){
-            val error = resultSet.exceptionOrNull()!!
+        val result = setFrontHeader(nroFront = uiState.value.nroFront)
+        if(result.isFailure){
+            val error = result.exceptionOrNull()!!
             val failure =
                 "${getClassAndMethod()} -> ${error.message} -> ${error.cause.toString()}"
             Timber.e(failure)

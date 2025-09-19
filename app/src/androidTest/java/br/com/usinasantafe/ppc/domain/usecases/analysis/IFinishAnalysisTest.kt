@@ -1,0 +1,231 @@
+package br.com.usinasantafe.ppc.domain.usecases.analysis
+
+import br.com.usinasantafe.ppc.external.room.dao.variable.HeaderDao
+import br.com.usinasantafe.ppc.infra.models.room.variable.HeaderRoomModel
+import br.com.usinasantafe.ppc.utils.Status
+import dagger.hilt.android.testing.HiltAndroidRule
+import dagger.hilt.android.testing.HiltAndroidTest
+import kotlinx.coroutines.test.runTest
+import org.junit.Assert.*
+import org.junit.Before
+import org.junit.Rule
+import java.util.Date
+import javax.inject.Inject
+import kotlin.test.Test
+import kotlin.test.assertEquals
+
+@HiltAndroidTest
+class IFinishAnalysisTest {
+
+    @get:Rule
+    val hiltRule = HiltAndroidRule(this)
+
+    @Inject
+    lateinit var usecase: FinishAnalysis
+
+    @Inject
+    lateinit var headerDao: HeaderDao
+
+    @Before
+    fun init() {
+        hiltRule.inject()
+    }
+
+    @Test
+    fun check_alter_data() =
+        runTest {
+            headerDao.insert(
+                HeaderRoomModel(
+                    regAuditor1 = 1,
+                    regAuditor2 = 2,
+                    regAuditor3 = 3,
+                    date = Date(),
+                    nroTurn = 1,
+                    codSection = 1,
+                    nroPlot = 1,
+                    nroOS = 1,
+                    codFront = 1,
+                    nroHarvester = 1,
+                    regOperator = 1,
+                ),
+            )
+            headerDao.insert(
+                HeaderRoomModel(
+                    regAuditor1 = 10,
+                    regAuditor2 = 20,
+                    regAuditor3 = 30,
+                    date = Date(),
+                    nroTurn = 2,
+                    codSection = 2,
+                    nroPlot = 2,
+                    nroOS = 2,
+                    codFront = 2,
+                    nroHarvester = 2,
+                    regOperator = 2,
+                    status = Status.FINISH
+                ),
+            )
+            headerDao.insert(
+                HeaderRoomModel(
+                    regAuditor1 = 100,
+                    regAuditor2 = 200,
+                    regAuditor3 = 300,
+                    date = Date(),
+                    nroTurn = 3,
+                    codSection = 3,
+                    nroPlot = 3,
+                    nroOS = 3,
+                    codFront = 3,
+                    nroHarvester = 3,
+                    regOperator = 3,
+                    status = Status.OPEN
+                ),
+            )
+            val result = usecase()
+            assertEquals(
+                result.isSuccess,
+                true
+            )
+            val list = headerDao.all()
+            assertEquals(
+                list.size,
+                3
+            )
+            val model1 = list[0]
+            assertEquals(
+                model1.regAuditor1,
+                1
+            )
+            assertEquals(
+                model1.regAuditor2,
+                2
+            )
+            assertEquals(
+                model1.regAuditor3,
+                3
+            )
+            assertEquals(
+                model1.nroTurn,
+                1
+            )
+            assertEquals(
+                model1.codSection,
+                1
+            )
+            assertEquals(
+                model1.nroPlot,
+                1
+            )
+            assertEquals(
+                model1.nroOS,
+                1
+            )
+            assertEquals(
+                model1.codFront,
+                1
+            )
+            assertEquals(
+                model1.nroHarvester,
+                1
+            )
+            assertEquals(
+                model1.regOperator,
+                1
+            )
+            assertEquals(
+                model1.status,
+                Status.CLOSE
+            )
+            val model2 = list[1]
+            assertEquals(
+                model2.regAuditor1,
+                10
+            )
+            assertEquals(
+                model2.regAuditor2,
+                20
+            )
+            assertEquals(
+                model2.regAuditor3,
+                30
+            )
+            assertEquals(
+                model2.nroTurn,
+                2
+            )
+            assertEquals(
+                model2.codSection,
+                2
+            )
+            assertEquals(
+                model2.nroPlot,
+                2
+            )
+            assertEquals(
+                model2.nroOS,
+                2
+            )
+            assertEquals(
+                model2.codFront,
+                2
+            )
+            assertEquals(
+                model2.nroHarvester,
+                2
+            )
+            assertEquals(
+                model2.regOperator,
+                2
+            )
+            assertEquals(
+                model2.status,
+                Status.FINISH
+            )
+            val model3 = list[2]
+            assertEquals(
+                model3.regAuditor1,
+                100
+            )
+            assertEquals(
+                model3.regAuditor2,
+                200
+            )
+            assertEquals(
+                model3.regAuditor3,
+                300
+            )
+            assertEquals(
+                model3.nroTurn,
+                3
+            )
+            assertEquals(
+                model3.codSection,
+                3
+            )
+            assertEquals(
+                model3.nroPlot,
+                3
+            )
+            assertEquals(
+                model3.nroOS,
+                3
+            )
+            assertEquals(
+                model3.codFront,
+                3
+            )
+            assertEquals(
+                model3.nroHarvester,
+                3
+            )
+            assertEquals(
+                model3.regOperator,
+                3
+            )
+            assertEquals(
+                model3.status,
+                Status.FINISH
+            )
+        }
+
+}
