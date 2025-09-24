@@ -43,4 +43,8 @@ class ISampleRoomDatasource @Inject constructor(
         }
     }
 
+    override suspend fun save(model: SampleRoomModel): Result<Boolean> {
+        TODO("Not yet implemented")
+    }
+
 }

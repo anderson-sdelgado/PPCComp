@@ -1474,4 +1474,117 @@ class IAnalysisRepositoryTest {
             )
         }
 
+    @Test
+    fun `getTareSample - Check return failure if have error in AnalysisDatasource getTare`() =
+        runTest {
+            whenever(
+                sampleSharedPreferencesDatasource.getTare()
+            ).thenReturn(
+                resultFailure(
+                    "IAnalysisDatasource.getTare",
+                    "-",
+                    Exception()
+                )
+            )
+            val result = repository.getTareSample()
+            assertEquals(
+                result.isFailure,
+                true
+            )
+            assertEquals(
+                result.exceptionOrNull()!!.message,
+                "IAnalysisRepository.getTareSample -> IAnalysisDatasource.getTare"
+            )
+            assertEquals(
+                result.exceptionOrNull()!!.cause.toString(),
+                "java.lang.Exception"
+            )
+        }
+
+    @Test
+    fun `getTareSample - Check return correct if function execute successfully`() =
+        runTest {
+            whenever(
+                sampleSharedPreferencesDatasource.getTare()
+            ).thenReturn(
+                Result.success(1.200)
+            )
+            val result = repository.getTareSample()
+            assertEquals(
+                result.isSuccess,
+                true
+            )
+            assertEquals(
+                result.getOrNull()!!,
+                1.200,
+                0.000
+            )
+        }
+
+    @Test
+    fun `setObsSample - Check return failure if have error in AnalysisDatasource setObs`() =
+        runTest {
+            whenever(
+                sampleSharedPreferencesDatasource.setObs(
+                    stone = true,
+                    treeStump = true,
+                    weed = true,
+                    anthill = true
+                )
+            ).thenReturn(
+                resultFailure(
+                    "IAnalysisDatasource.setObsSample",
+                    "-",
+                    Exception()
+                )
+            )
+            val result = repository.setObsSample(
+                stone = true,
+                treeStump = true,
+                weed = true,
+                anthill = true
+            )
+            assertEquals(
+                result.isFailure,
+                true
+            )
+            assertEquals(
+                result.exceptionOrNull()!!.message,
+                "IAnalysisRepository.setObsSample -> IAnalysisDatasource.setObsSample"
+            )
+            assertEquals(
+                result.exceptionOrNull()!!.cause.toString(),
+                "java.lang.Exception"
+            )
+        }
+
+    @Test
+    fun `setObsSample - Check return correct if function execute successfully`() =
+        runTest {
+            whenever(
+                sampleSharedPreferencesDatasource.setObs(
+                    stone = true,
+                    treeStump = true,
+                    weed = true,
+                    anthill = true
+                )
+            ).thenReturn(
+                Result.success(true)
+            )
+            val result = repository.setObsSample(
+                stone = true,
+                treeStump = true,
+                weed = true,
+                anthill = true
+            )
+            assertEquals(
+                result.isSuccess,
+                true
+            )
+            assertEquals(
+                result.getOrNull()!!,
+                true
+            )
+        }
+
 }

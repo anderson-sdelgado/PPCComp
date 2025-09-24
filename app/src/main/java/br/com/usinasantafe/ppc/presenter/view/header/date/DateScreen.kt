@@ -99,7 +99,6 @@ fun DateContent(
                 onClick = {
                     val selectedMillis = datePickerState.selectedDateMillis
                     val date = Date(selectedMillis!! + (3 * 60  * 60 * 1000))
-//                    val date = Date(selectedMillis!!)
                     setDate(date)
                 },
                 modifier = Modifier.weight(1f),

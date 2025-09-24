@@ -1,8 +1,11 @@
 package br.com.usinasantafe.ppc.presenter.view.sample.field
 
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import br.com.usinasantafe.ppc.domain.usecases.sample.SetFieldSample
+import br.com.usinasantafe.ppc.domain.usecases.sample.CheckWeightRelationTare
+import br.com.usinasantafe.ppc.domain.usecases.sample.SetWeightSample
+import br.com.usinasantafe.ppc.presenter.Args.CHECK_OPEN_SAMPLE_ARGS
 import br.com.usinasantafe.ppc.presenter.theme.addTextFieldComma
 import br.com.usinasantafe.ppc.presenter.theme.clearTextFieldComma
 import br.com.usinasantafe.ppc.utils.Errors
@@ -18,8 +21,9 @@ import timber.log.Timber
 import javax.inject.Inject
 
 data class FieldState(
-    val value: String = "0,000",
+    val weight: String = "0,000",
     val field: Field = Field.TARE,
+    val flagDialogCheck: Boolean = false,
     val flagAccess: Boolean = false,
     val flagDialog: Boolean = false,
     val failure: String = "",
@@ -28,8 +32,12 @@ data class FieldState(
 
 @HiltViewModel
 class FieldViewModel @Inject constructor(
-    private val setFieldSample: SetFieldSample
+    saveStateHandle: SavedStateHandle,
+    private val checkWeightRelationTare: CheckWeightRelationTare,
+    private val setWeightSample: SetWeightSample
 ) : ViewModel() {
+
+    private val check: Boolean = saveStateHandle[CHECK_OPEN_SAMPLE_ARGS]!!
 
     private val _uiState = MutableStateFlow(FieldState())
     val uiState = _uiState.asStateFlow()
@@ -40,37 +48,65 @@ class FieldViewModel @Inject constructor(
         }
     }
 
+    init {
+        val field = if(check) Field.TARE else Field.SLIVERS
+        _uiState.update {
+            it.copy(
+                field = field
+            )
+        }
+    }
+
     fun setTextField(
         text: String,
         typeButton: TypeButton
-    ) {
+    ) = viewModelScope.launch {
         when(typeButton){
             TypeButton.NUMERIC -> {
-                val value = addTextFieldComma(uiState.value.value, text)
+                val value = addTextFieldComma(uiState.value.weight, text)
                 _uiState.update {
-                    it.copy(value = value)
+                    it.copy(weight = value)
                 }
             }
             TypeButton.CLEAN -> {
-                val value = clearTextFieldComma(uiState.value.value)
+                val value = clearTextFieldComma(uiState.value.weight)
                 _uiState.update {
-                    it.copy(value = value)
+                    it.copy(weight = value)
                 }
             }
             TypeButton.OK -> {
-                setValue()
+                if(uiState.value.weight == "0,000"){
+                    _uiState.update {
+                        it.copy(
+                            flagDialogCheck = true
+                        )
+                    }
+                    return@launch
+                }
+                checkWeight()
             }
             TypeButton.UPDATE -> {}
         }
     }
 
-    private fun clearValue(
+    fun onDialogCheck(
+        flagDialogCheck: Boolean,
+    ) {
+        _uiState.update {
+            it.copy(
+                flagDialogCheck = flagDialogCheck
+            )
+        }
+    }
+
+    fun clearValue(
         field: Field
     ) {
         _uiState.update {
             it.copy(
                 field = field,
-                value = "0,000"
+                weight = "0,000",
+                flagDialogCheck = false
             )
         }
     }
@@ -86,7 +122,7 @@ class FieldViewModel @Inject constructor(
             Field.SLIVERS -> {
                 _uiState.update {
                     it.copy(
-                        flagDialog = true
+                        flagAccess = true
                     )
                 }
             }
@@ -105,13 +141,47 @@ class FieldViewModel @Inject constructor(
         }
     }
 
-    private fun setValue() = viewModelScope.launch {
-        val result = setFieldSample(
+    fun checkWeight() = viewModelScope.launch {
+        if(uiState.value.field != Field.TARE){
+            val resultCheck = checkWeightRelationTare(uiState.value.weight)
+            if(resultCheck.isFailure){
+                val error = resultCheck.exceptionOrNull()!!
+                val failure =
+                    "${getClassAndMethod()} -> ${error.message} -> ${error.cause.toString()}"
+                Timber.e(failure)
+                _uiState.update {
+                    it.copy(
+                        flagDialog = true,
+                        errors = Errors.EXCEPTION,
+                        failure = failure
+                    )
+                }
+                return@launch
+            }
+            val check = resultCheck.getOrNull()!!
+            if(!check){
+                val failure =  "FieldViewModel.setTextField.OK -> Weight Invalid!"
+                Timber.e(failure)
+                _uiState.update {
+                    it.copy(
+                        flagDialog = true,
+                        errors = Errors.INVALID,
+                        failure = failure
+                    )
+                }
+                return@launch
+            }
+        }
+        setWeight()
+    }
+
+    fun setWeight() = viewModelScope.launch {
+        val resultSet = setWeightSample(
             field = uiState.value.field,
-            value = uiState.value.value
+            value = uiState.value.weight
         )
-        if(result.isFailure){
-            val error = result.exceptionOrNull()!!
+        if(resultSet.isFailure){
+            val error = resultSet.exceptionOrNull()!!
             val failure =
                 "${getClassAndMethod()} -> ${error.message} -> ${error.cause.toString()}"
             Timber.e(failure)

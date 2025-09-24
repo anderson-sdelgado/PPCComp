@@ -317,5 +317,67 @@ class IAnalysisRepository @Inject constructor(
         }
     }
 
+    override suspend fun getTareSample(): Result<Double> {
+        val result = sampleSharedPreferencesDatasource.getTare()
+        if(result.isFailure){
+            return resultFailure(
+                context = getClassAndMethod(),
+                cause = result.exceptionOrNull()!!
+            )
+        }
+        return result
+    }
+
+    override suspend fun setObsSample(
+        stone: Boolean,
+        treeStump: Boolean,
+        weed: Boolean,
+        anthill: Boolean
+    ): Result<Boolean> {
+        val result = sampleSharedPreferencesDatasource.setObs(stone, treeStump, weed, anthill)
+        if(result.isFailure){
+            return resultFailure(
+                context = getClassAndMethod(),
+                cause = result.exceptionOrNull()!!
+            )
+        }
+        return result
+    }
+
+    override suspend fun saveSample(): Result<Boolean> {
+        try {
+            val resultGetId = headerRoomDatasource.getIdByStatus(Status.OPEN)
+            if(resultGetId.isFailure){
+                return resultFailure(
+                    context = getClassAndMethod(),
+                    cause = resultGetId.exceptionOrNull()!!
+                )
+            }
+            val idHeader = resultGetId.getOrNull()!!
+            val resultGet = sampleSharedPreferencesDatasource.get()
+            if(resultGet.isFailure){
+                return resultFailure(
+                    context = getClassAndMethod(),
+                    cause = resultGet.exceptionOrNull()!!
+                )
+            }
+            val sampleSharedPreferencesModel = resultGet.getOrNull()!!
+            val model = sampleSharedPreferencesModel.sharedPreferencesModelToRoomModel(idHeader)
+            val result = sampleRoomDatasource.save(model)
+            if(result.isFailure){
+                return resultFailure(
+                    context = getClassAndMethod(),
+                    cause = result.exceptionOrNull()!!
+                )
+            }
+            return result
+        } catch (e: Exception){
+            return resultFailure(
+                context = getClassAndMethod(),
+                cause = e
+            )
+        }
+    }
+
 
 }

@@ -8,14 +8,12 @@ import br.com.usinasantafe.ppc.external.room.dao.variable.HeaderDao
 import br.com.usinasantafe.ppc.external.room.dao.variable.SampleDao
 import br.com.usinasantafe.ppc.infra.models.room.variable.HeaderRoomModel
 import br.com.usinasantafe.ppc.infra.models.room.variable.SampleRoomModel
-import br.com.usinasantafe.ppc.presenter.theme.TAG_BUTTON_OK_ALERT_DIALOG_SIMPLE
 import br.com.usinasantafe.ppc.presenter.theme.TAG_BUTTON_YES_ALERT_DIALOG_CHECK
 import br.com.usinasantafe.ppc.utils.Status
 import br.com.usinasantafe.ppc.utils.waitUntilTimeout
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import kotlinx.coroutines.test.runTest
-import org.junit.Assert.*
 import org.junit.Rule
 import java.util.Date
 import javax.inject.Inject
@@ -103,7 +101,7 @@ class SampleListScreenTest {
         composeTestRule.setContent {
             SampleListScreen(
                 onNavHeaderList = {},
-                onNavTare = {}
+                onNavFieldSample = {}
             )
         }
     }

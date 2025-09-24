@@ -25,6 +25,7 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import br.com.usinasantafe.ppc.R
+import br.com.usinasantafe.ppc.presenter.theme.AlertDialogCheckDesign
 import br.com.usinasantafe.ppc.presenter.theme.AlertDialogSimpleDesign
 import br.com.usinasantafe.ppc.presenter.theme.ButtonsGenericNumeric
 import br.com.usinasantafe.ppc.presenter.theme.TitleDesign
@@ -43,10 +44,13 @@ fun FieldScreen(
         Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
             val uiState by viewModel.uiState.collectAsStateWithLifecycle()
             FieldContent(
-                value = uiState.value,
+                weight = uiState.weight,
                 field = uiState.field,
                 previous = viewModel::previous,
                 setTextField = viewModel::setTextField,
+                setWeight = viewModel::setWeight,
+                flagDialogCheck = uiState.flagDialogCheck,
+                onDialogCheck = viewModel::onDialogCheck,
                 flagAccess = uiState.flagAccess,
                 setCloseDialog = viewModel::setCloseDialog,
                 flagDialog = uiState.flagDialog,
@@ -62,10 +66,13 @@ fun FieldScreen(
 
 @Composable
 fun FieldContent(
-    value: String,
+    weight: String,
     field: Field,
     previous: () -> Unit,
     setTextField: (String, TypeButton) -> Unit,
+    setWeight: () -> Unit,
+    flagDialogCheck: Boolean,
+    onDialogCheck: (Boolean) -> Unit,
     flagAccess: Boolean,
     setCloseDialog: () -> Unit,
     flagDialog: Boolean,
@@ -118,7 +125,7 @@ fun FieldContent(
                 fontSize = 28.sp,
             ),
             readOnly = true,
-            value = value,
+            value = weight,
             onValueChange = {},
             modifier = Modifier
                 .fillMaxWidth()
@@ -135,9 +142,8 @@ fun FieldContent(
 
     if(flagDialog) {
         val text = when(errors){
-            Errors.FIELD_EMPTY -> stringResource(
-                id = R.string.text_field_empty,
-                title
+            Errors.INVALID -> stringResource(
+                id = R.string.text_msg_value_invalid
             )
             else -> stringResource(
                 id = R.string.text_failure,
@@ -147,6 +153,18 @@ fun FieldContent(
         AlertDialogSimpleDesign(
             text = text,
             setCloseDialog = setCloseDialog
+        )
+    }
+
+    if (flagDialogCheck) {
+        AlertDialogCheckDesign(
+            text = stringResource(
+                id = R.string.text_msg_value_null
+            ),
+            setCloseDialog = {
+                onDialogCheck(false)
+            },
+            setActionButtonYes = setWeight
         )
     }
 
@@ -164,13 +182,68 @@ fun FieldPagePreview() {
     PPCTheme {
         Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
             FieldContent(
-                value = "0,000",
+                weight = "1,204",
                 field = Field.TARE,
                 previous = {},
+                setWeight = {},
                 setTextField = { _, _ -> },
+                flagDialogCheck = false,
+                onDialogCheck = {},
                 flagAccess = false,
                 setCloseDialog = {},
                 flagDialog = false,
+                failure = "",
+                errors = Errors.FIELD_EMPTY,
+                onNavSampleList = {},
+                onNavObsList = {},
+                modifier = Modifier.padding(innerPadding)
+            )
+        }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun FieldPagePreviewInvalid() {
+    PPCTheme {
+        Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
+            FieldContent(
+                weight = "1,204",
+                field = Field.TARE,
+                previous = {},
+                setWeight = {},
+                setTextField = { _, _ -> },
+                flagDialogCheck = false,
+                onDialogCheck = {},
+                flagAccess = false,
+                setCloseDialog = {},
+                flagDialog = true,
+                failure = "",
+                errors = Errors.INVALID,
+                onNavSampleList = {},
+                onNavObsList = {},
+                modifier = Modifier.padding(innerPadding)
+            )
+        }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun FieldPagePreviewFieldEmpty() {
+    PPCTheme {
+        Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
+            FieldContent(
+                weight = "1,204",
+                field = Field.TARE,
+                previous = {},
+                setWeight = {},
+                setTextField = { _, _ -> },
+                flagDialogCheck = true,
+                onDialogCheck = {},
+                flagAccess = false,
+                setCloseDialog = {},
+                flagDialog = true,
                 failure = "",
                 errors = Errors.FIELD_EMPTY,
                 onNavSampleList = {},

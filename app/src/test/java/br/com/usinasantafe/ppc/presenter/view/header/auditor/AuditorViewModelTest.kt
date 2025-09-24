@@ -1,12 +1,10 @@
 package br.com.usinasantafe.ppc.presenter.view.header.auditor
 
-import androidx.lifecycle.SavedStateHandle
 import br.com.usinasantafe.ppc.MainCoroutineRule
 import br.com.usinasantafe.ppc.domain.errors.resultFailure
 import br.com.usinasantafe.ppc.domain.usecases.header.CheckColab
 import br.com.usinasantafe.ppc.domain.usecases.header.SetAuditorHeader
 import br.com.usinasantafe.ppc.domain.usecases.update.UpdateTableColab
-import br.com.usinasantafe.ppc.presenter.Args.POS_AUDITOR_ARGS
 import br.com.usinasantafe.ppc.presenter.model.ResultUpdateModel
 import br.com.usinasantafe.ppc.utils.Errors
 import br.com.usinasantafe.ppc.utils.LevelUpdate
@@ -32,35 +30,15 @@ class AuditorViewModelTest {
     private val updateTableColab = mock<UpdateTableColab>()
     private val setAuditorHeader = mock<SetAuditorHeader>()
     private val checkColab = mock<CheckColab>()
-    private fun createViewModel(
-        posAuditor: Int = 1
-    ) = AuditorViewModel(
-        SavedStateHandle(
-            mapOf(
-                POS_AUDITOR_ARGS to posAuditor
-            )
-        ),
+    private val viewModel = AuditorViewModel(
         updateTableColab = updateTableColab,
         setAuditorHeader = setAuditorHeader,
         checkColab = checkColab
     )
 
     @Test
-    fun `init - Check posAuditor init`() =
-        runTest {
-            val viewModel = createViewModel(
-                posAuditor = 2
-            )
-            assertEquals(
-                viewModel.uiState.value.posAuditor,
-                2
-            )
-        }
-
-    @Test
     fun `setTextField - Check digit reg`() =
         runTest {
-            val viewModel = createViewModel()
             viewModel.setTextField("1", TypeButton.NUMERIC)
             viewModel.setTextField("9", TypeButton.NUMERIC)
             viewModel.setTextField("7", TypeButton.NUMERIC)
@@ -75,7 +53,6 @@ class AuditorViewModelTest {
     @Test
     fun `setTextField - Check clean digit`() =
         runTest {
-            val viewModel = createViewModel()
             viewModel.setTextField("1", TypeButton.NUMERIC)
             viewModel.setTextField("9", TypeButton.NUMERIC)
             viewModel.setTextField("7", TypeButton.NUMERIC)
@@ -92,7 +69,6 @@ class AuditorViewModelTest {
     @Test
     fun `setTextField - Check return failure if field is empty`() =
         runTest {
-            val viewModel = createViewModel()
             viewModel.setTextField("", TypeButton.OK)
             assertEquals(
                 viewModel.uiState.value.flagDialog,
@@ -142,7 +118,6 @@ class AuditorViewModelTest {
                     ),
                 )
             )
-            val viewModel = createViewModel()
             val result = viewModel.updateAllDatabase().toList()
             assertEquals(
                 result.count(),
@@ -200,7 +175,6 @@ class AuditorViewModelTest {
                     ),
                 )
             )
-            val viewModel = createViewModel()
             val result = viewModel.updateAllDatabase().toList()
             assertEquals(
                 result.count(),
@@ -271,7 +245,6 @@ class AuditorViewModelTest {
                     ),
                 )
             )
-            val viewModel = createViewModel()
             val result = viewModel.updateAllDatabase().toList()
             assertEquals(
                 result.count(),
@@ -358,7 +331,6 @@ class AuditorViewModelTest {
                     ),
                 )
             )
-            val viewModel = createViewModel()
             val result = viewModel.updateAllDatabase().toList()
             assertEquals(
                 result.count(),
@@ -436,7 +408,6 @@ class AuditorViewModelTest {
                     cause = Exception()
                 )
             )
-            val viewModel = createViewModel()
             viewModel.setTextField("1", TypeButton.NUMERIC)
             viewModel.setTextField("9", TypeButton.NUMERIC)
             viewModel.setTextField("7", TypeButton.NUMERIC)
@@ -477,7 +448,6 @@ class AuditorViewModelTest {
             ).thenReturn(
                 Result.success(false)
             )
-            val viewModel = createViewModel()
             viewModel.setTextField("1", TypeButton.NUMERIC)
             viewModel.setTextField("9", TypeButton.NUMERIC)
             viewModel.setTextField("7", TypeButton.NUMERIC)
@@ -530,7 +500,6 @@ class AuditorViewModelTest {
                     cause = Exception()
                 )
             )
-            val viewModel = createViewModel()
             viewModel.setTextField("1", TypeButton.NUMERIC)
             viewModel.setTextField("9", TypeButton.NUMERIC)
             viewModel.setTextField("7", TypeButton.NUMERIC)
@@ -579,7 +548,6 @@ class AuditorViewModelTest {
             ).thenReturn(
                 Result.success(true)
             )
-            val viewModel = createViewModel()
             viewModel.setTextField("1", TypeButton.NUMERIC)
             viewModel.setTextField("9", TypeButton.NUMERIC)
             viewModel.setTextField("7", TypeButton.NUMERIC)
@@ -593,29 +561,9 @@ class AuditorViewModelTest {
         }
 
     @Test
-    fun `setTextField - Check return true if SetAuditor execute successfully and pos is 3`() =
+    fun `setTextField - Check return true if SetAuditor execute successfully and pos is 2`() =
         runTest {
-            whenever(
-                checkColab("19759")
-            ).thenReturn(
-                Result.success(true)
-            )
-            whenever(
-                setAuditorHeader(
-                    pos = 3,
-                    regAuditor = "19759"
-                )
-            ).thenReturn(
-                Result.success(true)
-            )
-            val viewModel = createViewModel(
-                posAuditor = 3
-            )
-            viewModel.setTextField("1", TypeButton.NUMERIC)
-            viewModel.setTextField("9", TypeButton.NUMERIC)
-            viewModel.setTextField("7", TypeButton.NUMERIC)
-            viewModel.setTextField("5", TypeButton.NUMERIC)
-            viewModel.setTextField("9", TypeButton.NUMERIC)
+            viewModel.next()
             viewModel.setTextField("", TypeButton.OK)
             assertEquals(
                 viewModel.uiState.value.flagAccess,
@@ -626,51 +574,11 @@ class AuditorViewModelTest {
     @Test
     fun `ret - Check alter posAuditor`() =
         runTest {
-            val viewModel = createViewModel(
-                posAuditor = 3
-            )
+            viewModel.next()
             viewModel.ret()
             assertEquals(
                 viewModel.uiState.value.posAuditor,
-                2
-            )
-        }
-
-    @Test
-    fun `setTextField - Check next if field is empty and pos is greater than 1`() =
-        runTest {
-            val viewModel = createViewModel(
-                posAuditor = 2
-            )
-            viewModel.setTextField("", TypeButton.OK)
-            assertEquals(
-                viewModel.uiState.value.flagAccess,
-                true
-            )
-        }
-    @Test
-    fun `setTextField - Check next if field is empty and pos is 3`() =
-        runTest {
-            val viewModel = createViewModel(
-                posAuditor = 3
-            )
-            viewModel.setTextField("", TypeButton.OK)
-            assertEquals(
-                viewModel.uiState.value.flagAccess,
-                true
-            )
-        }
-
-    @Test
-    fun `next - Check flagAccess is true if pos is 2 e field is empty`() =
-        runTest {
-            val viewModel = createViewModel(
-                posAuditor = 2
-            )
-            viewModel.next()
-            assertEquals(
-                viewModel.uiState.value.flagAccess,
-                true
+                1
             )
         }
 

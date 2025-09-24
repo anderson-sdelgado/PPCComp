@@ -92,4 +92,11 @@
     <string name="text_title_piece">PEDAÇO</string>
     <string name="text_title_tip">PONTEIRO</string>
     <string name="text_title_slivers">LASCAS</string>
+    <string name="text_msg_value_invalid">"O PESO DIGITADO ESTA ABAIXO DO PESO TARA. POR FAVOR, VERIFIQUE O VALOR DIGITADO."</string>
+    <string name="text_msg_value_null">DESEJA REALMENTE PASSAR O VALOR ZERADO PARA O CAMPO?</string>
+    <string name="text_item_stone">PEDRA</string>
+    <string name="text_item_treeStump">TOCO DE ARVORE</string>
+    <string name="text_item_anthill">FORMIGUEIROS</string>
+    <string name="text_item_weed">PLANTAS DANINHAS</string>
+    <string name="text_title_obs">OBSERVAÇÃO</string>
 </resources>

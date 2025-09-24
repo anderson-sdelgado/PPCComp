@@ -33,5 +33,12 @@ interface AnalysisRepository {
         field: Field,
         value: Double
     ): Result<Boolean>
-
+    suspend fun getTareSample(): Result<Double>
+    suspend fun setObsSample(
+        stone: Boolean,
+        treeStump: Boolean,
+        weed: Boolean,
+        anthill: Boolean
+    ): Result<Boolean>
+    suspend fun saveSample(): Result<Boolean>
 }

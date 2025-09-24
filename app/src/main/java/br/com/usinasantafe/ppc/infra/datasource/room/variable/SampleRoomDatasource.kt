@@ -7,4 +7,5 @@ interface SampleRoomDatasource {
     suspend fun listByIdHeader(idHeader: Int): Result<List<SampleRoomModel>>
     suspend fun deleteByIdHeader(idHeader: Int): Result<Boolean>
     suspend fun deleteById(id: Int): Result<Boolean>
+    suspend fun save(model: SampleRoomModel): Result<Boolean>
 }

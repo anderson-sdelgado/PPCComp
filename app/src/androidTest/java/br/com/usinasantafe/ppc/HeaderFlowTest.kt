@@ -811,7 +811,7 @@ class HeaderFlowTest {
             )
             assertEquals(
                 model.status,
-                Status.OPEN
+                Status.CLOSE
             )
 
             Log.d("TestDebug", "Position 46")

@@ -21,5 +21,13 @@ interface SampleModule {
 
     @Binds
     @Singleton
-    fun bindSetFieldSample(usecase: ISetFieldSample): SetFieldSample
+    fun bindSetFieldSample(usecase: ISetWeightSample): SetWeightSample
+
+    @Binds
+    @Singleton
+    fun bindCheckTare(usecase: ICheckWeightRelationTare): CheckWeightRelationTare
+
+    @Binds
+    @Singleton
+    fun bindSetObsSample(usecase: ISetObsSample): SetObsSample
 }

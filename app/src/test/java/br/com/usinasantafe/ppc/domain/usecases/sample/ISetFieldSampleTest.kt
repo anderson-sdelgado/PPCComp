@@ -12,7 +12,7 @@ import kotlin.test.Test
 class ISetFieldSampleTest {
 
     private val analysisRepository = mock<AnalysisRepository>()
-    private val usecase = ISetFieldSample(
+    private val usecase = ISetWeightSample(
         analysisRepository = analysisRepository
     )
 

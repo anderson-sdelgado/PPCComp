@@ -42,7 +42,7 @@ import br.com.usinasantafe.ppc.utils.TypeStateSampleList
 fun SampleListScreen(
     viewModel: SampleListViewModel = hiltViewModel(),
     onNavHeaderList: () -> Unit,
-    onNavTare: () -> Unit,
+    onNavFieldSample: () -> Unit,
 ) {
     PPCTheme {
         Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
@@ -68,7 +68,7 @@ fun SampleListScreen(
                 flagDialog = uiState.flagDialog,
                 failure = uiState.failure,
                 onNavHeaderList = onNavHeaderList,
-                onNavTare = onNavTare,
+                onNavFieldSample = onNavFieldSample,
                 modifier = Modifier.padding(innerPadding)
             )
         }
@@ -92,7 +92,7 @@ fun SampleListContent(
     flagDialog: Boolean,
     failure: String,
     onNavHeaderList: () -> Unit,
-    onNavTare: () -> Unit,
+    onNavFieldSample: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -155,7 +155,7 @@ fun SampleListContent(
         }
         Spacer(modifier = Modifier.height(4.dp))
         Button(
-            onClick = onNavTare,
+            onClick = onNavFieldSample,
             modifier = Modifier.fillMaxWidth(),
         ) {
             TextButtonDesign(
@@ -264,7 +264,7 @@ fun SampleListPagePreviewEmptyList() {
                 flagDialog = false,
                 failure = "",
                 onNavHeaderList = {},
-                onNavTare = {},
+                onNavFieldSample = {},
                 modifier = Modifier.padding(innerPadding)
             )
         }
@@ -314,7 +314,7 @@ fun SampleListPagePreviewList() {
                 flagDialog = false,
                 failure = "",
                 onNavHeaderList = {},
-                onNavTare = {},
+                onNavFieldSample = {},
                 modifier = Modifier.padding(innerPadding)
             )
         }
@@ -364,7 +364,7 @@ fun SampleListPagePreviewListFailure() {
                 flagDialog = true,
                 failure = "Failure",
                 onNavHeaderList = {},
-                onNavTare = {},
+                onNavFieldSample = {},
                 modifier = Modifier.padding(innerPadding)
             )
         }
@@ -414,7 +414,7 @@ fun SampleListPagePreviewListClose() {
                 flagDialog = false,
                 failure = "Failure",
                 onNavHeaderList = {},
-                onNavTare = {},
+                onNavFieldSample = {},
                 modifier = Modifier.padding(innerPadding)
             )
         }
@@ -464,7 +464,7 @@ fun SampleListPagePreviewListDeleteAll() {
                 flagDialog = false,
                 failure = "Failure",
                 onNavHeaderList = {},
-                onNavTare = {},
+                onNavFieldSample = {},
                 modifier = Modifier.padding(innerPadding)
             )
         }
@@ -514,7 +514,7 @@ fun SampleListPagePreviewListDeleteSample() {
                 flagDialog = false,
                 failure = "Failure",
                 onNavHeaderList = {},
-                onNavTare = {},
+                onNavFieldSample = {},
                 modifier = Modifier.padding(innerPadding)
             )
         }

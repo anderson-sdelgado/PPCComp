@@ -6,7 +6,6 @@ import androidx.lifecycle.viewModelScope
 import br.com.usinasantafe.ppc.domain.usecases.header.CheckColab
 import br.com.usinasantafe.ppc.domain.usecases.header.SetAuditorHeader
 import br.com.usinasantafe.ppc.domain.usecases.update.UpdateTableColab
-import br.com.usinasantafe.ppc.presenter.Args.POS_AUDITOR_ARGS
 import br.com.usinasantafe.ppc.presenter.model.ResultUpdateModel
 import br.com.usinasantafe.ppc.presenter.theme.addTextField
 import br.com.usinasantafe.ppc.presenter.theme.clearTextField
@@ -26,7 +25,7 @@ import timber.log.Timber
 import javax.inject.Inject
 
 data class AuditorState(
-    val posAuditor: Int = 0,
+    val posAuditor: Int = 1,
     val regAuditor: String = "",
     val flagAccess: Boolean = false,
     val flagDialog: Boolean = false,
@@ -65,13 +64,10 @@ fun ResultUpdateModel.resultUpdateToAuditor(
 
 @HiltViewModel
 class AuditorViewModel @Inject constructor(
-    saveStateHandle: SavedStateHandle,
     private val updateTableColab: UpdateTableColab,
     private val setAuditorHeader: SetAuditorHeader,
     private val checkColab: CheckColab
 ) : ViewModel() {
-
-    private val posAuditor: Int = saveStateHandle[POS_AUDITOR_ARGS]!!
 
     private val _uiState = MutableStateFlow(AuditorState())
     val uiState = _uiState.asStateFlow()
@@ -79,14 +75,6 @@ class AuditorViewModel @Inject constructor(
     fun setCloseDialog() {
         _uiState.update {
             it.copy(flagDialog = false)
-        }
-    }
-
-    init {
-        _uiState.update {
-            it.copy(
-                posAuditor = posAuditor
-            )
         }
     }
 

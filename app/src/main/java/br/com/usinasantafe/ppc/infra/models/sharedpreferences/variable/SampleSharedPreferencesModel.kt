@@ -1,7 +1,8 @@
 package br.com.usinasantafe.ppc.infra.models.sharedpreferences.variable
 
+import br.com.usinasantafe.ppc.infra.models.room.variable.SampleRoomModel
+
 data class SampleSharedPreferencesModel(
-    var idHeader: Int? = null,
     var tare: Double? = null,
     var stalk: Double? = null,
     var wholeCane: Double? = null,
@@ -19,3 +20,29 @@ data class SampleSharedPreferencesModel(
     var mucuna: Boolean = false,
     var silkGrass: Boolean = false,
 )
+
+fun SampleSharedPreferencesModel.sharedPreferencesModelToRoomModel(
+    idHeader: Int
+): SampleRoomModel {
+    return with(this) {
+        SampleRoomModel(
+            idHeader = idHeader,
+            tare = tare!!,
+            stalk = stalk,
+            wholeCane = wholeCane,
+            stump = stump,
+            piece = piece,
+            tip = tip,
+            slivers = slivers,
+            stone = stone,
+            treeStump = treeStump,
+            weed = weed,
+            anthill = anthill,
+            guineaGrass = guineaGrass,
+            castorOilPlant = castorOilPlant,
+            signalGrass = signalGrass,
+            mucuna = mucuna,
+            silkGrass = silkGrass
+        )
+    }
+}

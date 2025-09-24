@@ -8,6 +8,7 @@ import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import br.com.usinasantafe.ppc.external.room.dao.variable.HeaderDao
 import br.com.usinasantafe.ppc.external.room.dao.variable.SampleDao
+import br.com.usinasantafe.ppc.external.sharedpreferences.datasource.variable.ISampleSharedPreferencesDatasource
 import br.com.usinasantafe.ppc.infra.datasource.sharedpreferences.variable.ConfigSharedPreferencesDatasource
 import br.com.usinasantafe.ppc.infra.models.room.variable.HeaderRoomModel
 import br.com.usinasantafe.ppc.infra.models.room.variable.SampleRoomModel
@@ -44,6 +45,9 @@ class SampleFlowTest {
 
     @Inject
     lateinit var sampleDao: SampleDao
+
+    @Inject
+    lateinit var sampleSharedPreferencesDatasource: ISampleSharedPreferencesDatasource
 
     @Test
     fun sample_flow() =
@@ -395,6 +399,302 @@ class SampleFlowTest {
                 .performClick()
 
             Log.d("TestDebug", "Position 15")
+
+            composeTestRule.waitUntilTimeout()
+
+            composeTestRule.onNodeWithText("INSERIR")
+                .performClick()
+
+            Log.d("TestDebug", "Position 16")
+
+            composeTestRule.waitUntilTimeout()
+
+            composeTestRule.activityRule.scenario.onActivity { activity ->
+                activity.onBackPressedDispatcher.onBackPressed()
+            }
+
+            Log.d("TestDebug", "Position 17")
+
+            composeTestRule.waitUntilTimeout()
+
+            composeTestRule.onNodeWithText("INSERIR")
+                .performClick()
+
+            Log.d("TestDebug", "Position 18")
+
+            composeTestRule.waitUntilTimeout()
+
+            composeTestRule.onNodeWithText("1").performClick()
+            composeTestRule.onNodeWithText("0").performClick()
+            composeTestRule.onNodeWithText("1").performClick()
+            composeTestRule.onNodeWithText("0").performClick()
+
+            Log.d("TestDebug", "Position 19")
+
+            composeTestRule.waitUntilTimeout()
+
+            composeTestRule.onNodeWithText("OK").performClick()
+
+            Log.d("TestDebug", "Position 20")
+
+            composeTestRule.waitUntilTimeout()
+
+            composeTestRule.activityRule.scenario.onActivity { activity ->
+                activity.onBackPressedDispatcher.onBackPressed()
+            }
+
+            Log.d("TestDebug", "Position 21")
+
+            composeTestRule.waitUntilTimeout()
+
+            composeTestRule.onNodeWithText("1").performClick()
+            composeTestRule.onNodeWithText("0").performClick()
+            composeTestRule.onNodeWithText("1").performClick()
+            composeTestRule.onNodeWithText("0").performClick()
+
+            Log.d("TestDebug", "Position 22")
+
+            composeTestRule.waitUntilTimeout()
+
+            composeTestRule.onNodeWithText("OK").performClick()
+
+            Log.d("TestDebug", "Position 23")
+
+            composeTestRule.waitUntilTimeout()
+
+            composeTestRule.onNodeWithText("2").performClick()
+            composeTestRule.onNodeWithText("0").performClick()
+            composeTestRule.onNodeWithText("1").performClick()
+            composeTestRule.onNodeWithText("0").performClick()
+
+            Log.d("TestDebug", "Position 24")
+
+            composeTestRule.waitUntilTimeout()
+
+            composeTestRule.onNodeWithText("OK").performClick()
+
+            Log.d("TestDebug", "Position 25")
+
+            composeTestRule.waitUntilTimeout()
+
+            composeTestRule.activityRule.scenario.onActivity { activity ->
+                activity.onBackPressedDispatcher.onBackPressed()
+            }
+
+            Log.d("TestDebug", "Position 26")
+
+            composeTestRule.waitUntilTimeout()
+
+            composeTestRule.onNodeWithText("2").performClick()
+            composeTestRule.onNodeWithText("0").performClick()
+            composeTestRule.onNodeWithText("1").performClick()
+            composeTestRule.onNodeWithText("0").performClick()
+
+            Log.d("TestDebug", "Position 27")
+
+            composeTestRule.waitUntilTimeout()
+
+            composeTestRule.onNodeWithText("OK").performClick()
+
+            Log.d("TestDebug", "Position 28")
+
+            composeTestRule.waitUntilTimeout()
+
+            composeTestRule.onNodeWithText("OK").performClick()
+
+            Log.d("TestDebug", "Position 29")
+
+            composeTestRule.waitUntilTimeout()
+
+            composeTestRule.onNodeWithTag(TAG_BUTTON_YES_ALERT_DIALOG_CHECK)
+                .performClick()
+
+            Log.d("TestDebug", "Position 30")
+
+            composeTestRule.waitUntilTimeout()
+
+            composeTestRule.activityRule.scenario.onActivity { activity ->
+                activity.onBackPressedDispatcher.onBackPressed()
+            }
+
+            Log.d("TestDebug", "Position 31")
+
+            composeTestRule.waitUntilTimeout()
+
+            composeTestRule.onNodeWithText("OK").performClick()
+
+            Log.d("TestDebug", "Position 32")
+
+            composeTestRule.waitUntilTimeout()
+
+            composeTestRule.onNodeWithTag(TAG_BUTTON_YES_ALERT_DIALOG_CHECK)
+                .performClick()
+
+            Log.d("TestDebug", "Position 33")
+
+            composeTestRule.waitUntilTimeout()
+
+            composeTestRule.onNodeWithText("2").performClick()
+            composeTestRule.onNodeWithText("1").performClick()
+            composeTestRule.onNodeWithText("1").performClick()
+            composeTestRule.onNodeWithText("0").performClick()
+
+            Log.d("TestDebug", "Position 34")
+
+            composeTestRule.waitUntilTimeout()
+
+            composeTestRule.onNodeWithText("OK").performClick()
+
+            Log.d("TestDebug", "Position 35")
+
+            composeTestRule.waitUntilTimeout()
+
+            composeTestRule.activityRule.scenario.onActivity { activity ->
+                activity.onBackPressedDispatcher.onBackPressed()
+            }
+
+            Log.d("TestDebug", "Position 36")
+
+            composeTestRule.waitUntilTimeout()
+
+            composeTestRule.onNodeWithText("2").performClick()
+            composeTestRule.onNodeWithText("1").performClick()
+            composeTestRule.onNodeWithText("1").performClick()
+            composeTestRule.onNodeWithText("0").performClick()
+
+            Log.d("TestDebug", "Position 37")
+
+            composeTestRule.waitUntilTimeout()
+
+            composeTestRule.onNodeWithText("OK").performClick()
+
+            Log.d("TestDebug", "Position 38")
+
+            composeTestRule.waitUntilTimeout()
+
+            composeTestRule.onNodeWithText("3").performClick()
+            composeTestRule.onNodeWithText("1").performClick()
+            composeTestRule.onNodeWithText("2").performClick()
+            composeTestRule.onNodeWithText("9").performClick()
+
+            Log.d("TestDebug", "Position 39")
+
+            composeTestRule.waitUntilTimeout()
+
+            composeTestRule.onNodeWithText("OK").performClick()
+
+            Log.d("TestDebug", "Position 40")
+
+            composeTestRule.waitUntilTimeout()
+
+            composeTestRule.activityRule.scenario.onActivity { activity ->
+                activity.onBackPressedDispatcher.onBackPressed()
+            }
+
+            Log.d("TestDebug", "Position 41")
+
+            composeTestRule.waitUntilTimeout()
+
+            composeTestRule.onNodeWithText("3").performClick()
+            composeTestRule.onNodeWithText("1").performClick()
+            composeTestRule.onNodeWithText("2").performClick()
+            composeTestRule.onNodeWithText("9").performClick()
+
+            Log.d("TestDebug", "Position 42")
+
+            composeTestRule.waitUntilTimeout()
+
+            composeTestRule.onNodeWithText("OK").performClick()
+
+            Log.d("TestDebug", "Position 43")
+
+            composeTestRule.waitUntilTimeout()
+
+            composeTestRule.onNodeWithText("OK").performClick()
+
+            Log.d("TestDebug", "Position 44")
+
+            composeTestRule.waitUntilTimeout()
+
+            composeTestRule.onNodeWithTag(TAG_BUTTON_YES_ALERT_DIALOG_CHECK)
+                .performClick()
+
+            Log.d("TestDebug", "Position 45")
+
+            composeTestRule.waitUntilTimeout()
+
+            composeTestRule.activityRule.scenario.onActivity { activity ->
+                activity.onBackPressedDispatcher.onBackPressed()
+            }
+
+            Log.d("TestDebug", "Position 46")
+
+            composeTestRule.waitUntilTimeout()
+
+            composeTestRule.onNodeWithText("OK").performClick()
+
+            Log.d("TestDebug", "Position 47")
+
+            composeTestRule.waitUntilTimeout()
+
+            composeTestRule.onNodeWithTag(TAG_BUTTON_YES_ALERT_DIALOG_CHECK)
+                .performClick()
+
+            Log.d("TestDebug", "Position 48")
+
+            composeTestRule.waitUntilTimeout()
+
+            composeTestRule.onNodeWithText("2").performClick()
+            composeTestRule.onNodeWithText("9").performClick()
+            composeTestRule.onNodeWithText("9").performClick()
+            composeTestRule.onNodeWithText("4").performClick()
+
+            Log.d("TestDebug", "Position 49")
+
+            composeTestRule.waitUntilTimeout()
+
+            composeTestRule.onNodeWithText("OK").performClick()
+
+            Log.d("TestDebug", "Position 50")
+
+            composeTestRule.waitUntilTimeout()
+
+            val resulSampleModel = sampleSharedPreferencesDatasource.get()
+            assertEquals(
+                resulSampleModel.isSuccess,
+                true
+            )
+            val sampleModel = resulSampleModel.getOrNull()!!
+            assertEquals(
+                sampleModel.tare,
+                1.01
+            )
+            assertEquals(
+                sampleModel.stalk,
+                2.01
+            )
+            assertEquals(
+                sampleModel.wholeCane,
+                null
+            )
+            assertEquals(
+                sampleModel.stump,
+                2.11
+            )
+            assertEquals(
+                sampleModel.piece,
+                3.129
+            )
+            assertEquals(
+                sampleModel.tip,
+                null
+            )
+            assertEquals(
+                sampleModel.slivers,
+                2.994
+            )
+
+            Log.d("TestDebug", "Position 51")
 
             composeTestRule.waitUntilTimeout(10_000)
 

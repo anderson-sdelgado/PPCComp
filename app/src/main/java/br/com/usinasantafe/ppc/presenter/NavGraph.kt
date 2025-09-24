@@ -8,7 +8,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import br.com.usinasantafe.ppc.presenter.Args.POS_AUDITOR_ARGS
+import br.com.usinasantafe.ppc.presenter.Args.CHECK_OPEN_SAMPLE_ARGS
 import br.com.usinasantafe.ppc.presenter.Routes.AUDITOR_HEADER_ROUTE
 import br.com.usinasantafe.ppc.presenter.Routes.CONFIG_ROUTE
 import br.com.usinasantafe.ppc.presenter.Routes.DATE_HEADER_ROUTE
@@ -24,6 +24,7 @@ import br.com.usinasantafe.ppc.presenter.Routes.SAMPLE_LIST_ROUTE
 import br.com.usinasantafe.ppc.presenter.Routes.SECTION_HEADER_ROUTE
 import br.com.usinasantafe.ppc.presenter.Routes.SPLASH_ROUTE
 import br.com.usinasantafe.ppc.presenter.Routes.TURN_HEADER_ROUTE
+import br.com.usinasantafe.ppc.presenter.Routes.FIELD_SAMPLE_ROUTE
 import br.com.usinasantafe.ppc.presenter.view.configuration.config.ConfigScreen
 import br.com.usinasantafe.ppc.presenter.view.configuration.initial.InitialMenuScreen
 import br.com.usinasantafe.ppc.presenter.view.configuration.password.PasswordScreen
@@ -39,6 +40,7 @@ import br.com.usinasantafe.ppc.presenter.view.header.section.SectionScreen
 import br.com.usinasantafe.ppc.presenter.view.header.turn.TurnScreen
 import br.com.usinasantafe.ppc.presenter.view.sample.samplelist.SampleListScreen
 import br.com.usinasantafe.ppc.presenter.view.splash.SplashScreen
+import br.com.usinasantafe.ppc.presenter.view.sample.field.FieldScreen
 
 @Composable
 fun NavigationGraph(
@@ -116,14 +118,7 @@ fun NavigationGraph(
             )
         }
 
-        composable(
-            AUDITOR_HEADER_ROUTE,
-            arguments = listOf(
-                navArgument(POS_AUDITOR_ARGS) {
-                    type = NavType.IntType
-                }
-            )
-        ) {
+        composable(AUDITOR_HEADER_ROUTE) {
             AuditorScreen(
                 onNavHeaderList = {
                     navActions.navigateToHeaderList()
@@ -231,7 +226,26 @@ fun NavigationGraph(
                 onNavHeaderList = {
                     navActions.navigateToHeaderList()
                 },
-                onNavTare = {}
+                onNavFieldSample = {
+                    navActions.navigateToFieldSample()
+                }
+            )
+        }
+
+        composable(
+            FIELD_SAMPLE_ROUTE,
+            arguments = listOf(
+                navArgument(CHECK_OPEN_SAMPLE_ARGS) {
+                    type = NavType.BoolType
+                }
+            )
+        ) {
+            FieldScreen(
+                onNavSampleList = {
+                    navActions.navigateToSampleList()
+                },
+                onNavObsList = {
+                }
             )
         }
 

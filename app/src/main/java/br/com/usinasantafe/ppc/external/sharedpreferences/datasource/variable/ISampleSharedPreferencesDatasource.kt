@@ -32,6 +32,60 @@ class ISampleSharedPreferencesDatasource @Inject constructor(
         }
     }
 
+    override suspend fun getTare(): Result<Double> {
+        try {
+            val resultGet = get()
+            if (resultGet.isFailure) {
+                return resultFailure(
+                    context = getClassAndMethod(),
+                    cause = resultGet.exceptionOrNull()!!
+                )
+            }
+            val model = resultGet.getOrNull()!!
+            return Result.success(model.tare!!)
+        } catch (e: Exception){
+            return resultFailure(
+                context = getClassAndMethod(),
+                cause = e
+            )
+        }
+    }
+
+    override suspend fun setObs(
+        stone: Boolean,
+        treeStump: Boolean,
+        weed: Boolean,
+        anthill: Boolean
+    ): Result<Boolean> {
+        try {
+            val resultGet = get()
+            if (resultGet.isFailure) {
+                return resultFailure(
+                    context = getClassAndMethod(),
+                    cause = resultGet.exceptionOrNull()!!
+                )
+            }
+            val model = resultGet.getOrNull()!!
+            model.stone = stone
+            model.treeStump = treeStump
+            model.weed = weed
+            model.anthill = anthill
+            val resultSave = save(model)
+            if (resultSave.isFailure) {
+                return resultFailure(
+                    context = getClassAndMethod(),
+                    cause = resultSave.exceptionOrNull()!!
+                )
+            }
+            return Result.success(true)
+        } catch (e: Exception){
+            return resultFailure(
+                context = getClassAndMethod(),
+                cause = e
+            )
+        }
+    }
+
     fun save(model: SampleSharedPreferencesModel): Result<Boolean> {
         try {
             sharedPreferences.edit {
@@ -49,7 +103,7 @@ class ISampleSharedPreferencesDatasource @Inject constructor(
         }
     }
 
-    fun get(): Result<SampleSharedPreferencesModel> {
+    override suspend fun get(): Result<SampleSharedPreferencesModel> {
         try {
             val header = sharedPreferences.getString(
                 BASE_SHARED_PREFERENCES_TABLE_SAMPLE,
@@ -87,9 +141,7 @@ class ISampleSharedPreferencesDatasource @Inject constructor(
             }
             val model = resultGet.getOrNull()!!
             when(field) {
-                Field.TARE -> {
-                    model.tare = value
-                }
+                Field.TARE -> model.tare = value
                 Field.STALK -> model.stalk = value
                 Field.WHOLE_CANE -> model.wholeCane = value
                 Field.STUMP -> model.stump = value

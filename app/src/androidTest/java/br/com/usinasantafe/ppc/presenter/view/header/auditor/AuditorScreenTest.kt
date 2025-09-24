@@ -7,18 +7,13 @@ import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
-import androidx.lifecycle.SavedStateHandle
 import br.com.usinasantafe.ppc.HiltTestActivity
 import br.com.usinasantafe.ppc.di.provider.BaseUrlModuleTest
-import br.com.usinasantafe.ppc.domain.usecases.header.CheckColab
-import br.com.usinasantafe.ppc.domain.usecases.header.SetAuditorHeader
-import br.com.usinasantafe.ppc.domain.usecases.update.UpdateTableColab
 import br.com.usinasantafe.ppc.external.room.dao.stable.ColabDao
 import br.com.usinasantafe.ppc.external.sharedpreferences.datasource.variable.IHeaderSharedPreferencesDatasource
 import br.com.usinasantafe.ppc.infra.datasource.sharedpreferences.variable.ConfigSharedPreferencesDatasource
 import br.com.usinasantafe.ppc.infra.models.room.stable.ColabRoomModel
 import br.com.usinasantafe.ppc.infra.models.sharedpreferences.variable.ConfigSharedPreferencesModel
-import br.com.usinasantafe.ppc.presenter.Args.POS_AUDITOR_ARGS
 import br.com.usinasantafe.ppc.utils.FlagUpdate
 import br.com.usinasantafe.ppc.utils.waitUntilTimeout
 import dagger.hilt.android.testing.HiltAndroidRule
@@ -39,15 +34,6 @@ class AuditorScreenTest {
 
     @get:Rule
     val composeTestRule = createAndroidComposeRule<HiltTestActivity>()
-
-    @Inject
-    lateinit var setAuditorHeader: SetAuditorHeader
-
-    @Inject
-    lateinit var updateTableColab: UpdateTableColab
-
-    @Inject
-    lateinit var checkColab: CheckColab
 
     @Inject
     lateinit var configSharedPreferencesDatasource: ConfigSharedPreferencesDatasource
@@ -447,16 +433,6 @@ class AuditorScreenTest {
     private fun setContent(){
         composeTestRule.setContent {
             AuditorScreen(
-                viewModel = AuditorViewModel(
-                    saveStateHandle = SavedStateHandle(
-                        mapOf(
-                            POS_AUDITOR_ARGS to 1
-                        )
-                    ),
-                    updateTableColab = updateTableColab,
-                    setAuditorHeader = setAuditorHeader,
-                    checkColab = checkColab
-                ),
                 onNavHeaderList = {},
                 onNavDate = {}
             )
