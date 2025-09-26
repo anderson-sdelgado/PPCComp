@@ -8,7 +8,7 @@ import br.com.usinasantafe.ppc.utils.StatusSend
 import br.com.usinasantafe.ppc.utils.TB_HEADER
 import java.util.Date
 
-@Entity(tableName = "tb_header")
+@Entity(tableName = TB_HEADER)
 data class HeaderRoomModel(
     @PrimaryKey(autoGenerate = true)
     val id: Int? = null,
@@ -24,8 +24,8 @@ data class HeaderRoomModel(
     val nroHarvester: Int,
     val regOperator: Long,
     val dateHour: Date = Date(),
-    val status: Status = Status.CLOSE,
-    var statusSend: StatusSend = StatusSend.SEND,
+    var status: Status = Status.CLOSE,
+    var statusSend: StatusSend = StatusSend.STARTED,
     var idServ: Int? = null,
 )
 

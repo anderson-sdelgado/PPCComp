@@ -86,6 +86,43 @@ class ISampleSharedPreferencesDatasource @Inject constructor(
         }
     }
 
+    override suspend fun setSubObs(
+        guineaGrass: Boolean,
+        castorOilPlant: Boolean,
+        signalGrass: Boolean,
+        mucuna: Boolean,
+        silkGrass: Boolean
+    ): Result<Boolean> {
+        try {
+            val resultGet = get()
+            if (resultGet.isFailure) {
+                return resultFailure(
+                    context = getClassAndMethod(),
+                    cause = resultGet.exceptionOrNull()!!
+                )
+            }
+            val model = resultGet.getOrNull()!!
+            model.guineaGrass = guineaGrass
+            model.castorOilPlant = castorOilPlant
+            model.signalGrass = signalGrass
+            model.mucuna = mucuna
+            model.silkGrass = silkGrass
+            val resultSave = save(model)
+            if (resultSave.isFailure) {
+                return resultFailure(
+                    context = getClassAndMethod(),
+                    cause = resultSave.exceptionOrNull()!!
+                )
+            }
+            return Result.success(true)
+        } catch (e: Exception){
+            return resultFailure(
+                context = getClassAndMethod(),
+                cause = e
+            )
+        }
+    }
+
     fun save(model: SampleSharedPreferencesModel): Result<Boolean> {
         try {
             sharedPreferences.edit {

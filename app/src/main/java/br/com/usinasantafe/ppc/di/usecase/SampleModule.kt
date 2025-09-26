@@ -30,4 +30,8 @@ interface SampleModule {
     @Binds
     @Singleton
     fun bindSetObsSample(usecase: ISetObsSample): SetObsSample
+
+    @Binds
+    @Singleton
+    fun bindSetSubObsSample(usecase: ISetSubObsSample): SetSubObsSample
 }

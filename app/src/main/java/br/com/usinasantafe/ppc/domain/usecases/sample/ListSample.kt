@@ -46,12 +46,12 @@ class IListSample @Inject constructor(
                 obs = obs.removeSuffix(" - ")
                 SampleScreenModel(
                     id = it.id!!,
-                    stalk = it.stalk!!,
-                    wholeCane = it.wholeCane!!,
-                    stump = it.stump!!,
-                    piece = it.piece!!,
-                    tip = it.tip!!,
-                    slivers = it.slivers!!,
+                    stalk = it.stalk?.let { value -> value - it.tare!! },
+                    wholeCane = it.wholeCane?.let { value -> value - it.tare!! },
+                    stump = it.stump?.let { value -> value - it.tare!! },
+                    piece = it.piece?.let { value -> value - it.tare!! },
+                    tip = it.tip?.let { value -> value - it.tare!! },
+                    slivers = it.slivers?.let { value -> value - it.tare!! },
                     obs = obs
                 )
             }

@@ -16,7 +16,6 @@ class PPC : Application(), Configuration.Provider  {
 
     override fun onCreate() {
         super.onCreate()
-
         Timber.plant(FileLoggingTree(this))
     }
 

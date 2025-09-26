@@ -3,7 +3,6 @@ package br.com.usinasantafe.ppc.presenter.view.sample.obslist
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import br.com.usinasantafe.ppc.domain.usecases.sample.SetObsSample
-import br.com.usinasantafe.ppc.utils.Errors
 import br.com.usinasantafe.ppc.utils.getClassAndMethod
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -60,7 +59,6 @@ class ObsListViewModel @Inject constructor(
             it.copy(weed = !uiState.value.weed)
         }
     }
-
 
     fun setObs() = viewModelScope.launch {
         val resultSet = setObsSample(

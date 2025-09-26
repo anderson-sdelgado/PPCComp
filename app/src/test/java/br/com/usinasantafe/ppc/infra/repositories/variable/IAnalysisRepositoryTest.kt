@@ -8,6 +8,8 @@ import br.com.usinasantafe.ppc.infra.datasource.sharedpreferences.variable.Sampl
 import br.com.usinasantafe.ppc.infra.models.room.variable.HeaderRoomModel
 import br.com.usinasantafe.ppc.infra.models.room.variable.SampleRoomModel
 import br.com.usinasantafe.ppc.infra.models.sharedpreferences.variable.HeaderSharedPreferencesModel
+import br.com.usinasantafe.ppc.infra.models.sharedpreferences.variable.SampleSharedPreferencesModel
+import br.com.usinasantafe.ppc.infra.models.sharedpreferences.variable.sharedPreferencesModelToRoomModel
 import br.com.usinasantafe.ppc.utils.Field
 import br.com.usinasantafe.ppc.utils.Status
 import kotlinx.coroutines.test.runTest
@@ -1577,6 +1579,329 @@ class IAnalysisRepositoryTest {
                 weed = true,
                 anthill = true
             )
+            assertEquals(
+                result.isSuccess,
+                true
+            )
+            assertEquals(
+                result.getOrNull()!!,
+                true
+            )
+        }
+
+    @Test
+    fun `saveSample - Check return failure if have error in SampleSharedPreferencesDatasource get`() =
+        runTest {
+            whenever(
+                sampleSharedPreferencesDatasource.get()
+            ).thenReturn(
+                resultFailure(
+                    "ISampleSharedPreferencesDatasource.get",
+                    "-",
+                    Exception()
+                )
+            )
+            val result = repository.saveSample()
+            assertEquals(
+                result.isFailure,
+                true
+            )
+            assertEquals(
+                result.exceptionOrNull()!!.message,
+                "IAnalysisRepository.saveSample -> ISampleSharedPreferencesDatasource.get"
+            )
+            assertEquals(
+                result.exceptionOrNull()!!.cause.toString(),
+                "java.lang.Exception"
+            )
+        }
+
+    @Test
+    fun `saveSample - Check return failure if sample shared preferences is missing data`() =
+        runTest {
+            val modelSharedPreferencesModel = SampleSharedPreferencesModel(
+                tare = null
+            )
+            whenever(
+                sampleSharedPreferencesDatasource.get()
+            ).thenReturn(
+                Result.success(modelSharedPreferencesModel)
+            )
+            val result = repository.saveSample()
+            assertEquals(
+                result.isFailure,
+                true
+            )
+            assertEquals(
+                result.exceptionOrNull()!!.message,
+                "IAnalysisRepository.saveSample"
+            )
+            assertEquals(
+                result.exceptionOrNull()!!.cause.toString(),
+                "java.lang.NullPointerException"
+            )
+        }
+
+    @Test
+    fun `saveSample - Check return failure if have error in HeaderRoomDatasource getIdByStatus`() =
+        runTest {
+            val sharedPreferencesModel = SampleSharedPreferencesModel(
+                tare = 1.0,
+                stalk = 2.0,
+                wholeCane = 2.0,
+                stump = 2.0,
+                piece = 2.0,
+                tip = 2.0,
+                slivers = 2.0,
+                stone = true,
+                treeStump = true,
+                weed = true,
+                anthill = true,
+                guineaGrass = false,
+                castorOilPlant = true,
+                signalGrass = true,
+                mucuna = true,
+                silkGrass = false
+            )
+            whenever(
+                sampleSharedPreferencesDatasource.get()
+            ).thenReturn(
+                Result.success(sharedPreferencesModel)
+            )
+            whenever(
+                headerRoomDatasource.getIdByStatus(Status.OPEN)
+            ).thenReturn(
+                resultFailure(
+                    "IHeaderRoomDatasource.getIdByStatus",
+                    "-",
+                    Exception()
+                )
+            )
+            val result = repository.saveSample()
+            assertEquals(
+                result.isFailure,
+                true
+            )
+            assertEquals(
+                result.exceptionOrNull()!!.message,
+                "IAnalysisRepository.saveSample -> IHeaderRoomDatasource.getIdByStatus"
+            )
+            assertEquals(
+                result.exceptionOrNull()!!.cause.toString(),
+                "java.lang.Exception"
+            )
+        }
+
+    @Test
+    fun `saveSample - Check return failure if have error in SampleRoomDatasource save`() =
+        runTest {
+            val sharedPreferencesModel = SampleSharedPreferencesModel(
+                tare = 1.0,
+                stalk = 2.0,
+                wholeCane = 2.0,
+                stump = 2.0,
+                piece = 2.0,
+                tip = 2.0,
+                slivers = 2.0,
+                stone = true,
+                treeStump = true,
+                weed = true,
+                anthill = true,
+                guineaGrass = false,
+                castorOilPlant = true,
+                signalGrass = true,
+                mucuna = true,
+                silkGrass = false
+            )
+            whenever(
+                sampleSharedPreferencesDatasource.get()
+            ).thenReturn(
+                Result.success(sharedPreferencesModel)
+            )
+            whenever(
+                headerRoomDatasource.getIdByStatus(Status.OPEN)
+            ).thenReturn(
+                Result.success(1)
+            )
+            val roomModel = sharedPreferencesModel.sharedPreferencesModelToRoomModel(1)
+            whenever(
+                sampleRoomDatasource.save(roomModel)
+            ).thenReturn(
+                resultFailure(
+                    "ISampleRoomDatasource.save",
+                    "-",
+                    Exception()
+                )
+            )
+            val result = repository.saveSample()
+            assertEquals(
+                result.isFailure,
+                true
+            )
+            assertEquals(
+                result.exceptionOrNull()!!.message,
+                "IAnalysisRepository.saveSample -> ISampleRoomDatasource.save"
+            )
+            assertEquals(
+                result.exceptionOrNull()!!.cause.toString(),
+                "java.lang.Exception"
+            )
+        }
+
+    @Test
+    fun `saveSample - Check return correct if function execute successfully`() =
+        runTest {
+            val sharedPreferencesModel = SampleSharedPreferencesModel(
+                tare = 1.0,
+                stalk = 2.0,
+                wholeCane = 2.0,
+                stump = 2.0,
+                piece = 2.0,
+                tip = 2.0,
+                slivers = 2.0,
+                stone = true,
+                treeStump = true,
+                weed = true,
+                anthill = true,
+                guineaGrass = false,
+                castorOilPlant = true,
+                signalGrass = true,
+                mucuna = true,
+                silkGrass = false
+            )
+            whenever(
+                sampleSharedPreferencesDatasource.get()
+            ).thenReturn(
+                Result.success(sharedPreferencesModel)
+            )
+            whenever(
+                headerRoomDatasource.getIdByStatus(Status.OPEN)
+            ).thenReturn(
+                Result.success(1)
+            )
+            val roomModel = sharedPreferencesModel.sharedPreferencesModelToRoomModel(1)
+            whenever(
+                sampleRoomDatasource.save(roomModel)
+            ).thenReturn(
+                Result.success(true)
+            )
+            val result = repository.saveSample()
+            assertEquals(
+                result.isSuccess,
+                true
+            )
+            assertEquals(
+                result.getOrNull()!!,
+                true
+            )
+        }
+
+    @Test
+    fun `setSubObsSample - Check return failure if have error in SampleSharedPreferencesDatasource setSubObs`() =
+        runTest {
+            whenever(
+                sampleSharedPreferencesDatasource.setSubObs(
+                    guineaGrass = true,
+                    castorOilPlant = true,
+                    signalGrass = true,
+                    mucuna = true,
+                    silkGrass = true
+                )
+            ).thenReturn(
+                resultFailure(
+                    "ISampleSharedPreferencesDatasource.setSubObs",
+                    "-",
+                    Exception()
+                )
+            )
+            val result = repository.setSubObsSample(
+                guineaGrass = true,
+                castorOilPlant = true,
+                signalGrass = true,
+                mucuna = true,
+                silkGrass = true
+            )
+            assertEquals(
+                result.isFailure,
+                true
+            )
+            assertEquals(
+                result.exceptionOrNull()!!.message,
+                "IAnalysisRepository.setSubObsSample -> ISampleSharedPreferencesDatasource.setSubObs"
+            )
+            assertEquals(
+                result.exceptionOrNull()!!.cause.toString(),
+                "java.lang.Exception"
+            )
+        }
+
+    @Test
+    fun `setSubObsSample - Check return correct if function execute successfully`() =
+        runTest {
+            whenever(
+                sampleSharedPreferencesDatasource.setSubObs(
+                    guineaGrass = true,
+                    castorOilPlant = true,
+                    signalGrass = true,
+                    mucuna = true,
+                    silkGrass = true
+                )
+            ).thenReturn(
+                Result.success(true)
+            )
+            val result = repository.setSubObsSample(
+                guineaGrass = true,
+                castorOilPlant = true,
+                signalGrass = true,
+                mucuna = true,
+                silkGrass = true
+            )
+            assertEquals(
+                result.isSuccess,
+                true
+            )
+            assertEquals(
+                result.getOrNull()!!,
+                true
+            )
+        }
+
+    @Test
+    fun `checkSend - Check return failure if have error in HeaderRoomDatasource checkSend`() =
+        runTest {
+            whenever(
+                headerRoomDatasource.checkSend()
+            ).thenReturn(
+                resultFailure(
+                    "IHeaderRoomDatasource.checkSend",
+                    "-",
+                    Exception()
+                )
+            )
+            val result = repository.checkSend()
+            assertEquals(
+                result.isFailure,
+                true
+            )
+            assertEquals(
+                result.exceptionOrNull()!!.message,
+                "IAnalysisRepository.checkSend -> IHeaderRoomDatasource.checkSend"
+            )
+            assertEquals(
+                result.exceptionOrNull()!!.cause.toString(),
+                "java.lang.Exception"
+            )
+        }
+
+    @Test
+    fun `checkSend - Check return correct if function execute successfully`() =
+        runTest {
+            whenever(
+                headerRoomDatasource.checkSend()
+            ).thenReturn(
+                Result.success(true)
+            )
+            val result = repository.checkSend()
             assertEquals(
                 result.isSuccess,
                 true

@@ -16,6 +16,13 @@ interface SampleSharedPreferencesDatasource {
         weed: Boolean,
         anthill: Boolean
     ): Result<Boolean>
+    suspend fun setSubObs(
+        guineaGrass: Boolean,
+        castorOilPlant: Boolean,
+        signalGrass: Boolean,
+        mucuna: Boolean,
+        silkGrass: Boolean
+    ): Result<Boolean>
     suspend fun get(): Result<SampleSharedPreferencesModel>
 
 }

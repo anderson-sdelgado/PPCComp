@@ -25,6 +25,8 @@ import br.com.usinasantafe.ppc.presenter.Routes.SECTION_HEADER_ROUTE
 import br.com.usinasantafe.ppc.presenter.Routes.SPLASH_ROUTE
 import br.com.usinasantafe.ppc.presenter.Routes.TURN_HEADER_ROUTE
 import br.com.usinasantafe.ppc.presenter.Routes.FIELD_SAMPLE_ROUTE
+import br.com.usinasantafe.ppc.presenter.Routes.OBS_LIST_ROUTE
+import br.com.usinasantafe.ppc.presenter.Routes.OBS_SUB_LIST_ROUTE
 import br.com.usinasantafe.ppc.presenter.view.configuration.config.ConfigScreen
 import br.com.usinasantafe.ppc.presenter.view.configuration.initial.InitialMenuScreen
 import br.com.usinasantafe.ppc.presenter.view.configuration.password.PasswordScreen
@@ -41,6 +43,8 @@ import br.com.usinasantafe.ppc.presenter.view.header.turn.TurnScreen
 import br.com.usinasantafe.ppc.presenter.view.sample.samplelist.SampleListScreen
 import br.com.usinasantafe.ppc.presenter.view.splash.SplashScreen
 import br.com.usinasantafe.ppc.presenter.view.sample.field.FieldScreen
+import br.com.usinasantafe.ppc.presenter.view.sample.obslist.ObsListScreen
+import br.com.usinasantafe.ppc.presenter.view.sample.obssublist.ObsSubListScreen
 
 @Composable
 fun NavigationGraph(
@@ -245,6 +249,32 @@ fun NavigationGraph(
                     navActions.navigateToSampleList()
                 },
                 onNavObsList = {
+                    navActions.navigateToObsList()
+                }
+            )
+        }
+
+        composable(OBS_LIST_ROUTE) {
+            ObsListScreen(
+                onNavSampleList = {
+                    navActions.navigateToSampleList()
+                },
+                onNavField = {
+                    navActions.navigateToFieldSample(false)
+                },
+                onNavObsSubList = {
+                    navActions.navigateToObsSubList()
+                }
+            )
+        }
+
+        composable(OBS_SUB_LIST_ROUTE) {
+            ObsSubListScreen(
+                onObsList = {
+                    navActions.navigateToObsList()
+                },
+                onNavSampleList = {
+                    navActions.navigateToSampleList()
                 }
             )
         }

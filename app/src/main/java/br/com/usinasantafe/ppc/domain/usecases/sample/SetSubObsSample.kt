@@ -2,34 +2,36 @@ package br.com.usinasantafe.ppc.domain.usecases.sample
 
 import br.com.usinasantafe.ppc.domain.errors.resultFailure
 import br.com.usinasantafe.ppc.domain.repositories.variable.AnalysisRepository
-import br.com.usinasantafe.ppc.utils.Status
 import br.com.usinasantafe.ppc.utils.getClassAndMethod
 import javax.inject.Inject
 
-interface SetObsSample {
+interface SetSubObsSample {
     suspend operator fun invoke(
-        stone: Boolean,
-        treeStump: Boolean,
-        weed: Boolean,
-        anthill: Boolean
+        guineaGrass: Boolean,
+        castorOilPlant: Boolean,
+        signalGrass: Boolean,
+        mucuna: Boolean,
+        silkGrass: Boolean
     ): Result<Boolean>
 }
 
-class ISetObsSample @Inject constructor(
+class ISetSubObsSample @Inject constructor(
     private val analysisRepository: AnalysisRepository
-): SetObsSample {
+): SetSubObsSample {
 
     override suspend fun invoke(
-        stone: Boolean,
-        treeStump: Boolean,
-        weed: Boolean,
-        anthill: Boolean
+        guineaGrass: Boolean,
+        castorOilPlant: Boolean,
+        signalGrass: Boolean,
+        mucuna: Boolean,
+        silkGrass: Boolean
     ): Result<Boolean> {
-        val resultSet = analysisRepository.setObsSample(
-            stone = stone,
-            treeStump = treeStump,
-            weed = weed,
-            anthill = anthill
+        val resultSet = analysisRepository.setSubObsSample(
+            guineaGrass,
+            castorOilPlant,
+            signalGrass,
+            mucuna,
+            silkGrass
         )
         if(resultSet.isFailure){
             return resultFailure(
@@ -37,7 +39,6 @@ class ISetObsSample @Inject constructor(
                 cause = resultSet.exceptionOrNull()!!
             )
         }
-        if(weed) return resultSet
         val resultSave = analysisRepository.saveSample()
         if(resultSave.isFailure){
             return resultFailure(

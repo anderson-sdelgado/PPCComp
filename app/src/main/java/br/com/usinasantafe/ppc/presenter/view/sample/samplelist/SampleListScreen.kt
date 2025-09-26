@@ -292,9 +292,9 @@ fun SampleListPagePreviewList() {
                         SampleScreenModel(
                             id = 2,
                             stalk = 2.005,
-                            wholeCane = 2.003,
+                            wholeCane = null,
                             stump = 3.250,
-                            piece = 4.356,
+                            piece = null,
                             tip = 5.540,
                             slivers = 6.263,
                             obs = "Teste"

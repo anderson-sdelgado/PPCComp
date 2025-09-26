@@ -5,7 +5,10 @@
       <SelectionState runConfigName="app">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
-      <SelectionState runConfigName="check_alter_data_in_shared_preferences()">
+      <SelectionState runConfigName="sample_flow()">
+        <option name="selectionMode" value="DROPDOWN" />
+      </SelectionState>
+      <SelectionState runConfigName="check_alter_data()">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
     </selectionStates>

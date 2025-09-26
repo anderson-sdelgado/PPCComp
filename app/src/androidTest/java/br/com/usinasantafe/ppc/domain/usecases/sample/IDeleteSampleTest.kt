@@ -5,11 +5,11 @@ import br.com.usinasantafe.ppc.infra.models.room.variable.SampleRoomModel
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import kotlinx.coroutines.test.runTest
-import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Rule
 import javax.inject.Inject
 import kotlin.test.Test
+import kotlin.test.assertEquals
 
 @HiltAndroidTest
 class IDeleteSampleTest {
@@ -115,38 +115,31 @@ class IDeleteSampleTest {
             )
             assertEquals(
                 model1.tare,
-                2.0,
-                0.0
+                2.0
             )
             assertEquals(
                 model1.stalk,
-                2.0,
-                0.0
+                2.0
             )
             assertEquals(
                 model1.wholeCane,
-                2.0,
-                0.0
+                2.0
             )
             assertEquals(
                 model1.stump,
-                2.0,
-                0.0
+                2.0
             )
             assertEquals(
                 model1.piece,
-                2.0,
-                0.0
+                2.0
             )
             assertEquals(
                 model1.tip,
-                2.0,
-                0.0
+                2.0
             )
             assertEquals(
                 model1.slivers,
-                2.0,
-                0.0
+                2.0
             )
             assertEquals(
                 model1.stone,
@@ -191,38 +184,31 @@ class IDeleteSampleTest {
             )
             assertEquals(
                 model2.tare,
-                3.0,
-                0.0
+                3.0
             )
             assertEquals(
                 model2.stalk,
-                3.0,
-                0.0
+                3.0
             )
             assertEquals(
                 model2.wholeCane,
-                3.0,
-                0.0
+                3.0
             )
             assertEquals(
                 model2.stump,
-                3.0,
-                0.0
+                3.0
             )
             assertEquals(
                 model2.piece,
-                3.0,
-                0.0
+                3.0
             )
             assertEquals(
                 model2.tip,
-                3.0,
-                0.0
+                3.0
             )
             assertEquals(
                 model2.slivers,
-                3.0,
-                0.0
+                3.0
             )
             assertEquals(
                 model2.stone,

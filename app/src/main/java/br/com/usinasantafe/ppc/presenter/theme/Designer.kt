@@ -150,12 +150,12 @@ fun ItemListHeaderDesign(
 fun ItemListSampleDesign(
     id: Int = 0,
     pos: Int,
-    stalk: Double,
-    wholeCane: Double,
-    stump: Double,
-    piece: Double,
-    tip: Double,
-    slivers: Double,
+    stalk: Double?,
+    wholeCane: Double?,
+    stump: Double?,
+    piece: Double?,
+    tip: Double?,
+    slivers: Double?,
     obs: String,
     font: Int = 22,
     padding: Int = 8,
@@ -270,8 +270,8 @@ fun ItemListSampleDesign(
 }
 
 @SuppressLint("DefaultLocale")
-fun formatDouble(value: Double): String {
-    return String.format("%.3f", value)
+fun formatDouble(value: Double?): String {
+    return value?.let { String.format("%.3f", value) } ?: "-"
 }
 
 @Composable
@@ -293,15 +293,19 @@ fun TitleDesign(
 
 
 @Composable
-fun TextButtonDesign(text: String) {
+fun TextButtonDesign(
+    text: String,
+    font: Int = 20,
+    padding: Int = 12
+) {
     return Text(
         textAlign = TextAlign.Center,
         text = text,
         fontWeight = FontWeight.Bold,
-        fontSize = 20.sp,
+        fontSize = font.sp,
         modifier = Modifier
             .fillMaxWidth()
-            .padding(12.dp)
+            .padding(padding.dp)
     )
 }
 

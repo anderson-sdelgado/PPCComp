@@ -3,6 +3,7 @@ package br.com.usinasantafe.ppc.domain.usecases.analysis
 import br.com.usinasantafe.ppc.external.room.dao.variable.HeaderDao
 import br.com.usinasantafe.ppc.infra.models.room.variable.HeaderRoomModel
 import br.com.usinasantafe.ppc.utils.Status
+import br.com.usinasantafe.ppc.utils.StatusSend
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import kotlinx.coroutines.test.runTest
@@ -225,6 +226,10 @@ class IFinishAnalysisTest {
             assertEquals(
                 model3.status,
                 Status.FINISH
+            )
+            assertEquals(
+                model3.statusSend,
+                StatusSend.SEND
             )
         }
 

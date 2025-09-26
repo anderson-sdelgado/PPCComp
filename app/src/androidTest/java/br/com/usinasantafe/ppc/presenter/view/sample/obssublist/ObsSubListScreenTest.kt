@@ -1,5 +1,12 @@
-package br.com.usinasantafe.ppc.domain.usecases.sample
+package br.com.usinasantafe.ppc.presenter.view.sample.obssublist
 
+import androidx.compose.ui.test.assertIsDisplayed
+import androidx.compose.ui.test.assertTextEquals
+import androidx.compose.ui.test.junit4.createAndroidComposeRule
+import androidx.compose.ui.test.onNodeWithTag
+import androidx.compose.ui.test.onNodeWithText
+import androidx.compose.ui.test.performClick
+import br.com.usinasantafe.ppc.HiltTestActivity
 import br.com.usinasantafe.ppc.external.room.dao.variable.HeaderDao
 import br.com.usinasantafe.ppc.external.room.dao.variable.SampleDao
 import br.com.usinasantafe.ppc.external.sharedpreferences.datasource.variable.ISampleSharedPreferencesDatasource
@@ -7,10 +14,11 @@ import br.com.usinasantafe.ppc.infra.models.room.variable.HeaderRoomModel
 import br.com.usinasantafe.ppc.infra.models.sharedpreferences.variable.SampleSharedPreferencesModel
 import br.com.usinasantafe.ppc.utils.Status
 import br.com.usinasantafe.ppc.utils.StatusSend
+import br.com.usinasantafe.ppc.utils.waitUntilTimeout
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import kotlinx.coroutines.test.runTest
-import org.junit.Before
+import org.junit.Assert.*
 import org.junit.Rule
 import java.util.Date
 import javax.inject.Inject
@@ -18,13 +26,13 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 
 @HiltAndroidTest
-class ISetObsSampleTest {
+class ObsSubListScreenTest {
 
     @get:Rule
-    val hiltRule = HiltAndroidRule(this)
+    var hiltRule = HiltAndroidRule(this)
 
-    @Inject
-    lateinit var usecase: SetObsSample
+    @get:Rule
+    val composeTestRule = createAndroidComposeRule<HiltTestActivity>()
 
     @Inject
     lateinit var sampleSharedPreferencesDatasource: ISampleSharedPreferencesDatasource
@@ -35,82 +43,39 @@ class ISetObsSampleTest {
     @Inject
     lateinit var headerDao: HeaderDao
 
-    @Before
-    fun init() {
-        hiltRule.inject()
-    }
-
     @Test
-    fun check_alter_data_in_shared_preferences() =
+    fun check_open_screen() =
         runTest {
-            val result = usecase(
-                stone = false,
-                treeStump = false,
-                weed = true,
-                anthill = true
-            )
-            assertEquals(
-                result.isSuccess,
-                true
-            )
-            assertEquals(
-                result.getOrNull()!!,
-                true
-            )
-            val resultGetAfter = sampleSharedPreferencesDatasource.get()
-            assertEquals(
-                resultGetAfter.isSuccess,
-                true
-            )
-            val modelAfter = resultGetAfter.getOrNull()!!
-            assertEquals(
-                modelAfter.tare,
-                null
-            )
-            assertEquals(
-                modelAfter.stone,
-                false
-            )
-            assertEquals(
-                modelAfter.treeStump,
-                false
-            )
-            assertEquals(
-                modelAfter.weed,
-                true
-            )
-            assertEquals(
-                modelAfter.anthill,
-                true
-            )
-            val list = sampleDao.all()
-            assertEquals(
-                list.size,
-                0
-            )
+
+            hiltRule.inject()
+
+            setContent()
+
+            composeTestRule.waitUntilTimeout(10_000)
+
         }
 
     @Test
-    fun check_failure_if_not_have_data_in_sample_shared_preferences() =
+    fun check_return_failure_if_not_have_data() =
         runTest {
-            val result = usecase(
-                stone = true,
-                treeStump = false,
-                weed = false,
-                anthill = true
-            )
-            assertEquals(
-                result.isFailure,
-                true
-            )
-            assertEquals(
-                result.exceptionOrNull()!!.message,
-                "ISetObsSample -> IAnalysisRepository.saveSample"
-            )
-            assertEquals(
-                result.exceptionOrNull()!!.cause.toString(),
-                "java.lang.IllegalArgumentException: Field 'tare' cannot be null."
-            )
+
+            hiltRule.inject()
+
+            setContent()
+
+            composeTestRule.waitUntilTimeout()
+
+            composeTestRule.onNodeWithText("CAPIM-COLONIÃO").performClick()
+            composeTestRule.onNodeWithText("MUCUNA").performClick()
+            composeTestRule.onNodeWithText("OK").performClick()
+
+            composeTestRule.waitUntilTimeout()
+
+            composeTestRule.onNodeWithTag("text_alert_dialog_simple").assertIsDisplayed()
+            composeTestRule.onNodeWithTag("text_alert_dialog_simple").assertTextEquals("FALHA INESPERADA NO APLICATIVO! POR FAVOR ENTRE EM CONTATO COM TI. ObsSubListViewModel.setSubObs -> ISetSubObsSample -> IAnalysisRepository.saveSample -> java.lang.IllegalArgumentException: Field 'tare' cannot be null.")
+
+            composeTestRule.waitUntilTimeout()
+
             val resultGetAfter = sampleSharedPreferencesDatasource.get()
             assertEquals(
                 resultGetAfter.isSuccess,
@@ -123,7 +88,7 @@ class ISetObsSampleTest {
             )
             assertEquals(
                 modelAfter.stone,
-                true
+                false
             )
             assertEquals(
                 modelAfter.treeStump,
@@ -135,37 +100,41 @@ class ISetObsSampleTest {
             )
             assertEquals(
                 modelAfter.anthill,
-                true
+                false
             )
             val list = sampleDao.all()
             assertEquals(
                 list.size,
                 0
             )
+
+            composeTestRule.waitUntilTimeout(10_000)
+
         }
 
     @Test
     fun check_failure_if_not_have_header_open() =
         runTest {
+
+            hiltRule.inject()
+
             initialRegister()
-            val result = usecase(
-                stone = true,
-                treeStump = false,
-                weed = false,
-                anthill = true
-            )
-            assertEquals(
-                result.isFailure,
-                true
-            )
-            assertEquals(
-                result.exceptionOrNull()!!.message,
-                "ISetObsSample -> IAnalysisRepository.saveSample"
-            )
-            assertEquals(
-                result.exceptionOrNull()!!.cause.toString(),
-                "java.lang.IllegalArgumentException: The field 'idHeader' cannot is null."
-            )
+
+            setContent()
+
+            composeTestRule.waitUntilTimeout()
+
+            composeTestRule.onNodeWithText("CAPIM-COLONIÃO").performClick()
+            composeTestRule.onNodeWithText("MUCUNA").performClick()
+            composeTestRule.onNodeWithText("OK").performClick()
+
+            composeTestRule.waitUntilTimeout()
+
+            composeTestRule.onNodeWithTag("text_alert_dialog_simple").assertIsDisplayed()
+            composeTestRule.onNodeWithTag("text_alert_dialog_simple").assertTextEquals("FALHA INESPERADA NO APLICATIVO! POR FAVOR ENTRE EM CONTATO COM TI. ObsSubListViewModel.setSubObs -> ISetSubObsSample -> IAnalysisRepository.saveSample -> java.lang.IllegalArgumentException: The field 'idHeader' cannot is null.")
+
+            composeTestRule.waitUntilTimeout()
+
             val resultGetAfter = sampleSharedPreferencesDatasource.get()
             assertEquals(
                 resultGetAfter.isSuccess,
@@ -210,15 +179,15 @@ class ISetObsSampleTest {
             )
             assertEquals(
                 modelAfter.weed,
-                false
-            )
-            assertEquals(
-                modelAfter.anthill,
                 true
             )
             assertEquals(
-                modelAfter.guineaGrass,
+                modelAfter.anthill,
                 false
+            )
+            assertEquals(
+                modelAfter.guineaGrass,
+                true
             )
             assertEquals(
                 modelAfter.castorOilPlant,
@@ -230,7 +199,7 @@ class ISetObsSampleTest {
             )
             assertEquals(
                 modelAfter.mucuna,
-                false
+                true
             )
             assertEquals(
                 modelAfter.silkGrass,
@@ -241,26 +210,29 @@ class ISetObsSampleTest {
                 list.size,
                 0
             )
+
+            composeTestRule.waitUntilTimeout(10_000)
+
         }
 
     @Test
     fun check_success_if_have_header_open() =
         runTest {
+
+            hiltRule.inject()
+
             initialRegister(2)
-            val result = usecase(
-                stone = true,
-                treeStump = false,
-                weed = false,
-                anthill = true
-            )
-            assertEquals(
-                result.isSuccess,
-                true
-            )
-            assertEquals(
-                result.getOrNull()!!,
-                true
-            )
+
+            setContent()
+
+            composeTestRule.waitUntilTimeout()
+
+            composeTestRule.onNodeWithText("CAPIM-COLONIÃO").performClick()
+            composeTestRule.onNodeWithText("MUCUNA").performClick()
+            composeTestRule.onNodeWithText("OK").performClick()
+
+            composeTestRule.waitUntilTimeout()
+
             val resultGetAfter = sampleSharedPreferencesDatasource.get()
             assertEquals(
                 resultGetAfter.isSuccess,
@@ -305,15 +277,15 @@ class ISetObsSampleTest {
             )
             assertEquals(
                 modelAfter.weed,
-                false
-            )
-            assertEquals(
-                modelAfter.anthill,
                 true
             )
             assertEquals(
-                modelAfter.guineaGrass,
+                modelAfter.anthill,
                 false
+            )
+            assertEquals(
+                modelAfter.guineaGrass,
+                true
             )
             assertEquals(
                 modelAfter.castorOilPlant,
@@ -325,7 +297,7 @@ class ISetObsSampleTest {
             )
             assertEquals(
                 modelAfter.mucuna,
-                false
+                true
             )
             assertEquals(
                 modelAfter.silkGrass,
@@ -379,15 +351,15 @@ class ISetObsSampleTest {
             )
             assertEquals(
                 model.weed,
-                false
-            )
-            assertEquals(
-                model.anthill,
                 true
             )
             assertEquals(
-                model.guineaGrass,
+                model.anthill,
                 false
+            )
+            assertEquals(
+                model.guineaGrass,
+                true
             )
             assertEquals(
                 model.castorOilPlant,
@@ -399,13 +371,26 @@ class ISetObsSampleTest {
             )
             assertEquals(
                 model.mucuna,
-                false
+                true
             )
             assertEquals(
                 model.silkGrass,
                 false
             )
+
+            composeTestRule.waitUntilTimeout(10_000)
+
         }
+
+    private fun setContent(){
+        composeTestRule.setContent {
+            ObsSubListScreen(
+                onObsList = {},
+                onNavSampleList = {}
+            )
+        }
+    }
+
 
     private suspend fun initialRegister(level: Int = 1) {
 
@@ -418,9 +403,9 @@ class ISetObsSampleTest {
                 piece = 5.0,
                 tip = 6.0,
                 slivers = 7.0,
-                stone = false,
+                stone = true,
                 treeStump = false,
-                weed = false,
+                weed = true,
                 anthill = false,
                 guineaGrass = false,
                 castorOilPlant = false,

@@ -18,13 +18,13 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 
 @HiltAndroidTest
-class ISetObsSampleTest {
+class ISetSubObsSampleTest {
 
     @get:Rule
     val hiltRule = HiltAndroidRule(this)
 
     @Inject
-    lateinit var usecase: SetObsSample
+    lateinit var usecase: SetSubObsSample
 
     @Inject
     lateinit var sampleSharedPreferencesDatasource: ISampleSharedPreferencesDatasource
@@ -41,63 +41,14 @@ class ISetObsSampleTest {
     }
 
     @Test
-    fun check_alter_data_in_shared_preferences() =
-        runTest {
-            val result = usecase(
-                stone = false,
-                treeStump = false,
-                weed = true,
-                anthill = true
-            )
-            assertEquals(
-                result.isSuccess,
-                true
-            )
-            assertEquals(
-                result.getOrNull()!!,
-                true
-            )
-            val resultGetAfter = sampleSharedPreferencesDatasource.get()
-            assertEquals(
-                resultGetAfter.isSuccess,
-                true
-            )
-            val modelAfter = resultGetAfter.getOrNull()!!
-            assertEquals(
-                modelAfter.tare,
-                null
-            )
-            assertEquals(
-                modelAfter.stone,
-                false
-            )
-            assertEquals(
-                modelAfter.treeStump,
-                false
-            )
-            assertEquals(
-                modelAfter.weed,
-                true
-            )
-            assertEquals(
-                modelAfter.anthill,
-                true
-            )
-            val list = sampleDao.all()
-            assertEquals(
-                list.size,
-                0
-            )
-        }
-
-    @Test
     fun check_failure_if_not_have_data_in_sample_shared_preferences() =
         runTest {
             val result = usecase(
-                stone = true,
-                treeStump = false,
-                weed = false,
-                anthill = true
+                guineaGrass = true,
+                castorOilPlant = false,
+                signalGrass = false,
+                mucuna = true,
+                silkGrass = false
             )
             assertEquals(
                 result.isFailure,
@@ -105,7 +56,7 @@ class ISetObsSampleTest {
             )
             assertEquals(
                 result.exceptionOrNull()!!.message,
-                "ISetObsSample -> IAnalysisRepository.saveSample"
+                "ISetSubObsSample -> IAnalysisRepository.saveSample"
             )
             assertEquals(
                 result.exceptionOrNull()!!.cause.toString(),
@@ -122,20 +73,24 @@ class ISetObsSampleTest {
                 null
             )
             assertEquals(
-                modelAfter.stone,
+                modelAfter.guineaGrass,
                 true
             )
             assertEquals(
-                modelAfter.treeStump,
+                modelAfter.castorOilPlant,
                 false
             )
             assertEquals(
-                modelAfter.weed,
+                modelAfter.signalGrass,
                 false
             )
             assertEquals(
-                modelAfter.anthill,
+                modelAfter.mucuna,
                 true
+            )
+            assertEquals(
+                modelAfter.silkGrass,
+                false
             )
             val list = sampleDao.all()
             assertEquals(
@@ -149,10 +104,11 @@ class ISetObsSampleTest {
         runTest {
             initialRegister()
             val result = usecase(
-                stone = true,
-                treeStump = false,
-                weed = false,
-                anthill = true
+                guineaGrass = true,
+                castorOilPlant = false,
+                signalGrass = false,
+                mucuna = true,
+                silkGrass = false
             )
             assertEquals(
                 result.isFailure,
@@ -160,11 +116,11 @@ class ISetObsSampleTest {
             )
             assertEquals(
                 result.exceptionOrNull()!!.message,
-                "ISetObsSample -> IAnalysisRepository.saveSample"
+                "ISetSubObsSample -> IAnalysisRepository.saveSample"
             )
             assertEquals(
                 result.exceptionOrNull()!!.cause.toString(),
-                "java.lang.IllegalArgumentException: The field 'idHeader' cannot is null."
+                "java.lang.IllegalArgumentException: Field 'idHeader' cannot be null."
             )
             val resultGetAfter = sampleSharedPreferencesDatasource.get()
             assertEquals(
@@ -210,15 +166,15 @@ class ISetObsSampleTest {
             )
             assertEquals(
                 modelAfter.weed,
-                false
-            )
-            assertEquals(
-                modelAfter.anthill,
                 true
             )
             assertEquals(
-                modelAfter.guineaGrass,
+                modelAfter.anthill,
                 false
+            )
+            assertEquals(
+                modelAfter.guineaGrass,
+                true
             )
             assertEquals(
                 modelAfter.castorOilPlant,
@@ -230,7 +186,7 @@ class ISetObsSampleTest {
             )
             assertEquals(
                 modelAfter.mucuna,
-                false
+                true
             )
             assertEquals(
                 modelAfter.silkGrass,
@@ -248,10 +204,11 @@ class ISetObsSampleTest {
         runTest {
             initialRegister(2)
             val result = usecase(
-                stone = true,
-                treeStump = false,
-                weed = false,
-                anthill = true
+                guineaGrass = true,
+                castorOilPlant = false,
+                signalGrass = false,
+                mucuna = true,
+                silkGrass = false
             )
             assertEquals(
                 result.isSuccess,
@@ -305,15 +262,15 @@ class ISetObsSampleTest {
             )
             assertEquals(
                 modelAfter.weed,
-                false
-            )
-            assertEquals(
-                modelAfter.anthill,
                 true
             )
             assertEquals(
-                modelAfter.guineaGrass,
+                modelAfter.anthill,
                 false
+            )
+            assertEquals(
+                modelAfter.guineaGrass,
+                true
             )
             assertEquals(
                 modelAfter.castorOilPlant,
@@ -325,7 +282,7 @@ class ISetObsSampleTest {
             )
             assertEquals(
                 modelAfter.mucuna,
-                false
+                true
             )
             assertEquals(
                 modelAfter.silkGrass,
@@ -379,15 +336,15 @@ class ISetObsSampleTest {
             )
             assertEquals(
                 model.weed,
-                false
-            )
-            assertEquals(
-                model.anthill,
                 true
             )
             assertEquals(
-                model.guineaGrass,
+                model.anthill,
                 false
+            )
+            assertEquals(
+                model.guineaGrass,
+                true
             )
             assertEquals(
                 model.castorOilPlant,
@@ -399,7 +356,7 @@ class ISetObsSampleTest {
             )
             assertEquals(
                 model.mucuna,
-                false
+                true
             )
             assertEquals(
                 model.silkGrass,
@@ -418,9 +375,9 @@ class ISetObsSampleTest {
                 piece = 5.0,
                 tip = 6.0,
                 slivers = 7.0,
-                stone = false,
+                stone = true,
                 treeStump = false,
-                weed = false,
+                weed = true,
                 anthill = false,
                 guineaGrass = false,
                 castorOilPlant = false,

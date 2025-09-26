@@ -5,6 +5,7 @@ import br.com.usinasantafe.ppc.external.room.dao.variable.HeaderDao
 import br.com.usinasantafe.ppc.infra.datasource.room.variable.HeaderRoomDatasource
 import br.com.usinasantafe.ppc.infra.models.room.variable.HeaderRoomModel
 import br.com.usinasantafe.ppc.utils.Status
+import br.com.usinasantafe.ppc.utils.StatusSend
 import br.com.usinasantafe.ppc.utils.getClassAndMethod
 import javax.inject.Inject
 
@@ -53,7 +54,12 @@ class IHeaderRoomDatasource @Inject constructor(
         id: Int
     ): Result<Boolean> {
         try {
-            headerDao.updateStatusById(status, id)
+            val model = headerDao.getById(id)
+            model.status = status
+            if(status == Status.FINISH) {
+                model.statusSend = StatusSend.SEND
+            }
+            headerDao.update(model)
             return Result.success(true)
         } catch (e: Exception) {
             return resultFailure(
@@ -79,6 +85,18 @@ class IHeaderRoomDatasource @Inject constructor(
         try {
             headerDao.deleteById(id)
             return Result.success(true)
+        } catch (e: Exception) {
+            return resultFailure(
+                context = getClassAndMethod(),
+                cause = e
+            )
+        }
+    }
+
+    override suspend fun checkSend(): Result<Boolean> {
+        try {
+            val check = headerDao.checkStatusSend(StatusSend.SEND)
+            return Result.success(check > 0)
         } catch (e: Exception) {
             return resultFailure(
                 context = getClassAndMethod(),

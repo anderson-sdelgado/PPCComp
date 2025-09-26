@@ -17,6 +17,7 @@ import br.com.usinasantafe.ppc.presenter.MainActivity
 import br.com.usinasantafe.ppc.presenter.theme.TAG_BUTTON_YES_ALERT_DIALOG_CHECK
 import br.com.usinasantafe.ppc.utils.FlagUpdate
 import br.com.usinasantafe.ppc.utils.Status
+import br.com.usinasantafe.ppc.utils.StatusSend
 import br.com.usinasantafe.ppc.utils.waitUntilTimeout
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
@@ -180,6 +181,10 @@ class SampleFlowTest {
                 model1Initial.status,
                 Status.FINISH
             )
+            assertEquals(
+                model1Initial.statusSend,
+                StatusSend.SEND
+            )
             val model2Initial = listHeaderInitial[1]
             assertEquals(
                 model2Initial.regAuditor1,
@@ -225,6 +230,10 @@ class SampleFlowTest {
                 model2Initial.status,
                 Status.OPEN
             )
+            assertEquals(
+                model2Initial.statusSend,
+                StatusSend.STARTED
+            )
 
             val listSampleInitial = sampleDao.all()
             assertEquals(
@@ -238,7 +247,7 @@ class SampleFlowTest {
             )
             assertEquals(
                 model1SampleInitial.tare,
-                3.0
+                1.0
             )
             assertEquals(
                 model1SampleInitial.stalk,
@@ -307,7 +316,7 @@ class SampleFlowTest {
             )
             assertEquals(
                 model2SampleInitial.tare,
-                4.0
+                1.0
             )
             assertEquals(
                 model2SampleInitial.stalk,
@@ -659,47 +668,402 @@ class SampleFlowTest {
 
             composeTestRule.waitUntilTimeout()
 
-            val resulSampleModel = sampleSharedPreferencesDatasource.get()
+            composeTestRule.onNodeWithText("RETORNAR").performClick()
+
+            Log.d("TestDebug", "Position 51")
+
+            composeTestRule.waitUntilTimeout()
+
+            composeTestRule.onNodeWithText("2").performClick()
+            composeTestRule.onNodeWithText("9").performClick()
+            composeTestRule.onNodeWithText("0").performClick()
+            composeTestRule.onNodeWithText("4").performClick()
+
+            Log.d("TestDebug", "Position 52")
+
+            composeTestRule.waitUntilTimeout()
+
+            composeTestRule.onNodeWithText("OK").performClick()
+
+            Log.d("TestDebug", "Position 53")
+
+            composeTestRule.waitUntilTimeout()
+
+            val resulFieldSampleModel = sampleSharedPreferencesDatasource.get()
             assertEquals(
-                resulSampleModel.isSuccess,
+                resulFieldSampleModel.isSuccess,
                 true
             )
-            val sampleModel = resulSampleModel.getOrNull()!!
+            val fieldSampleModel = resulFieldSampleModel.getOrNull()!!
             assertEquals(
-                sampleModel.tare,
+                fieldSampleModel.tare,
                 1.01
             )
             assertEquals(
-                sampleModel.stalk,
+                fieldSampleModel.stalk,
                 2.01
             )
             assertEquals(
-                sampleModel.wholeCane,
+                fieldSampleModel.wholeCane,
                 null
             )
             assertEquals(
-                sampleModel.stump,
+                fieldSampleModel.stump,
                 2.11
             )
             assertEquals(
-                sampleModel.piece,
+                fieldSampleModel.piece,
                 3.129
             )
             assertEquals(
-                sampleModel.tip,
+                fieldSampleModel.tip,
                 null
             )
             assertEquals(
-                sampleModel.slivers,
-                2.994
+                fieldSampleModel.slivers,
+                2.904
+            )
+            assertEquals(
+                fieldSampleModel.stone,
+                false
+            )
+            assertEquals(
+                fieldSampleModel.treeStump,
+                false
+            )
+            assertEquals(
+                fieldSampleModel.weed,
+                false
+            )
+            assertEquals(
+                fieldSampleModel.anthill,
+                false
+            )
+            assertEquals(
+                fieldSampleModel.guineaGrass,
+                false
+            )
+            assertEquals(
+                fieldSampleModel.castorOilPlant,
+                false
+            )
+            assertEquals(
+                fieldSampleModel.signalGrass,
+                false
+            )
+            assertEquals(
+                fieldSampleModel.mucuna,
+                false
+            )
+            assertEquals(
+                fieldSampleModel.silkGrass,
+                false
             )
 
-            Log.d("TestDebug", "Position 51")
+            Log.d("TestDebug", "Position 53")
+
+            composeTestRule.waitUntilTimeout()
+
+            composeTestRule.onNodeWithText("PEDRA").performClick()
+            composeTestRule.onNodeWithText("FORMIGUEIROS").performClick()
+            composeTestRule.onNodeWithText("OK").performClick()
+
+            Log.d("TestDebug", "Position 54")
+
+            composeTestRule.waitUntilTimeout()
+
+            val resulObsSampleModel = sampleSharedPreferencesDatasource.get()
+            assertEquals(
+                resulObsSampleModel.isSuccess,
+                true
+            )
+            val fieldObsModel = resulObsSampleModel.getOrNull()!!
+            assertEquals(
+                fieldObsModel.tare,
+                1.01
+            )
+            assertEquals(
+                fieldObsModel.stalk,
+                2.01
+            )
+            assertEquals(
+                fieldObsModel.wholeCane,
+                null
+            )
+            assertEquals(
+                fieldObsModel.stump,
+                2.11
+            )
+            assertEquals(
+                fieldObsModel.piece,
+                3.129
+            )
+            assertEquals(
+                fieldObsModel.tip,
+                null
+            )
+            assertEquals(
+                fieldObsModel.slivers,
+                2.904
+            )
+            assertEquals(
+                fieldObsModel.stone,
+                true
+            )
+            assertEquals(
+                fieldObsModel.treeStump,
+                false
+            )
+            assertEquals(
+                fieldObsModel.weed,
+                false
+            )
+            assertEquals(
+                fieldObsModel.anthill,
+                true
+            )
+            assertEquals(
+                fieldObsModel.guineaGrass,
+                false
+            )
+            assertEquals(
+                fieldObsModel.castorOilPlant,
+                false
+            )
+            assertEquals(
+                fieldObsModel.signalGrass,
+                false
+            )
+            assertEquals(
+                fieldObsModel.mucuna,
+                false
+            )
+            assertEquals(
+                fieldObsModel.silkGrass,
+                false
+            )
+
+            Log.d("TestDebug", "Position 53")
+
+            composeTestRule.waitUntilTimeout()
+
+            composeTestRule.onNodeWithText("INSERIR")
+                .performClick()
+
+            Log.d("TestDebug", "Position 54")
+
+            composeTestRule.waitUntilTimeout()
+
+            composeTestRule.onNodeWithText("0").performClick()
+            composeTestRule.onNodeWithText("5").performClick()
+            composeTestRule.onNodeWithText("0").performClick()
+            composeTestRule.onNodeWithText("9").performClick()
+
+            Log.d("TestDebug", "Position 55")
+
+            composeTestRule.waitUntilTimeout()
+
+            composeTestRule.onNodeWithText("OK").performClick()
+
+            Log.d("TestDebug", "Position 56")
+
+            composeTestRule.waitUntilTimeout()
+
+            composeTestRule.onNodeWithText("1").performClick()
+            composeTestRule.onNodeWithText("2").performClick()
+            composeTestRule.onNodeWithText("4").performClick()
+            composeTestRule.onNodeWithText("9").performClick()
+
+            Log.d("TestDebug", "Position 57")
+
+            composeTestRule.waitUntilTimeout()
+
+            composeTestRule.onNodeWithText("OK").performClick()
+
+            Log.d("TestDebug", "Position 58")
+
+            composeTestRule.waitUntilTimeout()
+
+            composeTestRule.onNodeWithText("2").performClick()
+            composeTestRule.onNodeWithText("8").performClick()
+            composeTestRule.onNodeWithText("0").performClick()
+            composeTestRule.onNodeWithText("0").performClick()
+
+            Log.d("TestDebug", "Position 59")
+
+            composeTestRule.waitUntilTimeout()
+
+            composeTestRule.onNodeWithText("OK").performClick()
+
+            Log.d("TestDebug", "Position 60")
+
+            composeTestRule.waitUntilTimeout()
+
+            composeTestRule.onNodeWithText("OK").performClick()
+
+            Log.d("TestDebug", "Position 61")
+
+            composeTestRule.waitUntilTimeout()
+
+            composeTestRule.onNodeWithTag(TAG_BUTTON_YES_ALERT_DIALOG_CHECK)
+                .performClick()
+
+            Log.d("TestDebug", "Position 66")
+
+            composeTestRule.waitUntilTimeout()
+
+            composeTestRule.onNodeWithText("OK").performClick()
+
+            Log.d("TestDebug", "Position 67")
+
+            composeTestRule.waitUntilTimeout()
+
+            composeTestRule.onNodeWithTag(TAG_BUTTON_YES_ALERT_DIALOG_CHECK)
+                .performClick()
+
+            Log.d("TestDebug", "Position 68")
+
+            composeTestRule.waitUntilTimeout()
+
+            composeTestRule.onNodeWithText("3").performClick()
+            composeTestRule.onNodeWithText("8").performClick()
+            composeTestRule.onNodeWithText("8").performClick()
+            composeTestRule.onNodeWithText("9").performClick()
+
+            Log.d("TestDebug", "Position 69")
+
+            composeTestRule.waitUntilTimeout()
+
+            composeTestRule.onNodeWithText("OK").performClick()
+
+            Log.d("TestDebug", "Position 70")
+
+            composeTestRule.waitUntilTimeout()
+
+            composeTestRule.onNodeWithText("OK").performClick()
+
+            Log.d("TestDebug", "Position 71")
+
+            composeTestRule.waitUntilTimeout()
+
+            composeTestRule.onNodeWithTag(TAG_BUTTON_YES_ALERT_DIALOG_CHECK)
+                .performClick()
+
+            Log.d("TestDebug", "Position 72")
+
+            composeTestRule.waitUntilTimeout()
+
+            composeTestRule.onNodeWithText("PEDRA").performClick()
+            composeTestRule.onNodeWithText("PLANTAS DANINHAS").performClick()
+            composeTestRule.onNodeWithText("OK").performClick()
+
+            Log.d("TestDebug", "Position 73")
+
+            composeTestRule.waitUntilTimeout()
+
+            composeTestRule.onNodeWithText("RETORNAR").performClick()
+
+            Log.d("TestDebug", "Position 74")
+
+            composeTestRule.waitUntilTimeout()
+
+            composeTestRule.onNodeWithText("PEDRA").performClick()
+            composeTestRule.onNodeWithText("PLANTAS DANINHAS").performClick()
+            composeTestRule.onNodeWithText("OK").performClick()
+
+            Log.d("TestDebug", "Position 75")
+
+            composeTestRule.waitUntilTimeout()
+
+            composeTestRule.onNodeWithText("CAPIM-COLONIÃO").performClick()
+            composeTestRule.onNodeWithText("MUCUNA").performClick()
+            composeTestRule.onNodeWithText("OK").performClick()
+
+            Log.d("TestDebug", "Position 76")
+
+            composeTestRule.waitUntilTimeout()
+
+            val listAfter = sampleDao.all()
+            assertEquals(
+                listAfter.size,
+                3
+            )
+            val model1After = listAfter[0]
+            assertEquals(
+                model1After,
+                SampleRoomModel(
+                    idHeader = 2,
+                    tare = 1.0,
+                    stalk = 3.0,
+                    wholeCane = 3.0,
+                    stump = 3.0,
+                    piece = 3.0,
+                    tip = 3.0,
+                    slivers = 3.0,
+                    stone = false,
+                    treeStump = false,
+                    weed = false,
+                    anthill = false,
+                    guineaGrass = false,
+                    castorOilPlant = false,
+                    signalGrass = false,
+                    mucuna = false,
+                    silkGrass = false,
+                    id = 3
+                )
+            )
+            val model2After = listAfter[1]
+            assertEquals(
+                model2After,
+                SampleRoomModel(
+                    idHeader = 3,
+                    tare = 1.02,
+                    stalk = 2.0,
+                    wholeCane = 1.50,
+                    stump = 3.0,
+                    piece = 1.560,
+                    tip = 1.054,
+                    slivers = 1.024,
+                    stone = true,
+                    treeStump = true,
+                    weed = true,
+                    anthill = true,
+                    guineaGrass = true,
+                    castorOilPlant = true,
+                    signalGrass = true,
+                    mucuna = true,
+                    silkGrass = true,
+                    id = 4
+                )
+            )
+            val model3After = listAfter[2]
+            assertEquals(
+                model3After,
+                SampleRoomModel(
+                    idHeader = 3,
+                    tare = 1.02,
+                    stalk = 2.0,
+                    wholeCane = 1.50,
+                    stump = 3.0,
+                    piece = 1.560,
+                    tip = 1.054,
+                    slivers = 1.024,
+                    stone = true,
+                    treeStump = true,
+                    weed = true,
+                    anthill = true,
+                    guineaGrass = true,
+                    castorOilPlant = true,
+                    signalGrass = true,
+                    mucuna = true,
+                    silkGrass = true,
+                    id = 5
+                )
+            )
 
             composeTestRule.waitUntilTimeout(10_000)
 
         }
-
 
     private suspend fun initialRegister() {
 
@@ -765,13 +1129,13 @@ class SampleFlowTest {
         sampleDao.insert(
             SampleRoomModel(
                 idHeader = 1,
-                tare = 1.0,
-                stalk = 1.0,
-                wholeCane = 1.0,
-                stump = 1.0,
-                piece = 1.0,
-                tip = 1.0,
-                slivers = 1.0,
+                tare = 1.02,
+                stalk = 2.0,
+                wholeCane = 1.50,
+                stump = 3.0,
+                piece = 1.560,
+                tip = 1.054,
+                slivers = 1.024,
                 stone = true,
                 treeStump = true,
                 weed = true,
@@ -787,7 +1151,7 @@ class SampleFlowTest {
         sampleDao.insert(
             SampleRoomModel(
                 idHeader = 1,
-                tare = 2.0,
+                tare = 1.0,
                 stalk = 2.0,
                 wholeCane = 2.0,
                 stump = 2.0,
@@ -809,7 +1173,7 @@ class SampleFlowTest {
         sampleDao.insert(
             SampleRoomModel(
                 idHeader = 2,
-                tare = 3.0,
+                tare = 1.0,
                 stalk = 3.0,
                 wholeCane = 3.0,
                 stump = 3.0,
@@ -831,7 +1195,7 @@ class SampleFlowTest {
         sampleDao.insert(
             SampleRoomModel(
                 idHeader = 3,
-                tare = 4.0,
+                tare = 1.0,
                 stalk = 4.0,
                 wholeCane = 4.0,
                 stump = 4.0,

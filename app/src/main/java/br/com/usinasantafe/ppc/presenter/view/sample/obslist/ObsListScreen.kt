@@ -189,7 +189,8 @@ fun ObsListContent(
                 modifier = Modifier.weight(1f)
             ) {
                 TextButtonDesign(
-                    text = stringResource(id = R.string.text_pattern_return)
+                    text = stringResource(id = R.string.text_pattern_return),
+                    padding = 10
                 )
             }
             Button(
@@ -197,14 +198,13 @@ fun ObsListContent(
                 modifier = Modifier.weight(1f),
             ) {
                 TextButtonDesign(
-                    text = stringResource(id = R.string.text_pattern_ok)
+                    text = stringResource(id = R.string.text_pattern_ok),
+                    padding = 10
                 )
             }
         }
-        BackHandler {
-        }
+        BackHandler {}
     }
-
 
     if(flagDialog) {
         AlertDialogSimpleDesign(

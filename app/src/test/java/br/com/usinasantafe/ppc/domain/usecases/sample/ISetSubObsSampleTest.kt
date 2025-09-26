@@ -3,40 +3,43 @@ package br.com.usinasantafe.ppc.domain.usecases.sample
 import br.com.usinasantafe.ppc.domain.errors.resultFailure
 import br.com.usinasantafe.ppc.domain.repositories.variable.AnalysisRepository
 import kotlinx.coroutines.test.runTest
+import org.junit.Assert.*
 import org.mockito.Mockito.mock
 import org.mockito.kotlin.whenever
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class ISetObsSampleTest {
+class ISetSubObsSampleTest {
 
     private val analysisRepository = mock<AnalysisRepository>()
-    private val usecase = ISetObsSample(
+    private val usecase = ISetSubObsSample(
         analysisRepository = analysisRepository
     )
 
     @Test
-    fun `Check return failure if have error in AnalysisRepository setObsSample`() =
+    fun `Check return failure if have error in AnalysisRepository setSubObsSample`() =
         runTest {
             whenever(
-                analysisRepository.setObsSample(
-                    stone = true,
-                    treeStump = true,
-                    weed = true,
-                    anthill = true
+                analysisRepository.setSubObsSample(
+                    guineaGrass = true,
+                    castorOilPlant = true,
+                    signalGrass = true,
+                    mucuna = true,
+                    silkGrass = true
                 )
             ).thenReturn(
                 resultFailure(
-                    "IAnalysisRepository.setObsSample",
+                    "IAnalysisRepository.setSubObsSample",
                     "-",
                     Exception()
                 )
             )
             val result = usecase(
-                stone = true,
-                treeStump = true,
-                weed = true,
-                anthill = true
+                guineaGrass = true,
+                castorOilPlant = true,
+                signalGrass = true,
+                mucuna = true,
+                silkGrass = true
             )
             assertEquals(
                 result.isFailure,
@@ -44,7 +47,7 @@ class ISetObsSampleTest {
             )
             assertEquals(
                 result.exceptionOrNull()!!.message,
-                "ISetObsSample -> IAnalysisRepository.setObsSample"
+                "ISetSubObsSample -> IAnalysisRepository.setSubObsSample"
             )
             assertEquals(
                 result.exceptionOrNull()!!.cause.toString(),
@@ -53,43 +56,15 @@ class ISetObsSampleTest {
         }
 
     @Test
-    fun `Check return correct if function execute successfully and weed is true`() =
+    fun `Check return failure if have error in AnalysisRepository saveSample`() =
         runTest {
             whenever(
-                analysisRepository.setObsSample(
-                    stone = true,
-                    treeStump = true,
-                    weed = true,
-                    anthill = true
-                )
-            ).thenReturn(
-                Result.success(true)
-            )
-            val result = usecase(
-                stone = true,
-                treeStump = true,
-                weed = true,
-                anthill = true
-            )
-            assertEquals(
-                result.isSuccess,
-                true
-            )
-            assertEquals(
-                result.getOrNull()!!,
-                true
-            )
-        }
-
-    @Test
-    fun `Check return failure if have error in AnalysisRepository saveSample and weed is false`() =
-        runTest {
-            whenever(
-                analysisRepository.setObsSample(
-                    stone = true,
-                    treeStump = true,
-                    weed = false,
-                    anthill = true
+                analysisRepository.setSubObsSample(
+                    guineaGrass = true,
+                    castorOilPlant = true,
+                    signalGrass = true,
+                    mucuna = true,
+                    silkGrass = true
                 )
             ).thenReturn(
                 Result.success(true)
@@ -104,10 +79,11 @@ class ISetObsSampleTest {
                 )
             )
             val result = usecase(
-                stone = true,
-                treeStump = true,
-                weed = false,
-                anthill = true
+                guineaGrass = true,
+                castorOilPlant = true,
+                signalGrass = true,
+                mucuna = true,
+                silkGrass = true
             )
             assertEquals(
                 result.isFailure,
@@ -115,7 +91,7 @@ class ISetObsSampleTest {
             )
             assertEquals(
                 result.exceptionOrNull()!!.message,
-                "ISetObsSample -> IAnalysisRepository.saveSample"
+                "ISetSubObsSample -> IAnalysisRepository.saveSample"
             )
             assertEquals(
                 result.exceptionOrNull()!!.cause.toString(),
@@ -124,14 +100,15 @@ class ISetObsSampleTest {
         }
 
     @Test
-    fun `Check return correct if function execute successfully and weed is false`() =
+    fun `Check return correct if function execute successfully`() =
         runTest {
             whenever(
-                analysisRepository.setObsSample(
-                    stone = true,
-                    treeStump = true,
-                    weed = false,
-                    anthill = true
+                analysisRepository.setSubObsSample(
+                    guineaGrass = true,
+                    castorOilPlant = true,
+                    signalGrass = true,
+                    mucuna = true,
+                    silkGrass = true
                 )
             ).thenReturn(
                 Result.success(true)
@@ -142,10 +119,11 @@ class ISetObsSampleTest {
                 Result.success(true)
             )
             val result = usecase(
-                stone = true,
-                treeStump = true,
-                weed = false,
-                anthill = true
+                guineaGrass = true,
+                castorOilPlant = true,
+                signalGrass = true,
+                mucuna = true,
+                silkGrass = true
             )
             assertEquals(
                 result.isSuccess,

@@ -10,6 +10,8 @@ import br.com.usinasantafe.ppc.presenter.Screens.FRONT_HEADER_SCREEN
 import br.com.usinasantafe.ppc.presenter.Screens.HARVESTER_HEADER_SCREEN
 import br.com.usinasantafe.ppc.presenter.Screens.HEADER_LIST_SCREEN
 import br.com.usinasantafe.ppc.presenter.Screens.INITIAL_MENU_SCREEN
+import br.com.usinasantafe.ppc.presenter.Screens.OBS_LIST_SCREEN
+import br.com.usinasantafe.ppc.presenter.Screens.OBS_SUB_LIST_SCREEN
 import br.com.usinasantafe.ppc.presenter.Screens.OPERATOR_HEADER_SCREEN
 import br.com.usinasantafe.ppc.presenter.Screens.OS_HEADER_SCREEN
 import br.com.usinasantafe.ppc.presenter.Screens.PASSWORD_SCREEN
@@ -36,6 +38,8 @@ object Screens {
     const val OPERATOR_HEADER_SCREEN = "operatorHeaderScreen"
     const val SAMPLE_LIST_SCREEN = "sampleListScreen"
     const val FIELD_SAMPLE_SCREEN = "fieldSampleScreen"
+    const val OBS_LIST_SCREEN = "obsListScreen"
+    const val OBS_SUB_LIST_SCREEN = "obsSubListScreen"
 }
 
 object Args {
@@ -59,6 +63,8 @@ object Routes {
     const val OPERATOR_HEADER_ROUTE = OPERATOR_HEADER_SCREEN
     const val SAMPLE_LIST_ROUTE = SAMPLE_LIST_SCREEN
     const val FIELD_SAMPLE_ROUTE = "$FIELD_SAMPLE_SCREEN/{$CHECK_OPEN_SAMPLE_ARGS}"
+    const val OBS_LIST_ROUTE = OBS_LIST_SCREEN
+    const val OBS_SUB_LIST_ROUTE = OBS_SUB_LIST_SCREEN
 }
 
 class NavigationActions(private val navController: NavHostController) {
@@ -141,6 +147,14 @@ class NavigationActions(private val navController: NavHostController) {
         checkOpenSample: Boolean = true
     ){
         navController.navigate("${FIELD_SAMPLE_SCREEN}/${checkOpenSample}")
+    }
+
+    fun navigateToObsList() {
+        navController.navigate(OBS_LIST_SCREEN)
+    }
+
+    fun navigateToObsSubList() {
+        navController.navigate(OBS_SUB_LIST_SCREEN)
     }
 
     ////////////////////////////////////////////////////////////////////

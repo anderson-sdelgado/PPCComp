@@ -10,4 +10,5 @@ interface HeaderRoomDatasource {
     suspend fun setStatusById(status: Status, id: Int): Result<Boolean>
     suspend fun getIdByStatus(status: Status): Result<Int>
     suspend fun deleteById(id: Int): Result<Boolean>
+    suspend fun checkSend(): Result<Boolean>
 }

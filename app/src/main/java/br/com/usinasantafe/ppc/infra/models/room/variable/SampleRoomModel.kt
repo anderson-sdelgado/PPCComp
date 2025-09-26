@@ -6,7 +6,7 @@ import br.com.usinasantafe.ppc.domain.entities.variable.Sample
 import br.com.usinasantafe.ppc.utils.StatusSend
 import br.com.usinasantafe.ppc.utils.TB_SAMPLE
 
-@Entity(tableName = "tb_sample")
+@Entity(tableName = TB_SAMPLE)
 data class SampleRoomModel(
     @PrimaryKey(autoGenerate = true)
     val id: Int? = null,
@@ -27,8 +27,11 @@ data class SampleRoomModel(
     val signalGrass: Boolean,
     val mucuna: Boolean,
     val silkGrass: Boolean,
-    var statusSend: StatusSend = StatusSend.SEND,
-)
+) {
+    init {
+        require(idHeader != 0) { "The field 'idHeader' cannot is null." }
+    }
+}
 
 fun SampleRoomModel.roomModelToEntity(): Sample {
     return with(this) {

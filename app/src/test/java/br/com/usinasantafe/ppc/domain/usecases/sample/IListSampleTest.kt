@@ -5,10 +5,10 @@ import br.com.usinasantafe.ppc.domain.errors.resultFailure
 import br.com.usinasantafe.ppc.domain.repositories.variable.AnalysisRepository
 import br.com.usinasantafe.ppc.utils.Status
 import kotlinx.coroutines.test.runTest
-import org.junit.Assert.*
 import org.mockito.Mockito.mock
 import org.mockito.kotlin.whenever
 import kotlin.test.Test
+import kotlin.test.assertEquals
 
 class IListSampleTest {
 
@@ -129,33 +129,27 @@ class IListSampleTest {
             )
             assertEquals(
                 model.stalk,
-                1.0,
-                0.0
+                1.0
             )
             assertEquals(
                 model.wholeCane,
-                1.0,
-                0.0
+                1.0
             )
             assertEquals(
                 model.stump,
-                1.0,
-                0.0
+                1.0
             )
             assertEquals(
                 model.piece,
-                1.0,
-                0.0
+                1.0
             )
             assertEquals(
                 model.tip,
-                1.0,
-                0.0
+                1.0
             )
             assertEquals(
                 model.slivers,
-                1.0,
-                0.0
+                1.0
             )
             assertEquals(
                 model.obs,

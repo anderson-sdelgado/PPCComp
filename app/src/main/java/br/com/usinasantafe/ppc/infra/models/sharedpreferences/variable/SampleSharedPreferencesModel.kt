@@ -24,10 +24,11 @@ data class SampleSharedPreferencesModel(
 fun SampleSharedPreferencesModel.sharedPreferencesModelToRoomModel(
     idHeader: Int
 ): SampleRoomModel {
+    val nonNullTare = requireNotNull(tare) { "Field 'tare' cannot be null." }
     return with(this) {
         SampleRoomModel(
             idHeader = idHeader,
-            tare = tare!!,
+            tare = nonNullTare,
             stalk = stalk,
             wholeCane = wholeCane,
             stump = stump,

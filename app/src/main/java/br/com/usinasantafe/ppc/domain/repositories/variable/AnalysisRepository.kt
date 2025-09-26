@@ -40,5 +40,13 @@ interface AnalysisRepository {
         weed: Boolean,
         anthill: Boolean
     ): Result<Boolean>
+    suspend fun setSubObsSample(
+        guineaGrass: Boolean,
+        castorOilPlant: Boolean,
+        signalGrass: Boolean,
+        mucuna: Boolean,
+        silkGrass: Boolean
+    ): Result<Boolean>
     suspend fun saveSample(): Result<Boolean>
+    suspend fun checkSend(): Result<Boolean>
 }

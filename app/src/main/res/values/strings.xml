@@ -97,6 +97,11 @@
     <string name="text_item_stone">PEDRA</string>
     <string name="text_item_treeStump">TOCO DE ARVORE</string>
     <string name="text_item_anthill">FORMIGUEIROS</string>
-    <string name="text_item_weed">PLANTAS DANINHAS</string>
     <string name="text_title_obs">OBSERVAÇÃO</string>
+    <string name="text_item_weed">PLANTAS DANINHAS</string>
+    <string name="text_item_guinea_grass">CAPIM-COLONIÃO</string>
+    <string name="text_item_castor_oil_plant">MAMONA</string>
+    <string name="text_item_signal_grass">CAPIM-BRAQUIÁRIA</string>
+    <string name="text_item_mucuna">MUCUNA</string>
+    <string name="text_item_silk_grass">GRAMA-SEDA</string>
 </resources>

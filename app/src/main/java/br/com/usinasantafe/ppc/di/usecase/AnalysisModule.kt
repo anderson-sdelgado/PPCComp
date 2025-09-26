@@ -19,4 +19,12 @@ interface AnalysisModule {
     @Singleton
     fun bindDeleteAnalysis(usecase: IDeleteAnalysis): DeleteAnalysis
 
+    @Binds
+    @Singleton
+    fun bindCheckSendAnalysis(usecase: ICheckSendAnalysis): CheckSendAnalysis
+
+    @Binds
+    @Singleton
+    fun bindSendAnalysis(usecase: ISendAnalysis): SendAnalysis
+
 }

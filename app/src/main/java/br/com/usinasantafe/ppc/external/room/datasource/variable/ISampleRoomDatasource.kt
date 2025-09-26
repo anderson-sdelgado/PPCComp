@@ -44,7 +44,12 @@ class ISampleRoomDatasource @Inject constructor(
     }
 
     override suspend fun save(model: SampleRoomModel): Result<Boolean> {
-        TODO("Not yet implemented")
+        return try {
+            sampleDao.insert(model)
+            Result.success(true)
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
     }
 
 }

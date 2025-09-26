@@ -188,7 +188,7 @@ class ISampleSharedPreferencesDatasourceTest {
         }
 
     @Test
-    fun `setValue - Check alter data obs`() =
+    fun `setObs - Check alter data obs`() =
         runTest {
             val result = datasource.setObs(
                 stone = false,
@@ -224,6 +224,52 @@ class ISampleSharedPreferencesDatasourceTest {
             )
             assertEquals(
                 modelAfter.anthill,
+                true
+            )
+        }
+
+    @Test
+    fun `setSubObs - Check alter data sub obs`() =
+        runTest {
+            val result = datasource.setSubObs(
+                guineaGrass = true,
+                castorOilPlant = true,
+                signalGrass = false,
+                mucuna = false,
+                silkGrass = true
+            )
+            assertEquals(
+                result.isSuccess,
+                true
+            )
+            assertEquals(
+                result.getOrNull()!!,
+                true
+            )
+            val resultGetAfter = datasource.get()
+            assertEquals(
+                resultGetAfter.isSuccess,
+                true
+            )
+            val modelAfter = resultGetAfter.getOrNull()!!
+            assertEquals(
+                modelAfter.guineaGrass,
+                true
+            )
+            assertEquals(
+                modelAfter.castorOilPlant,
+                true
+            )
+            assertEquals(
+                modelAfter.signalGrass,
+                false
+            )
+            assertEquals(
+                modelAfter.mucuna,
+                false
+            )
+            assertEquals(
+                modelAfter.silkGrass,
                 true
             )
         }

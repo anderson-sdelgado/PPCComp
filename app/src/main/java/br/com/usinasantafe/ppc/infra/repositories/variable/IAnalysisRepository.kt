@@ -334,7 +334,35 @@ class IAnalysisRepository @Inject constructor(
         weed: Boolean,
         anthill: Boolean
     ): Result<Boolean> {
-        val result = sampleSharedPreferencesDatasource.setObs(stone, treeStump, weed, anthill)
+        val result = sampleSharedPreferencesDatasource.setObs(
+            stone = stone,
+            treeStump = treeStump,
+            weed = weed,
+            anthill = anthill
+        )
+        if(result.isFailure){
+            return resultFailure(
+                context = getClassAndMethod(),
+                cause = result.exceptionOrNull()!!
+            )
+        }
+        return result
+    }
+
+    override suspend fun setSubObsSample(
+        guineaGrass: Boolean,
+        castorOilPlant: Boolean,
+        signalGrass: Boolean,
+        mucuna: Boolean,
+        silkGrass: Boolean
+    ): Result<Boolean> {
+        val result = sampleSharedPreferencesDatasource.setSubObs(
+            guineaGrass = guineaGrass,
+            castorOilPlant = castorOilPlant,
+            signalGrass = signalGrass,
+            mucuna = mucuna,
+            silkGrass = silkGrass
+        )
         if(result.isFailure){
             return resultFailure(
                 context = getClassAndMethod(),
@@ -346,14 +374,6 @@ class IAnalysisRepository @Inject constructor(
 
     override suspend fun saveSample(): Result<Boolean> {
         try {
-            val resultGetId = headerRoomDatasource.getIdByStatus(Status.OPEN)
-            if(resultGetId.isFailure){
-                return resultFailure(
-                    context = getClassAndMethod(),
-                    cause = resultGetId.exceptionOrNull()!!
-                )
-            }
-            val idHeader = resultGetId.getOrNull()!!
             val resultGet = sampleSharedPreferencesDatasource.get()
             if(resultGet.isFailure){
                 return resultFailure(
@@ -362,6 +382,14 @@ class IAnalysisRepository @Inject constructor(
                 )
             }
             val sampleSharedPreferencesModel = resultGet.getOrNull()!!
+            val resultGetId = headerRoomDatasource.getIdByStatus(Status.OPEN)
+            if(resultGetId.isFailure){
+                return resultFailure(
+                    context = getClassAndMethod(),
+                    cause = resultGetId.exceptionOrNull()!!
+                )
+            }
+            val idHeader = resultGetId.getOrNull()!!
             val model = sampleSharedPreferencesModel.sharedPreferencesModelToRoomModel(idHeader)
             val result = sampleRoomDatasource.save(model)
             if(result.isFailure){
@@ -377,6 +405,17 @@ class IAnalysisRepository @Inject constructor(
                 cause = e
             )
         }
+    }
+
+    override suspend fun checkSend(): Result<Boolean> {
+        val result = headerRoomDatasource.checkSend()
+        if(result.isFailure){
+            return resultFailure(
+                context = getClassAndMethod(),
+                cause = result.exceptionOrNull()!!
+            )
+        }
+        return result
     }
 
 

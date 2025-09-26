@@ -6,15 +6,16 @@ import androidx.test.core.app.ApplicationProvider
 import br.com.usinasantafe.ppc.external.room.DatabaseRoom
 import br.com.usinasantafe.ppc.external.room.dao.variable.SampleDao
 import br.com.usinasantafe.ppc.infra.models.room.variable.SampleRoomModel
+import br.com.usinasantafe.ppc.utils.StatusSend
 import kotlinx.coroutines.test.runTest
 import org.junit.After
-import org.junit.Assert.*
 import org.junit.Before
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.Config
 import kotlin.intArrayOf
 import kotlin.test.Test
+import kotlin.test.assertEquals
 
 @RunWith(RobolectricTestRunner::class)
 @Config(sdk = [34])
@@ -199,38 +200,31 @@ class ISampleRoomDatasourceTest {
             )
             assertEquals(
                 model1.tare,
-                1.0,
-                0.0
+                1.0
             )
             assertEquals(
                 model1.stalk,
-                1.0,
-                0.0
+                1.0
             )
             assertEquals(
                 model1.wholeCane,
-                1.0,
-                0.0
+                1.0
             )
             assertEquals(
                 model1.stump,
-                1.0,
-                0.0
+                1.0
             )
             assertEquals(
                 model1.piece,
-                1.0,
-                0.0
+                1.0
             )
             assertEquals(
                 model1.tip,
-                1.0,
-                0.0
+                1.0
             )
             assertEquals(
                 model1.slivers,
-                1.0,
-                0.0
+                1.0
             )
             assertEquals(
                 model1.stone,
@@ -276,37 +270,30 @@ class ISampleRoomDatasourceTest {
             assertEquals(
                 model2.tare,
                 3.0,
-                0.0
             )
             assertEquals(
                 model2.stalk,
                 3.0,
-                0.0
             )
             assertEquals(
                 model2.wholeCane,
                 3.0,
-                0.0
             )
             assertEquals(
                 model2.stump,
                 3.0,
-                0.0
             )
             assertEquals(
                 model2.piece,
                 3.0,
-                0.0
             )
             assertEquals(
                 model2.tip,
                 3.0,
-                0.0
             )
             assertEquals(
                 model2.slivers,
                 3.0,
-                0.0
             )
             assertEquals(
                 model2.stone,
@@ -433,38 +420,31 @@ class ISampleRoomDatasourceTest {
             )
             assertEquals(
                 model1.tare,
-                2.0,
-                0.0
+                2.0
             )
             assertEquals(
                 model1.stalk,
-                2.0,
-                0.0
+                2.0
             )
             assertEquals(
                 model1.wholeCane,
-                2.0,
-                0.0
+                2.0
             )
             assertEquals(
                 model1.stump,
-                2.0,
-                0.0
+                2.0
             )
             assertEquals(
                 model1.piece,
-                2.0,
-                0.0
+                2.0
             )
             assertEquals(
                 model1.tip,
-                2.0,
-                0.0
+                2.0
             )
             assertEquals(
                 model1.slivers,
-                2.0,
-                0.0
+                2.0
             )
             assertEquals(
                 model1.stone,
@@ -596,33 +576,27 @@ class ISampleRoomDatasourceTest {
             )
             assertEquals(
                 model1.stalk,
-                2.0,
-                0.0
+                2.0
             )
             assertEquals(
                 model1.wholeCane,
-                2.0,
-                0.0
+                2.0
             )
             assertEquals(
                 model1.stump,
-                2.0,
-                0.0
+                2.0
             )
             assertEquals(
                 model1.piece,
-                2.0,
-                0.0
+                2.0
             )
             assertEquals(
                 model1.tip,
-                2.0,
-                0.0
+                2.0
             )
             assertEquals(
                 model1.slivers,
-                2.0,
-                0.0
+                2.0
             )
             assertEquals(
                 model1.stone,
@@ -667,38 +641,31 @@ class ISampleRoomDatasourceTest {
             )
             assertEquals(
                 model2.tare,
-                3.0,
-                0.0
+                3.0
             )
             assertEquals(
                 model2.stalk,
-                3.0,
-                0.0
+                3.0
             )
             assertEquals(
                 model2.wholeCane,
-                3.0,
-                0.0
+                3.0
             )
             assertEquals(
                 model2.stump,
-                3.0,
-                0.0
+                3.0
             )
             assertEquals(
                 model2.piece,
-                3.0,
-                0.0
+                3.0
             )
             assertEquals(
                 model2.tip,
-                3.0,
-                0.0
+                3.0
             )
             assertEquals(
                 model2.slivers,
-                3.0,
-                0.0
+                3.0
             )
             assertEquals(
                 model2.stone,
@@ -738,4 +705,100 @@ class ISampleRoomDatasourceTest {
             )
         }
 
+    @Test
+    fun `save - Check if data was saved correctly`() =
+        runTest {
+            val listBefore = sampleDao.all()
+            assertEquals(
+                listBefore.size,
+                0
+            )
+            val result = datasource.save(
+                SampleRoomModel(
+                    idHeader = 1,
+                    tare = 1.0,
+                    stalk = 1.0,
+                    wholeCane = 1.0,
+                    stump = 1.0,
+                    piece = 1.0,
+                    tip = 1.0,
+                    slivers = 1.0,
+                    stone = true,
+                    treeStump = true,
+                    weed = true,
+                    anthill = false,
+                    guineaGrass = true,
+                    castorOilPlant = true,
+                    signalGrass = true,
+                    mucuna = false,
+                    silkGrass = true,
+                )
+            )
+            assertEquals(
+                result.isSuccess,
+                true
+            )
+            assertEquals(
+                result.getOrNull()!!,
+                true
+            )
+            val listAfter = sampleDao.all()
+            assertEquals(
+                listAfter.size,
+                1
+            )
+            val model = listAfter[0]
+            assertEquals(
+                model.idHeader,
+                1
+            )
+            assertEquals(
+                model.tare,
+                1.0
+            )
+            assertEquals(
+                model.stalk,
+                1.0
+            )
+            assertEquals(
+                model.wholeCane,
+                1.0
+            )
+            assertEquals(
+                model.stump,
+                1.0
+            )
+            assertEquals(
+                model.piece,
+                1.0
+            )
+            assertEquals(
+                model.tip,
+                1.0
+            )
+            assertEquals(
+                model.slivers,
+                1.0
+            )
+            assertEquals(
+                model.stone,
+                true
+            )
+            assertEquals(
+                model.treeStump,
+                true
+            )
+            assertEquals(
+                model.weed,
+                true
+            )
+            assertEquals(
+                model.anthill,
+                false
+            )
+            assertEquals(
+                model.guineaGrass,
+                true
+            )
+        }
 }
