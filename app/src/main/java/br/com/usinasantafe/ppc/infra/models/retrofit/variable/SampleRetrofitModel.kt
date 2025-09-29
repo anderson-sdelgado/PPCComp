@@ -1,16 +1,10 @@
-package br.com.usinasantafe.ppc.infra.models.room.variable
+package br.com.usinasantafe.ppc.infra.models.retrofit.variable
 
-import androidx.room.Entity
-import androidx.room.PrimaryKey
-import br.com.usinasantafe.ppc.domain.entities.variable.Sample
-import br.com.usinasantafe.ppc.utils.TB_SAMPLE
+import br.com.usinasantafe.ppc.infra.models.room.variable.SampleRoomModel
 
-@Entity(tableName = TB_SAMPLE)
-data class SampleRoomModel(
-    @PrimaryKey(autoGenerate = true)
-    val id: Int? = null,
-    val idHeader: Int,
-    var pos: Int,
+data class SampleRetrofitModelOutput(
+    val id: Int,
+    val pos: Int,
     val tare: Double,
     val stalk: Double?,
     val wholeCane: Double?,
@@ -27,18 +21,18 @@ data class SampleRoomModel(
     val signalGrass: Boolean,
     val mucuna: Boolean,
     val silkGrass: Boolean,
-    val idServ: Int? = null,
-) {
-    init {
-        require(idHeader != 0) { "The field 'idHeader' cannot is null." }
-    }
-}
+)
 
-fun SampleRoomModel.roomModelToEntity(): Sample {
+data class SampleRetrofitModelInput(
+    val id: Int,
+    val idServ: Int,
+)
+
+fun SampleRoomModel.sampleRoomModelToRetrofitModel(): SampleRetrofitModelOutput {
     return with(this) {
-        Sample(
-            id = id,
-            idHeader = idHeader,
+        SampleRetrofitModelOutput(
+            id = id!!,
+            pos = pos,
             tare = tare,
             stalk = stalk,
             wholeCane = wholeCane,

@@ -49,4 +49,8 @@ interface AnalysisRepository {
     ): Result<Boolean>
     suspend fun saveSample(): Result<Boolean>
     suspend fun checkSend(): Result<Boolean>
+    suspend fun send(
+        token: String,
+        number: Long
+    ): Result<Boolean>
 }

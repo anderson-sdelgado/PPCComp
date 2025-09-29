@@ -3,6 +3,7 @@ package br.com.usinasantafe.ppc.domain.entities.variable
 data class Sample(
     var id: Int? = null,
     var idHeader: Int? = null,
+    var position: Int? = null,
     var tare: Double? = null,
     var stalk: Double? = null,
     var wholeCane: Double? = null,

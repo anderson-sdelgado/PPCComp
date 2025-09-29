@@ -14,6 +14,9 @@ interface SampleDao {
     @Query("SELECT * FROM TB_SAMPLE")
     suspend fun all(): List<SampleRoomModel>
 
+    @Query("SELECT MAX(pos) FROM TB_SAMPLE WHERE idHeader = :idHeader")
+    suspend fun maxPosByIdHeader(idHeader: Int): Int?
+
     @Query("SELECT COUNT(*) FROM TB_SAMPLE WHERE idHeader = :idHeader")
     suspend fun countByIdHeader(idHeader: Int): Int
 

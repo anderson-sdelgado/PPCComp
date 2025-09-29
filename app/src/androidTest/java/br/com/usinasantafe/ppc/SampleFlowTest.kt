@@ -993,6 +993,7 @@ class SampleFlowTest {
                 model1After,
                 SampleRoomModel(
                     idHeader = 2,
+                    pos = 1,
                     tare = 1.0,
                     stalk = 3.0,
                     wholeCane = 3.0,
@@ -1002,10 +1003,10 @@ class SampleFlowTest {
                     slivers = 3.0,
                     stone = false,
                     treeStump = false,
-                    weed = false,
+                    weed = true,
                     anthill = false,
-                    guineaGrass = false,
-                    castorOilPlant = false,
+                    guineaGrass = true,
+                    castorOilPlant = true,
                     signalGrass = false,
                     mucuna = false,
                     silkGrass = false,
@@ -1017,23 +1018,24 @@ class SampleFlowTest {
                 model2After,
                 SampleRoomModel(
                     idHeader = 3,
-                    tare = 1.02,
-                    stalk = 2.0,
-                    wholeCane = 1.50,
-                    stump = 3.0,
-                    piece = 1.560,
-                    tip = 1.054,
-                    slivers = 1.024,
+                    pos = 2,
+                    tare = 1.01,
+                    stalk = 2.01,
+                    wholeCane = null,
+                    stump = 2.11,
+                    piece = 3.129,
+                    tip = null,
+                    slivers = 2.904,
                     stone = true,
-                    treeStump = true,
-                    weed = true,
+                    treeStump = false,
+                    weed = false,
                     anthill = true,
-                    guineaGrass = true,
-                    castorOilPlant = true,
-                    signalGrass = true,
-                    mucuna = true,
-                    silkGrass = true,
-                    id = 4
+                    guineaGrass = false,
+                    castorOilPlant = false,
+                    signalGrass = false,
+                    mucuna = false,
+                    silkGrass = false,
+                    id = 5
                 )
             )
             val model3After = listAfter[2]
@@ -1041,23 +1043,24 @@ class SampleFlowTest {
                 model3After,
                 SampleRoomModel(
                     idHeader = 3,
-                    tare = 1.02,
-                    stalk = 2.0,
-                    wholeCane = 1.50,
-                    stump = 3.0,
-                    piece = 1.560,
-                    tip = 1.054,
-                    slivers = 1.024,
+                    pos = 3,
+                    tare = 0.509,
+                    stalk = 1.249,
+                    wholeCane = 2.8,
+                    stump = null,
+                    piece = null,
+                    tip = 3.889,
+                    slivers = null,
                     stone = true,
-                    treeStump = true,
+                    treeStump = false,
                     weed = true,
-                    anthill = true,
+                    anthill = false,
                     guineaGrass = true,
-                    castorOilPlant = true,
-                    signalGrass = true,
+                    castorOilPlant = false,
+                    signalGrass = false,
                     mucuna = true,
-                    silkGrass = true,
-                    id = 5
+                    silkGrass = false,
+                    id = 6
                 )
             )
 
@@ -1129,6 +1132,7 @@ class SampleFlowTest {
         sampleDao.insert(
             SampleRoomModel(
                 idHeader = 1,
+                pos = 1,
                 tare = 1.02,
                 stalk = 2.0,
                 wholeCane = 1.50,
@@ -1151,6 +1155,7 @@ class SampleFlowTest {
         sampleDao.insert(
             SampleRoomModel(
                 idHeader = 1,
+                pos = 2,
                 tare = 1.0,
                 stalk = 2.0,
                 wholeCane = 2.0,
@@ -1173,6 +1178,7 @@ class SampleFlowTest {
         sampleDao.insert(
             SampleRoomModel(
                 idHeader = 2,
+                pos = 1,
                 tare = 1.0,
                 stalk = 3.0,
                 wholeCane = 3.0,
@@ -1195,6 +1201,7 @@ class SampleFlowTest {
         sampleDao.insert(
             SampleRoomModel(
                 idHeader = 3,
+                pos = 1,
                 tare = 1.0,
                 stalk = 4.0,
                 wholeCane = 4.0,

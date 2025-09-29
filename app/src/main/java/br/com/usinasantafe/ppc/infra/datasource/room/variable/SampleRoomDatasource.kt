@@ -8,4 +8,5 @@ interface SampleRoomDatasource {
     suspend fun deleteByIdHeader(idHeader: Int): Result<Boolean>
     suspend fun deleteById(id: Int): Result<Boolean>
     suspend fun save(model: SampleRoomModel): Result<Boolean>
+    suspend fun setIdServById(id: Int, idServ: Int): Result<Boolean>
 }

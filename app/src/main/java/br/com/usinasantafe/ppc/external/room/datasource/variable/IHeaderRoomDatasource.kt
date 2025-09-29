@@ -105,4 +105,15 @@ class IHeaderRoomDatasource @Inject constructor(
         }
     }
 
+    override suspend fun listByStatusSend(statusSend: StatusSend): Result<List<HeaderRoomModel>> {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun setIdServAndSentById(
+        id: Int,
+        idServ: Int
+    ): Result<Boolean> {
+        TODO("Not yet implemented")
+    }
+
 }

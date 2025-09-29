@@ -4,14 +4,18 @@ import br.com.usinasantafe.ppc.domain.entities.variable.Header
 import br.com.usinasantafe.ppc.domain.entities.variable.Sample
 import br.com.usinasantafe.ppc.domain.errors.resultFailure
 import br.com.usinasantafe.ppc.domain.repositories.variable.AnalysisRepository
+import br.com.usinasantafe.ppc.infra.datasource.retrofit.variable.AnalysisRetrofitDatasource
 import br.com.usinasantafe.ppc.infra.datasource.room.variable.HeaderRoomDatasource
 import br.com.usinasantafe.ppc.infra.datasource.room.variable.SampleRoomDatasource
 import br.com.usinasantafe.ppc.infra.datasource.sharedpreferences.variable.HeaderSharedPreferencesDatasource
 import br.com.usinasantafe.ppc.infra.datasource.sharedpreferences.variable.SampleSharedPreferencesDatasource
+import br.com.usinasantafe.ppc.infra.models.retrofit.variable.headerRoomModelToRetrofitModel
+import br.com.usinasantafe.ppc.infra.models.retrofit.variable.sampleRoomModelToRetrofitModel
 import br.com.usinasantafe.ppc.infra.models.room.variable.roomModelToEntity
 import br.com.usinasantafe.ppc.infra.models.sharedpreferences.variable.sharedPreferencesModelToRoomModel
 import br.com.usinasantafe.ppc.utils.Field
 import br.com.usinasantafe.ppc.utils.Status
+import br.com.usinasantafe.ppc.utils.StatusSend
 import br.com.usinasantafe.ppc.utils.getClassAndMethod
 import java.util.Date
 import javax.inject.Inject
@@ -20,7 +24,8 @@ class IAnalysisRepository @Inject constructor(
     private val headerRoomDatasource: HeaderRoomDatasource,
     private val headerSharedPreferencesDatasource: HeaderSharedPreferencesDatasource,
     private val sampleRoomDatasource: SampleRoomDatasource,
-    private val sampleSharedPreferencesDatasource: SampleSharedPreferencesDatasource
+    private val sampleSharedPreferencesDatasource: SampleSharedPreferencesDatasource,
+    private val analysisRetrofitDatasource: AnalysisRetrofitDatasource
 ): AnalysisRepository {
 
     override suspend fun listHeader(): Result<List<Header>> {
@@ -416,6 +421,78 @@ class IAnalysisRepository @Inject constructor(
             )
         }
         return result
+    }
+
+    override suspend fun send(
+        token: String,
+        number: Long
+    ): Result<Boolean> {
+        try {
+            val resultListSend = headerRoomDatasource.listByStatusSend(StatusSend.SEND)
+            if(resultListSend.isFailure){
+                return resultFailure(
+                    context = getClassAndMethod(),
+                    cause = resultListSend.exceptionOrNull()!!
+                )
+            }
+            val headerRoomModelList = resultListSend.getOrNull()!!
+            val retrofitModelOutputList = headerRoomModelList.map { headerRoomModel ->
+                val resultSampleList = sampleRoomDatasource.listByIdHeader(headerRoomModel.id!!)
+                if(resultSampleList.isFailure){
+                    return resultFailure(
+                        context = getClassAndMethod(),
+                        cause = resultSampleList.exceptionOrNull()!!
+                    )
+                }
+                val sampleRoomModelList = resultSampleList.getOrNull()!!
+                return@map headerRoomModel.headerRoomModelToRetrofitModel(
+                    number = number,
+                    sampleList = sampleRoomModelList.map { it.sampleRoomModelToRetrofitModel() }
+
+                )
+            }
+            val result = analysisRetrofitDatasource.send(
+                token = token,
+                retrofitModelOutputList = retrofitModelOutputList
+            )
+            if(result.isFailure){
+                return resultFailure(
+                    context = getClassAndMethod(),
+                    cause = result.exceptionOrNull()!!
+                )
+            }
+            val headerRetrofitModelList = result.getOrNull()!!
+            for(headerRetrofitModel in headerRetrofitModelList){
+                for(sampleRetrofitModel in headerRetrofitModel.sampleList){
+                    val resultSetIdServ = sampleRoomDatasource.setIdServById(
+                        id = sampleRetrofitModel.id,
+                        idServ = headerRetrofitModel.id
+                    )
+                    if(resultSetIdServ.isFailure){
+                        return resultFailure(
+                            context = getClassAndMethod(),
+                            cause = resultSetIdServ.exceptionOrNull()!!
+                        )
+                    }
+                }
+                val resultSetIdServer = headerRoomDatasource.setIdServAndSentById(
+                    id = headerRetrofitModel.id,
+                    idServ = headerRetrofitModel.id
+                )
+                if(resultSetIdServer.isFailure){
+                    return resultFailure(
+                        context = getClassAndMethod(),
+                        cause = resultSetIdServer.exceptionOrNull()!!
+                    )
+                }
+            }
+            return Result.success(true)
+        } catch (e: Exception){
+            return resultFailure(
+                context = getClassAndMethod(),
+                cause = e
+            )
+        }
     }
 
 

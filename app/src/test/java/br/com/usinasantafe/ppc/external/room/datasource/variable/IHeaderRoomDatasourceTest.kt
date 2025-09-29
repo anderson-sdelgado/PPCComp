@@ -986,4 +986,66 @@ class IHeaderRoomDatasourceTest {
             )
         }
 
+    @Test
+    fun `checkSend - Check return false if not have data to send`() =
+        runTest {
+            headerDao.insert(
+                HeaderRoomModel(
+                    regAuditor1 = 1,
+                    regAuditor2 = 2,
+                    regAuditor3 = 3,
+                    date = Date(),
+                    nroTurn = 1,
+                    codSection = 1,
+                    nroPlot = 1,
+                    nroOS = 1,
+                    codFront = 1,
+                    nroHarvester = 1,
+                    regOperator = 1,
+                )
+            )
+            val result = datasource.checkSend()
+            assertEquals(
+                result.isSuccess,
+                true
+            )
+            val check = result.getOrNull()!!
+            assertEquals(
+                check,
+                false
+            )
+        }
+
+    @Test
+    fun `checkSend - Check return true if have data to send`() =
+        runTest {
+            headerDao.insert(
+                HeaderRoomModel(
+                    regAuditor1 = 1,
+                    regAuditor2 = 2,
+                    regAuditor3 = 3,
+                    date = Date(),
+                    nroTurn = 1,
+                    codSection = 1,
+                    nroPlot = 1,
+                    nroOS = 1,
+                    codFront = 1,
+                    nroHarvester = 1,
+                    regOperator = 1,
+                    status = Status.FINISH,
+                    statusSend = StatusSend.SEND
+                )
+            )
+            val result = datasource.checkSend()
+            assertEquals(
+                result.isSuccess,
+                true
+            )
+            val check = result.getOrNull()!!
+            assertEquals(
+                check,
+                true
+            )
+        }
+
 }

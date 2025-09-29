@@ -47,22 +47,3 @@ fun HeaderRoomModel.roomModelToEntity(): Header {
         )
     }
 }
-
-fun Header.entityToRoomModel(): HeaderRoomModel {
-    return with(this) {
-        HeaderRoomModel(
-            id = id,
-            regAuditor1 = regAuditor1!!,
-            regAuditor2 = regAuditor2,
-            regAuditor3 = regAuditor3,
-            date = date!!,
-            nroTurn = nroTurn!!,
-            codSection = codSection!!,
-            nroPlot = nroPlot!!,
-            nroOS = nroOS!!,
-            codFront = codFront!!,
-            nroHarvester = nroHarvester!!,
-            regOperator = regOperator!!,
-        )
-    }
-}

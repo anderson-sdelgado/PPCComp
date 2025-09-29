@@ -1,10 +1,15 @@
 package br.com.usinasantafe.ppc.infra.repositories.variable
 
 import br.com.usinasantafe.ppc.domain.errors.resultFailure
+import br.com.usinasantafe.ppc.infra.datasource.retrofit.variable.AnalysisRetrofitDatasource
 import br.com.usinasantafe.ppc.infra.datasource.room.variable.HeaderRoomDatasource
 import br.com.usinasantafe.ppc.infra.datasource.room.variable.SampleRoomDatasource
 import br.com.usinasantafe.ppc.infra.datasource.sharedpreferences.variable.HeaderSharedPreferencesDatasource
 import br.com.usinasantafe.ppc.infra.datasource.sharedpreferences.variable.SampleSharedPreferencesDatasource
+import br.com.usinasantafe.ppc.infra.models.retrofit.variable.HeaderRetrofitModelInput
+import br.com.usinasantafe.ppc.infra.models.retrofit.variable.SampleRetrofitModelInput
+import br.com.usinasantafe.ppc.infra.models.retrofit.variable.headerRoomModelToRetrofitModel
+import br.com.usinasantafe.ppc.infra.models.retrofit.variable.sampleRoomModelToRetrofitModel
 import br.com.usinasantafe.ppc.infra.models.room.variable.HeaderRoomModel
 import br.com.usinasantafe.ppc.infra.models.room.variable.SampleRoomModel
 import br.com.usinasantafe.ppc.infra.models.sharedpreferences.variable.HeaderSharedPreferencesModel
@@ -12,6 +17,7 @@ import br.com.usinasantafe.ppc.infra.models.sharedpreferences.variable.SampleSha
 import br.com.usinasantafe.ppc.infra.models.sharedpreferences.variable.sharedPreferencesModelToRoomModel
 import br.com.usinasantafe.ppc.utils.Field
 import br.com.usinasantafe.ppc.utils.Status
+import br.com.usinasantafe.ppc.utils.StatusSend
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
 import org.junit.Test
@@ -26,11 +32,13 @@ class IAnalysisRepositoryTest {
     private val headerSharedPreferencesDatasource = mock<HeaderSharedPreferencesDatasource>()
     private val sampleRoomDatasource = mock<SampleRoomDatasource>()
     private val sampleSharedPreferencesDatasource = mock<SampleSharedPreferencesDatasource>()
+    private val analysisRetrofitDatasource = mock<AnalysisRetrofitDatasource>()
     private val repository = IAnalysisRepository(
         headerRoomDatasource = headerRoomDatasource,
         headerSharedPreferencesDatasource = headerSharedPreferencesDatasource,
         sampleRoomDatasource = sampleRoomDatasource,
-        sampleSharedPreferencesDatasource = sampleSharedPreferencesDatasource
+        sampleSharedPreferencesDatasource = sampleSharedPreferencesDatasource,
+        analysisRetrofitDatasource = analysisRetrofitDatasource
     )
 
     @Test
@@ -1065,6 +1073,7 @@ class IAnalysisRepositoryTest {
                         SampleRoomModel(
                             id = 1,
                             idHeader = 1,
+                            pos = 1,
                             tare = 1.0,
                             stalk = 1.0,
                             wholeCane = 1.0,
@@ -1909,6 +1918,418 @@ class IAnalysisRepositoryTest {
             assertEquals(
                 result.getOrNull()!!,
                 true
+            )
+        }
+
+    @Test
+    fun `send - Check return failure if have error in HeaderRoomDatasource listByStatusSend`() =
+        runTest {
+            whenever(
+                headerRoomDatasource.listByStatusSend(
+                    StatusSend.SEND
+                )
+            ).thenReturn(
+                resultFailure(
+                    "IHeaderRoomDatasource.listByStatusSend",
+                    "-",
+                    Exception()
+                )
+            )
+            val result = repository.send(
+                token = "token",
+                number = 16997417840
+            )
+            assertEquals(
+                result.isFailure,
+                true
+            )
+            assertEquals(
+                result.exceptionOrNull()!!.message,
+                "IAnalysisRepository.send -> IHeaderRoomDatasource.listByStatusSend"
+            )
+            assertEquals(
+                result.exceptionOrNull()!!.cause.toString(),
+                "java.lang.Exception"
+            )
+        }
+
+    @Test
+    fun `send - Check return failure if have error in SampleRoomDatasource listByIdHeader`() =
+        runTest {
+            val headerRoomModelList =
+                listOf(
+                    HeaderRoomModel(
+                        id = 1,
+                        regAuditor1 = 1,
+                        date = Date(),
+                        nroTurn = 1,
+                        codSection = 1,
+                        nroPlot = 1,
+                        nroOS = 1,
+                        codFront = 1,
+                        nroHarvester = 1,
+                        regOperator = 1,
+                        status = Status.FINISH,
+                        statusSend = StatusSend.SEND
+                    )
+                )
+            whenever(
+                headerRoomDatasource.listByStatusSend(
+                    StatusSend.SEND
+                )
+            ).thenReturn(
+                Result.success(headerRoomModelList)
+            )
+            whenever(
+                sampleRoomDatasource.listByIdHeader(1)
+            ).thenReturn(
+                resultFailure(
+                    "ISampleRoomDatasource.listByIdHeader",
+                    "-",
+                    Exception()
+                )
+            )
+            val result = repository.send(
+                token = "token",
+                number = 16997417840
+            )
+            assertEquals(
+                result.isFailure,
+                true
+            )
+            assertEquals(
+                result.exceptionOrNull()!!.message,
+                "IAnalysisRepository.send -> ISampleRoomDatasource.listByIdHeader"
+            )
+            assertEquals(
+                result.exceptionOrNull()!!.cause.toString(),
+                "java.lang.Exception"
+            )
+        }
+
+    @Test
+    fun `send - Check return failure if have error in AnalysisRetrofitDatasource send`() =
+        runTest {
+            val headerRoomModelList =
+                listOf(
+                    HeaderRoomModel(
+                        id = 1,
+                        regAuditor1 = 1,
+                        date = Date(),
+                        nroTurn = 1,
+                        codSection = 1,
+                        nroPlot = 1,
+                        nroOS = 1,
+                        codFront = 1,
+                        nroHarvester = 1,
+                        regOperator = 1,
+                        status = Status.FINISH,
+                        statusSend = StatusSend.SEND
+                    )
+                )
+            val sampleRoomModelList =
+                listOf(
+                    SampleRoomModel(
+                        id = 1,
+                        idHeader = 1,
+                        pos = 1,
+                        tare = 1.0,
+                        stalk = 1.0,
+                        wholeCane = 1.0,
+                        stump = 1.0,
+                        piece = 1.0,
+                        tip = 1.0,
+                        slivers = 1.0,
+                        stone = true,
+                        treeStump = true,
+                        weed = true,
+                        anthill = true,
+                        guineaGrass = true,
+                        castorOilPlant = true,
+                        signalGrass = true,
+                        mucuna = true,
+                        silkGrass = true
+                    )
+                )
+            whenever(
+                headerRoomDatasource.listByStatusSend(
+                    StatusSend.SEND
+                )
+            ).thenReturn(
+                Result.success(headerRoomModelList)
+            )
+            whenever(
+                sampleRoomDatasource.listByIdHeader(1)
+            ).thenReturn(
+                Result.success(sampleRoomModelList)
+            )
+            val retrofitModelOutputList = headerRoomModelList.map { headerRoomModel ->
+                headerRoomModel.headerRoomModelToRetrofitModel(
+                    number = 16997417840,
+                    sampleList = sampleRoomModelList.map { it.sampleRoomModelToRetrofitModel() }
+                )
+            }
+            whenever(
+                analysisRetrofitDatasource.send(
+                    token = "token",
+                    retrofitModelOutputList = retrofitModelOutputList
+                )
+            ).thenReturn(
+                resultFailure(
+                    "IAnalysisRetrofitDatasource.send",
+                    "-",
+                    Exception()
+                )
+            )
+            val result = repository.send(
+                token = "token",
+                number = 16997417840
+            )
+            assertEquals(
+                result.isFailure,
+                true
+            )
+            assertEquals(
+                result.exceptionOrNull()!!.message,
+                "IAnalysisRepository.send -> IAnalysisRetrofitDatasource.send"
+            )
+            assertEquals(
+                result.exceptionOrNull()!!.cause.toString(),
+                "java.lang.Exception"
+            )
+        }
+
+    @Test
+    fun `send - Check return failure if have error in SampleRoomDatasource setIdServById`() =
+        runTest {
+            val headerRoomModelList =
+                listOf(
+                    HeaderRoomModel(
+                        id = 1,
+                        regAuditor1 = 1,
+                        date = Date(),
+                        nroTurn = 1,
+                        codSection = 1,
+                        nroPlot = 1,
+                        nroOS = 1,
+                        codFront = 1,
+                        nroHarvester = 1,
+                        regOperator = 1,
+                        status = Status.FINISH,
+                        statusSend = StatusSend.SEND
+                    )
+                )
+            val sampleRoomModelList =
+                listOf(
+                    SampleRoomModel(
+                        id = 1,
+                        idHeader = 1,
+                        pos = 1,
+                        tare = 1.0,
+                        stalk = 1.0,
+                        wholeCane = 1.0,
+                        stump = 1.0,
+                        piece = 1.0,
+                        tip = 1.0,
+                        slivers = 1.0,
+                        stone = true,
+                        treeStump = true,
+                        weed = true,
+                        anthill = true,
+                        guineaGrass = true,
+                        castorOilPlant = true,
+                        signalGrass = true,
+                        mucuna = true,
+                        silkGrass = true
+                    )
+                )
+            val headerRetrofitModelInputList =
+                listOf(
+                    HeaderRetrofitModelInput(
+                        id = 1,
+                        idServ = 1,
+                        sampleList = listOf(
+                            SampleRetrofitModelInput(
+                                id = 1,
+                                idServ = 1
+                            )
+                        )
+                    )
+                )
+            whenever(
+                headerRoomDatasource.listByStatusSend(
+                    StatusSend.SEND
+                )
+            ).thenReturn(
+                Result.success(headerRoomModelList)
+            )
+            whenever(
+                sampleRoomDatasource.listByIdHeader(1)
+            ).thenReturn(
+                Result.success(sampleRoomModelList)
+            )
+            val retrofitModelOutputList = headerRoomModelList.map { headerRoomModel ->
+                headerRoomModel.headerRoomModelToRetrofitModel(
+                    number = 16997417840,
+                    sampleList = sampleRoomModelList.map { it.sampleRoomModelToRetrofitModel() }
+                )
+            }
+            whenever(
+                analysisRetrofitDatasource.send(
+                    token = "token",
+                    retrofitModelOutputList = retrofitModelOutputList
+                )
+            ).thenReturn(
+                Result.success(headerRetrofitModelInputList)
+            )
+            whenever(
+                sampleRoomDatasource.setIdServById(
+                    id = 1,
+                    idServ = 1
+                )
+            ).thenReturn(
+                resultFailure(
+                    "ISampleRoomDatasource.setIdServById",
+                    "-",
+                    Exception()
+                )
+            )
+            val result = repository.send(
+                token = "token",
+                number = 16997417840
+            )
+            assertEquals(
+                result.isFailure,
+                true
+            )
+            assertEquals(
+                result.exceptionOrNull()!!.message,
+                "IAnalysisRepository.send -> ISampleRoomDatasource.setIdServById"
+            )
+            assertEquals(
+                result.exceptionOrNull()!!.cause.toString(),
+                "java.lang.Exception"
+            )
+        }
+
+    @Test
+    fun `send - Check return failure if have error in HeaderRoomDatasource setIdServAndSentById`() =
+        runTest {
+            val headerRoomModelList =
+                listOf(
+                    HeaderRoomModel(
+                        id = 1,
+                        regAuditor1 = 1,
+                        date = Date(),
+                        nroTurn = 1,
+                        codSection = 1,
+                        nroPlot = 1,
+                        nroOS = 1,
+                        codFront = 1,
+                        nroHarvester = 1,
+                        regOperator = 1,
+                        status = Status.FINISH,
+                        statusSend = StatusSend.SEND
+                    )
+                )
+            val sampleRoomModelList =
+                listOf(
+                    SampleRoomModel(
+                        id = 1,
+                        idHeader = 1,
+                        pos = 1,
+                        tare = 1.0,
+                        stalk = 1.0,
+                        wholeCane = 1.0,
+                        stump = 1.0,
+                        piece = 1.0,
+                        tip = 1.0,
+                        slivers = 1.0,
+                        stone = true,
+                        treeStump = true,
+                        weed = true,
+                        anthill = true,
+                        guineaGrass = true,
+                        castorOilPlant = true,
+                        signalGrass = true,
+                        mucuna = true,
+                        silkGrass = true
+                    )
+                )
+            val headerRetrofitModelInputList =
+                listOf(
+                    HeaderRetrofitModelInput(
+                        id = 1,
+                        idServ = 1,
+                        sampleList = listOf(
+                            SampleRetrofitModelInput(
+                                id = 1,
+                                idServ = 1
+                            )
+                        )
+                    )
+                )
+            whenever(
+                headerRoomDatasource.listByStatusSend(
+                    StatusSend.SEND
+                )
+            ).thenReturn(
+                Result.success(headerRoomModelList)
+            )
+            whenever(
+                sampleRoomDatasource.listByIdHeader(1)
+            ).thenReturn(
+                Result.success(sampleRoomModelList)
+            )
+            val retrofitModelOutputList = headerRoomModelList.map { headerRoomModel ->
+                headerRoomModel.headerRoomModelToRetrofitModel(
+                    number = 16997417840,
+                    sampleList = sampleRoomModelList.map { it.sampleRoomModelToRetrofitModel() }
+                )
+            }
+            whenever(
+                analysisRetrofitDatasource.send(
+                    token = "token",
+                    retrofitModelOutputList = retrofitModelOutputList
+                )
+            ).thenReturn(
+                Result.success(headerRetrofitModelInputList)
+            )
+            whenever(
+                sampleRoomDatasource.setIdServById(
+                    id = 1,
+                    idServ = 1
+                )
+            ).thenReturn(
+                Result.success(true)
+            )
+            whenever(
+                headerRoomDatasource.setIdServAndSentById(
+                    id = 1,
+                    idServ = 1
+                )
+            ).thenReturn(
+                resultFailure(
+                    "IHeaderRoomDatasource.setIdServAndSentById",
+                    "-",
+                    Exception()
+                )
+            )
+            val result = repository.send(
+                token = "token",
+                number = 16997417840
+            )
+            assertEquals(
+                result.isFailure,
+                true
+            )
+            assertEquals(
+                result.exceptionOrNull()!!.message,
+                "IAnalysisRepository.send -> IHeaderRoomDatasource.setIdServAndSentById"
+            )
+            assertEquals(
+                result.exceptionOrNull()!!.cause.toString(),
+                "java.lang.Exception"
             )
         }
 

@@ -29,6 +29,7 @@ fun SampleSharedPreferencesModel.sharedPreferencesModelToRoomModel(
         SampleRoomModel(
             idHeader = idHeader,
             tare = nonNullTare,
+            pos = 0,
             stalk = stalk,
             wholeCane = wholeCane,
             stump = stump,

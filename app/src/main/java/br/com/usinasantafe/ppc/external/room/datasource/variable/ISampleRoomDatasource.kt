@@ -45,11 +45,21 @@ class ISampleRoomDatasource @Inject constructor(
 
     override suspend fun save(model: SampleRoomModel): Result<Boolean> {
         return try {
+            val max = sampleDao.maxPosByIdHeader(model.idHeader) ?: 0
+            val count = max + 1
+            model.pos = count
             sampleDao.insert(model)
             Result.success(true)
         } catch (e: Exception) {
             Result.failure(e)
         }
+    }
+
+    override suspend fun setIdServById(
+        id: Int,
+        idServ: Int
+    ): Result<Boolean> {
+        TODO("Not yet implemented")
     }
 
 }

@@ -138,6 +138,7 @@ class HeaderListScreenTest {
         sampleDao.insert(
             SampleRoomModel(
                 idHeader = 1,
+                pos = 1,
                 tare = 1.0,
                 stalk = 1.0,
                 wholeCane = 1.0,
@@ -159,6 +160,7 @@ class HeaderListScreenTest {
         sampleDao.insert(
             SampleRoomModel(
                 idHeader = 1,
+                pos = 2,
                 tare = 2.0,
                 stalk = 2.0,
                 wholeCane = 2.0,
@@ -180,6 +182,7 @@ class HeaderListScreenTest {
         sampleDao.insert(
             SampleRoomModel(
                 idHeader = 2,
+                pos = 1,
                 tare = 3.0,
                 stalk = 3.0,
                 wholeCane = 3.0,
