@@ -814,4 +814,216 @@ class ISampleRoomDatasourceTest {
                 true
             )
         }
+
+    @Test
+    fun `save and setIdServById - Check alter data was update execute correctly`() =
+        runTest {
+            datasource.save(
+                SampleRoomModel(
+                    idHeader = 1,
+                    pos = 0,
+                    tare = 1.0,
+                    stalk = 1.0,
+                    wholeCane = 1.0,
+                    stump = 1.0,
+                    piece = 1.0,
+                    tip = 1.0,
+                    slivers = 1.0,
+                    stone = true,
+                    treeStump = true,
+                    weed = true,
+                    anthill = true,
+                    guineaGrass = true,
+                    castorOilPlant = true,
+                    signalGrass = true,
+                    mucuna = true,
+                    silkGrass = true,
+                    idServ = null,
+                )
+            )
+            val listBefore = sampleDao.all()
+            assertEquals(
+                listBefore.size,
+                1
+            )
+            val modelBefore = listBefore[0]
+            assertEquals(
+                modelBefore.id,
+                1
+            )
+            assertEquals(
+                modelBefore.idHeader,
+                1
+            )
+            assertEquals(
+                modelBefore.tare,
+                1.0
+            )
+            assertEquals(
+                modelBefore.stalk,
+                1.0
+            )
+            assertEquals(
+                modelBefore.wholeCane,
+                1.0
+            )
+            assertEquals(
+                modelBefore.stump,
+                1.0
+            )
+            assertEquals(
+                modelBefore.piece,
+                1.0
+            )
+            assertEquals(
+                modelBefore.tip,
+                1.0
+            )
+            assertEquals(
+                modelBefore.slivers,
+                1.0
+            )
+            assertEquals(
+                modelBefore.stone,
+                true
+            )
+            assertEquals(
+                modelBefore.treeStump,
+                true
+            )
+            assertEquals(
+                modelBefore.weed,
+                true
+            )
+            assertEquals(
+                modelBefore.anthill,
+                true
+            )
+            assertEquals(
+                modelBefore.guineaGrass,
+                true
+            )
+            assertEquals(
+                modelBefore.castorOilPlant,
+                true
+            )
+            assertEquals(
+                modelBefore.signalGrass,
+                true
+            )
+            assertEquals(
+                modelBefore.mucuna,
+                true
+            )
+            assertEquals(
+                modelBefore.silkGrass,
+                true
+            )
+            assertEquals(
+                modelBefore.idServ,
+                null
+            )
+            assertEquals(
+                modelBefore.pos,
+                1
+            )
+            val result = datasource.setIdServById(1, 1)
+            assertEquals(
+                result.isSuccess,
+                true
+            )
+            assertEquals(
+                result.getOrNull()!!,
+                true
+            )
+            val listAfter = sampleDao.all()
+            assertEquals(
+                listAfter.size,
+                1
+            )
+            val modelAfter = listAfter[0]
+            assertEquals(
+                modelAfter.id,
+                1
+            )
+            assertEquals(
+                modelAfter.idHeader,
+                1
+            )
+            assertEquals(
+                modelAfter.tare,
+                1.0
+            )
+            assertEquals(
+                modelAfter.stalk,
+                1.0
+            )
+            assertEquals(
+                modelAfter.wholeCane,
+                1.0
+            )
+            assertEquals(
+                modelAfter.stump,
+                1.0
+            )
+            assertEquals(
+                modelAfter.piece,
+                1.0
+            )
+            assertEquals(
+                modelAfter.tip,
+                1.0
+            )
+            assertEquals(
+                modelAfter.slivers,
+                1.0
+            )
+            assertEquals(
+                modelAfter.stone,
+                true
+            )
+            assertEquals(
+                modelAfter.treeStump,
+                true
+            )
+            assertEquals(
+                modelAfter.weed,
+                true
+            )
+            assertEquals(
+                modelAfter.anthill,
+                true
+            )
+            assertEquals(
+                modelAfter.guineaGrass,
+                true
+            )
+            assertEquals(
+                modelAfter.castorOilPlant,
+                true
+            )
+            assertEquals(
+                modelAfter.signalGrass,
+                true
+            )
+            assertEquals(
+                modelAfter.mucuna,
+                true
+            )
+            assertEquals(
+                modelAfter.silkGrass,
+                true
+            )
+            assertEquals(
+                modelAfter.idServ,
+                1
+            )
+            assertEquals(
+                modelAfter.pos,
+                1
+            )
+
+
+        }
+
 }

@@ -59,7 +59,12 @@ class ISampleRoomDatasource @Inject constructor(
         id: Int,
         idServ: Int
     ): Result<Boolean> {
-        TODO("Not yet implemented")
+        return try {
+            sampleDao.setIdServById(id, idServ)
+            Result.success(true)
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
     }
 
 }

@@ -106,14 +106,30 @@ class IHeaderRoomDatasource @Inject constructor(
     }
 
     override suspend fun listByStatusSend(statusSend: StatusSend): Result<List<HeaderRoomModel>> {
-        TODO("Not yet implemented")
+        try {
+            val list = headerDao.listByStatusSend(statusSend)
+            return Result.success(list)
+        } catch (e: Exception) {
+            return resultFailure(
+                context = getClassAndMethod(),
+                cause = e
+            )
+        }
     }
 
     override suspend fun setIdServAndSentById(
         id: Int,
         idServ: Int
     ): Result<Boolean> {
-        TODO("Not yet implemented")
+        try {
+            headerDao.setIdServAndSentById(id, idServ)
+            return Result.success(true)
+        } catch (e: Exception) {
+            return resultFailure(
+                context = getClassAndMethod(),
+                cause = e
+            )
+        }
     }
 
 }

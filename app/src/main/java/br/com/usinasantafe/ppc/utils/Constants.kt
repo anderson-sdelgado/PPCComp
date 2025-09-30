@@ -24,9 +24,6 @@ const val WEB_ALL_PLOT = "plot.php"
 const val WEB_ALL_SECTION = "section.php"
 
 const val WEB_SAVE_TOKEN = "find-token.php"
-const val WEB_GET_OS_BY_NRO = "os-by-nro.php"
-const val WEB_LIST_OS_BY_ID_FACTORY_SECTION = "os-list-by-id-factory-section.php"
-const val WEB_LIST_PLANT_BY_ID_FACTORY_SECTION = "plant-list-by-id-factory-section"
-const val WEB_LIST_ITEM_BY_ID_OS = "item-list-by-id-os.php"
+const val WEB_SAVE_ANALYSIS = "save-analysis.php"
 
-const val WEB_SAVE_CHECK_LIST = "save-check-list.php"
+const val WEB_GET_OS_BY_NRO = "os-by-nro.php"

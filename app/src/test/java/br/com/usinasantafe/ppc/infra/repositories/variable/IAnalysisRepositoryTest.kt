@@ -2333,4 +2333,116 @@ class IAnalysisRepositoryTest {
             )
         }
 
+    @Test
+    fun `send - Check return correct if function execute successfully`() =
+        runTest {
+            val headerRoomModelList =
+                listOf(
+                    HeaderRoomModel(
+                        id = 1,
+                        regAuditor1 = 1,
+                        date = Date(),
+                        nroTurn = 1,
+                        codSection = 1,
+                        nroPlot = 1,
+                        nroOS = 1,
+                        codFront = 1,
+                        nroHarvester = 1,
+                        regOperator = 1,
+                        status = Status.FINISH,
+                        statusSend = StatusSend.SEND
+                    )
+                )
+            val sampleRoomModelList =
+                listOf(
+                    SampleRoomModel(
+                        id = 1,
+                        idHeader = 1,
+                        pos = 1,
+                        tare = 1.0,
+                        stalk = 1.0,
+                        wholeCane = 1.0,
+                        stump = 1.0,
+                        piece = 1.0,
+                        tip = 1.0,
+                        slivers = 1.0,
+                        stone = true,
+                        treeStump = true,
+                        weed = true,
+                        anthill = true,
+                        guineaGrass = true,
+                        castorOilPlant = true,
+                        signalGrass = true,
+                        mucuna = true,
+                        silkGrass = true
+                    )
+                )
+            val headerRetrofitModelInputList =
+                listOf(
+                    HeaderRetrofitModelInput(
+                        id = 1,
+                        idServ = 1,
+                        sampleList = listOf(
+                            SampleRetrofitModelInput(
+                                id = 1,
+                                idServ = 1
+                            )
+                        )
+                    )
+                )
+            whenever(
+                headerRoomDatasource.listByStatusSend(
+                    StatusSend.SEND
+                )
+            ).thenReturn(
+                Result.success(headerRoomModelList)
+            )
+            whenever(
+                sampleRoomDatasource.listByIdHeader(1)
+            ).thenReturn(
+                Result.success(sampleRoomModelList)
+            )
+            val retrofitModelOutputList = headerRoomModelList.map { headerRoomModel ->
+                headerRoomModel.headerRoomModelToRetrofitModel(
+                    number = 16997417840,
+                    sampleList = sampleRoomModelList.map { it.sampleRoomModelToRetrofitModel() }
+                )
+            }
+            whenever(
+                analysisRetrofitDatasource.send(
+                    token = "token",
+                    retrofitModelOutputList = retrofitModelOutputList
+                )
+            ).thenReturn(
+                Result.success(headerRetrofitModelInputList)
+            )
+            whenever(
+                sampleRoomDatasource.setIdServById(
+                    id = 1,
+                    idServ = 1
+                )
+            ).thenReturn(
+                Result.success(true)
+            )
+            whenever(
+                headerRoomDatasource.setIdServAndSentById(
+                    id = 1,
+                    idServ = 1
+                )
+            ).thenReturn(
+                Result.success(true)
+            )
+            val result = repository.send(
+                token = "token",
+                number = 16997417840
+            )
+            assertEquals(
+                result.isSuccess,
+                true
+            )
+            assertEquals(
+                result.getOrNull()!!,
+                true
+            )
+        }
 }

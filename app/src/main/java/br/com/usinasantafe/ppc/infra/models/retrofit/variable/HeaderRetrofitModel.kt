@@ -1,7 +1,8 @@
 package br.com.usinasantafe.ppc.infra.models.retrofit.variable
 
 import br.com.usinasantafe.ppc.infra.models.room.variable.HeaderRoomModel
-import java.util.Date
+import java.text.SimpleDateFormat
+import java.util.Locale
 
 data class HeaderRetrofitModelOutput(
     val id: Int,
@@ -25,7 +26,12 @@ data class HeaderRetrofitModelInput(
     val id: Int,
     val idServ: Int,
     val sampleList: List<SampleRetrofitModelInput>,
-)
+) {
+    init {
+        require(id != 0) { "The field 'id' cannot is null." }
+        require(idServ != 0) { "The field 'idServ' cannot is null." }
+    }
+}
 
 fun HeaderRoomModel.headerRoomModelToRetrofitModel(
     number: Long,
@@ -37,7 +43,10 @@ fun HeaderRoomModel.headerRoomModelToRetrofitModel(
             regAuditor1 = regAuditor1,
             regAuditor2 = regAuditor2,
             regAuditor3 = regAuditor3,
-            date = date.toString(),
+            date = SimpleDateFormat(
+                "dd/MM/yyyy",
+                Locale.Builder().setLanguage("pt").setRegion("BR").build()
+            ).format(this.date),
             nroTurn = nroTurn,
             codSection = codSection,
             nroPlot = nroPlot,
@@ -45,7 +54,10 @@ fun HeaderRoomModel.headerRoomModelToRetrofitModel(
             codFront = codFront,
             nroHarvester = nroHarvester,
             regOperator = regOperator,
-            dateHour = dateHour.toString(),
+            dateHour = SimpleDateFormat(
+                "dd/MM/yyyy HH:mm",
+                Locale.Builder().setLanguage("pt").setRegion("BR").build()
+            ).format(this.dateHour),
             number = number,
             sampleList = sampleList,
         )

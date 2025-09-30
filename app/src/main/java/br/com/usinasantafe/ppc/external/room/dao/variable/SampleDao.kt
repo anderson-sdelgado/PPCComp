@@ -29,4 +29,7 @@ interface SampleDao {
     @Query("DELETE FROM TB_SAMPLE WHERE id = :id")
     suspend fun deleteById(id: Int)
 
+    @Query("UPDATE TB_SAMPLE SET idServ = :idServ WHERE id = :id")
+    suspend fun setIdServById(id: Int, idServ: Int)
+
 }

@@ -448,7 +448,6 @@ class IAnalysisRepository @Inject constructor(
                 return@map headerRoomModel.headerRoomModelToRetrofitModel(
                     number = number,
                     sampleList = sampleRoomModelList.map { it.sampleRoomModelToRetrofitModel() }
-
                 )
             }
             val result = analysisRetrofitDatasource.send(
@@ -466,7 +465,7 @@ class IAnalysisRepository @Inject constructor(
                 for(sampleRetrofitModel in headerRetrofitModel.sampleList){
                     val resultSetIdServ = sampleRoomDatasource.setIdServById(
                         id = sampleRetrofitModel.id,
-                        idServ = headerRetrofitModel.id
+                        idServ = sampleRetrofitModel.idServ
                     )
                     if(resultSetIdServ.isFailure){
                         return resultFailure(
@@ -477,7 +476,7 @@ class IAnalysisRepository @Inject constructor(
                 }
                 val resultSetIdServer = headerRoomDatasource.setIdServAndSentById(
                     id = headerRetrofitModel.id,
-                    idServ = headerRetrofitModel.id
+                    idServ = headerRetrofitModel.idServ
                 )
                 if(resultSetIdServer.isFailure){
                     return resultFailure(

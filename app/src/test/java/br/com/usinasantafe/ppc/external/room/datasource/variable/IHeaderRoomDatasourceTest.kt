@@ -1048,4 +1048,289 @@ class IHeaderRoomDatasourceTest {
             )
         }
 
+    @Test
+    fun `listByStatusSend - Check return empty list if not have data to send`() =
+        runTest {
+            headerDao.insert(
+                HeaderRoomModel(
+                    regAuditor1 = 1,
+                    regAuditor2 = 2,
+                    regAuditor3 = 3,
+                    date = Date(),
+                    nroTurn = 1,
+                    codSection = 1,
+                    nroPlot = 1,
+                    nroOS = 1,
+                    codFront = 1,
+                    nroHarvester = 1,
+                    regOperator = 1,
+                )
+            )
+            val result = datasource.listByStatusSend(StatusSend.SEND)
+            assertEquals(
+                result.isSuccess,
+                true
+            )
+            val list = result.getOrNull()!!
+            assertEquals(
+                list.size,
+                0
+            )
+        }
+
+    @Test
+    fun `listByStatusSend - Check return list if have data to send`() =
+        runTest {
+            headerDao.insert(
+                HeaderRoomModel(
+                    regAuditor1 = 1,
+                    regAuditor2 = 2,
+                    regAuditor3 = 3,
+                    date = Date(),
+                    nroTurn = 1,
+                    codSection = 1,
+                    nroPlot = 1,
+                    nroOS = 1,
+                    codFront = 1,
+                    nroHarvester = 1,
+                    regOperator = 1,
+                )
+            )
+            headerDao.insert(
+                HeaderRoomModel(
+                    regAuditor1 = 10,
+                    regAuditor2 = 20,
+                    regAuditor3 = 30,
+                    date = Date(),
+                    nroTurn = 2,
+                    codSection = 2,
+                    nroPlot = 2,
+                    nroOS = 2,
+                    codFront = 2,
+                    nroHarvester = 2,
+                    regOperator = 2,
+                    status = Status.FINISH,
+                    statusSend = StatusSend.SEND
+                )
+            )
+            val result = datasource.listByStatusSend(StatusSend.SEND)
+            assertEquals(
+                result.isSuccess,
+                true
+            )
+            val list = result.getOrNull()!!
+            assertEquals(
+                list.size,
+                1
+            )
+            val model = list[0]
+            assertEquals(
+                model.regAuditor1,
+                10
+            )
+            assertEquals(
+                model.regAuditor2,
+                20
+            )
+            assertEquals(
+                model.regAuditor3,
+                30
+            )
+            assertEquals(
+                model.nroTurn,
+                2
+            )
+            assertEquals(
+                model.codSection,
+                2
+            )
+            assertEquals(
+                model.nroPlot,
+                2
+            )
+            assertEquals(
+                model.nroOS,
+                2
+            )
+            assertEquals(
+                model.codFront,
+                2
+            )
+            assertEquals(
+                model.nroHarvester,
+                2
+            )
+            assertEquals(
+                model.regOperator,
+                2
+            )
+            assertEquals(
+                model.status,
+                Status.FINISH
+            )
+            assertEquals(
+                model.statusSend,
+                StatusSend.SEND
+            )
+        }
+
+    @Test
+    fun `setIdServAndSentById - Check alter data was update execute correctly`() =
+        runTest {
+            headerDao.insert(
+                HeaderRoomModel(
+                    regAuditor1 = 1,
+                    regAuditor2 = 2,
+                    regAuditor3 = 3,
+                    date = Date(),
+                    nroTurn = 1,
+                    codSection = 1,
+                    nroPlot = 1,
+                    nroOS = 1,
+                    codFront = 1,
+                    nroHarvester = 1,
+                    regOperator = 1,
+                    status = Status.FINISH,
+                    statusSend = StatusSend.SEND
+                )
+            )
+            val listBefore = headerDao.all()
+            assertEquals(
+                listBefore.size,
+                1
+            )
+            val modelBefore = listBefore[0]
+            assertEquals(
+                modelBefore.regAuditor1,
+                1
+            )
+            assertEquals(
+                modelBefore.regAuditor2,
+                2
+            )
+            assertEquals(
+                modelBefore.regAuditor3,
+                3
+            )
+            assertEquals(
+                modelBefore.nroTurn,
+                1
+            )
+            assertEquals(
+                modelBefore.codSection,
+                1
+            )
+            assertEquals(
+                modelBefore.nroPlot,
+                1
+            )
+            assertEquals(
+                modelBefore.nroOS,
+                1
+            )
+            assertEquals(
+                modelBefore.codFront,
+                1
+            )
+            assertEquals(
+                modelBefore.nroHarvester,
+                1
+            )
+            assertEquals(
+                modelBefore.regOperator,
+                1
+            )
+            assertEquals(
+                modelBefore.status,
+                Status.FINISH
+            )
+            assertEquals(
+                modelBefore.statusSend,
+                StatusSend.SEND
+            )
+            assertEquals(
+                modelBefore.idServ,
+                null
+            )
+            assertEquals(
+                modelBefore.id,
+                1
+            )
+            val result = datasource.setIdServAndSentById(
+                id = 1,
+                idServ = 10
+            )
+            assertEquals(
+                result.isSuccess,
+                true
+            )
+            assertEquals(
+                result.getOrNull()!!,
+                true
+            )
+            val listAfter = headerDao.all()
+            assertEquals(
+                listAfter.size,
+                1
+            )
+            val modelAfter = listAfter[0]
+            assertEquals(
+                modelAfter.regAuditor1,
+                1
+            )
+            assertEquals(
+                modelAfter.regAuditor2,
+                2
+            )
+            assertEquals(
+                modelAfter.regAuditor3,
+                3
+            )
+            assertEquals(
+                modelAfter.nroTurn,
+                1
+            )
+            assertEquals(
+                modelAfter.codSection,
+                1
+            )
+            assertEquals(
+                modelAfter.nroPlot,
+                1
+            )
+            assertEquals(
+                modelAfter.nroOS,
+                1
+            )
+            assertEquals(
+                modelAfter.codFront,
+                1
+            )
+            assertEquals(
+                modelAfter.nroHarvester,
+                1
+            )
+            assertEquals(
+                modelAfter.regOperator,
+                1
+            )
+            assertEquals(
+                modelAfter.status,
+                Status.FINISH
+            )
+            assertEquals(
+                modelAfter.statusSend,
+                StatusSend.SENT
+            )
+            assertEquals(
+                modelAfter.idServ,
+                10
+            )
+            assertEquals(
+                modelAfter.id,
+                1
+            )
+        }
+
+
 }

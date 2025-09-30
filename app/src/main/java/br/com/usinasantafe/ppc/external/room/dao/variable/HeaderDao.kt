@@ -41,4 +41,11 @@ interface HeaderDao {
     @Query("SELECT * FROM TB_HEADER WHERE id = :id")
     suspend fun getById(id: Int): HeaderRoomModel
 
+    @Query("SELECT * FROM TB_HEADER WHERE statusSend = :statusSend")
+    suspend fun listByStatusSend(statusSend: StatusSend): List<HeaderRoomModel>
+
+    @Query("UPDATE TB_HEADER SET idServ = :idServ, statusSend = :statusSend WHERE id = :id")
+    suspend fun setIdServAndSentById(id: Int, idServ: Int, statusSend: StatusSend = StatusSend.SENT)
+
+
 }

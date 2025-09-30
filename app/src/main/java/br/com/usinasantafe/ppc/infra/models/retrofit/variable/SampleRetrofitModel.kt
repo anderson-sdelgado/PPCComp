@@ -26,7 +26,12 @@ data class SampleRetrofitModelOutput(
 data class SampleRetrofitModelInput(
     val id: Int,
     val idServ: Int,
-)
+) {
+    init {
+        require(id != 0) { "The field 'id' cannot is null." }
+        require(idServ != 0) { "The field 'idServ' cannot is null." }
+    }
+}
 
 fun SampleRoomModel.sampleRoomModelToRetrofitModel(): SampleRetrofitModelOutput {
     return with(this) {
