@@ -9,6 +9,7 @@ data class ConfigSharedPreferencesModel(
     var password: String? = null,
     var idServ: Int? = null,
     var version: String? = null,
+    var versionUpdate: String? = null,
     var statusSend: StatusSend = StatusSend.STARTED,
     var flagUpdate: FlagUpdate = FlagUpdate.OUTDATED,
 )
@@ -20,6 +21,7 @@ fun ConfigSharedPreferencesModel.sharedPreferencesModelToEntity(): Config {
             number = number,
             version = version,
             idServ = idServ,
+            versionUpdate = versionUpdate,
             statusSend = statusSend,
             flagUpdate = flagUpdate,
         )
@@ -33,6 +35,7 @@ fun Config.entityToSharedPreferencesModel(): ConfigSharedPreferencesModel {
             number = number,
             version = version,
             idServ = idServ,
+            versionUpdate = versionUpdate,
             statusSend = statusSend,
             flagUpdate = flagUpdate,
         )

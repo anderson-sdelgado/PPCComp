@@ -2,6 +2,7 @@ package br.com.usinasantafe.ppc.domain.usecases.analysis
 
 import br.com.usinasantafe.ppc.domain.errors.resultFailure
 import br.com.usinasantafe.ppc.domain.repositories.variable.AnalysisRepository
+import br.com.usinasantafe.ppc.domain.usecases.background.StartWorkManager
 import br.com.usinasantafe.ppc.utils.Status
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.*
@@ -12,8 +13,10 @@ import kotlin.test.Test
 class IFinishAnalysisTest {
 
     private val analysisRepository = mock<AnalysisRepository>()
+    private val startWorkManager = mock<StartWorkManager>()
     private val usecase = IFinishAnalysis(
-        analysisRepository = analysisRepository
+        analysisRepository = analysisRepository,
+        startWorkManager = startWorkManager
     )
 
     @Test

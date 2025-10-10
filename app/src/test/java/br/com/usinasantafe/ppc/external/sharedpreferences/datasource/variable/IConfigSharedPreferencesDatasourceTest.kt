@@ -177,4 +177,42 @@ class IConfigSharedPreferencesDatasourceTest {
             )
         }
 
+    @Test
+    fun `setVersionUpdate - Check return data correct the Config SharedPreferences internal`() =
+        runTest {
+            val model = ConfigSharedPreferencesModel(
+                versionUpdate = null
+            )
+            datasource.save(model)
+            val resultBefore = datasource.get()
+            assertEquals(
+                resultBefore.isSuccess,
+                true
+            )
+            val modelBefore = resultBefore.getOrNull()!!
+            assertEquals(
+                modelBefore.versionUpdate,
+                null
+            )
+            val result = datasource.setVersionUpdate("2.00")
+            assertEquals(
+                result.isSuccess,
+                true
+            )
+            assertEquals(
+                result.getOrNull()!!,
+                true
+            )
+            val resultAfter = datasource.get()
+            assertEquals(
+                resultAfter.isSuccess,
+                true
+            )
+            val modelAfter = resultAfter.getOrNull()!!
+            assertEquals(
+                modelAfter.versionUpdate,
+                "2.00"
+            )
+        }
+
 }

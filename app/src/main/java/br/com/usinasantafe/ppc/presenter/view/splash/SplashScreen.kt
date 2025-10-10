@@ -28,7 +28,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import br.com.usinasantafe.ppc.BuildConfig
 import br.com.usinasantafe.ppc.R
+import br.com.usinasantafe.ppc.presenter.theme.AlertDialogProgressDesign
 import br.com.usinasantafe.ppc.presenter.theme.AlertDialogSimpleDesign
 import br.com.usinasantafe.ppc.presenter.theme.TitleDesign
 import br.com.usinasantafe.ppc.presenter.theme.PPCTheme
@@ -45,10 +47,12 @@ fun SplashScreen(
             val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
             LaunchedEffect(Unit) {
-                viewModel.startApp()
+                viewModel.startApp(BuildConfig.VERSION_NAME)
             }
 
             SplashContent(
+                flagUpdate = uiState.flagUpdate,
+                currentProgress = uiState.currentProgress,
                 setCloseDialog = viewModel::setCloseDialog,
                 flagAccess = uiState.flagAccess,
                 flagDialog = uiState.flagDialog,
@@ -62,6 +66,8 @@ fun SplashScreen(
 
 @Composable
 fun SplashContent(
+    flagUpdate: Boolean,
+    currentProgress: Float,
     setCloseDialog: () -> Unit,
     flagAccess: Boolean,
     flagDialog: Boolean,
@@ -106,6 +112,15 @@ fun SplashContent(
         )
     }
 
+    if(flagUpdate) {
+        AlertDialogProgressDesign(
+            currentProgress = currentProgress,
+            msgProgress = stringResource(
+                id = R.string.text_msg_update_app
+            )
+        )
+    }
+
     LaunchedEffect(flagAccess) {
         if(flagAccess) {
             onNavInitialMenu()
@@ -119,6 +134,8 @@ fun SplashPagePreview() {
     PPCTheme {
         Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
             SplashContent(
+                flagUpdate = false,
+                currentProgress = 0f,
                 setCloseDialog = {},
                 flagAccess = false,
                 flagDialog = false,
@@ -136,6 +153,27 @@ fun SplashPagePreviewFailure() {
     PPCTheme {
         Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
             SplashContent(
+                flagUpdate = false,
+                currentProgress = 0f,
+                setCloseDialog = {},
+                flagAccess = false,
+                flagDialog = true,
+                failure = "Failure",
+                onNavInitialMenu = {},
+                modifier = Modifier.padding(innerPadding)
+            )
+        }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun SplashPagePreviewUpdateVersion() {
+    PPCTheme {
+        Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
+            SplashContent(
+                flagUpdate = true,
+                currentProgress = 0.3f,
                 setCloseDialog = {},
                 flagAccess = false,
                 flagDialog = true,

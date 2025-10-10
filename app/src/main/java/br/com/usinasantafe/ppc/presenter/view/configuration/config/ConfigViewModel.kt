@@ -40,7 +40,10 @@ data class ConfigState(
     val errors: Errors = Errors.FIELD_EMPTY,
 )
 
-fun ResultUpdateModel.resultUpdateToConfig(classAndMethod: String): ConfigState {
+fun ResultUpdateModel.resultUpdateToConfig(
+    classAndMethod: String,
+    currentState: ConfigState
+): ConfigState {
     val fail = if(failure.isNotEmpty()){
         val ret = "$classAndMethod -> ${this.failure}"
         Timber.e(ret)
@@ -48,7 +51,7 @@ fun ResultUpdateModel.resultUpdateToConfig(classAndMethod: String): ConfigState 
     } else {
         this.failure
     }
-    return ConfigState(
+    return currentState.copy(
         flagDialog = this.flagDialog,
         flagFailure = this.flagFailure,
         errors = this.errors,
@@ -161,8 +164,10 @@ class ConfigViewModel @Inject constructor(
         val number = uiState.value.number
         val password = uiState.value.password
         val version = uiState.value.version
+        var lastEmittedState: ConfigState?
+        lastEmittedState = _uiState.value
         emit(
-            ConfigState(
+            lastEmittedState.copy(
                 flagProgress = true,
                 levelUpdate = LevelUpdate.GET_TOKEN,
                 currentProgress = percentage(1f, sizeToken)
@@ -178,8 +183,9 @@ class ConfigViewModel @Inject constructor(
             val failure =
                 "${getClassAndMethod()} -> ${error.message} -> ${error.cause.toString()}"
             Timber.e(failure)
+            lastEmittedState = _uiState.value
             emit(
-                ConfigState(
+                lastEmittedState.copy(
                     errors = Errors.TOKEN,
                     flagDialog = true,
                     flagFailure = true,
@@ -189,8 +195,9 @@ class ConfigViewModel @Inject constructor(
             )
             return@flow
         }
+        lastEmittedState = _uiState.value
         emit(
-            ConfigState(
+            lastEmittedState.copy(
                 flagProgress = true,
                 levelUpdate = LevelUpdate.SAVE_TOKEN,
                 currentProgress = percentage(2f, sizeToken),
@@ -202,14 +209,16 @@ class ConfigViewModel @Inject constructor(
             password = password,
             version = version,
             idServ = config.idServ!!,
+            versionUpdate = config.versionUpdate!!
         )
         if (resultSave.isFailure) {
             val error = resultSave.exceptionOrNull()!!
             val failure =
                 "${getClassAndMethod()} -> ${error.message} -> ${error.cause.toString()}"
             Timber.e(failure)
+            lastEmittedState = _uiState.value
             emit(
-                ConfigState(
+                lastEmittedState.copy(
                     errors = Errors.TOKEN,
                     flagDialog = true,
                     flagFailure = true,
@@ -219,8 +228,9 @@ class ConfigViewModel @Inject constructor(
             )
             return@flow
         }
+        lastEmittedState = _uiState.value
         emit(
-            ConfigState(
+            lastEmittedState.copy(
                 flagProgress = true,
                 currentProgress = 1f,
                 levelUpdate = LevelUpdate.FINISH_UPDATE_INITIAL,
@@ -230,56 +240,69 @@ class ConfigViewModel @Inject constructor(
 
     fun updateAllDatabase(): Flow<ConfigState> = flow {
         val sizeAllUpdate = sizeUpdate(4f)
-        var state = ConfigState()
+        var lastEmittedState: ConfigState? = null
         val classAndMethod = getClassAndMethod()
         updateTableColab(
             sizeAll = sizeAllUpdate,
             count = 1f
         ).collect {
-            state = it.resultUpdateToConfig(classAndMethod)
-            emit(
-                it.resultUpdateToConfig(classAndMethod)
+            val currentGlobalState = _uiState.value
+            val newState = it.resultUpdateToConfig(
+                classAndMethod,
+                currentState = currentGlobalState
             )
+            lastEmittedState = newState
+            emit(newState)
         }
-        if (state.flagFailure) return@flow
+        if (lastEmittedState!!.flagFailure) return@flow
         updateTableHarvester(
             sizeAll = sizeAllUpdate,
             count = 2f
         ).collect {
-            state = it.resultUpdateToConfig(classAndMethod)
-            emit(
-                it.resultUpdateToConfig(classAndMethod)
+            val currentGlobalState = _uiState.value
+            val newState = it.resultUpdateToConfig(
+                classAndMethod,
+                currentState = currentGlobalState
             )
+            lastEmittedState = newState
+            emit(newState)
         }
-        if (state.flagFailure) return@flow
+        if (lastEmittedState!!.flagFailure) return@flow
         updateTablePlot(
             sizeAll = sizeAllUpdate,
             count = 3f
         ).collect {
-            state = it.resultUpdateToConfig(classAndMethod)
-            emit(
-                it.resultUpdateToConfig(classAndMethod)
+            val currentGlobalState = _uiState.value
+            val newState = it.resultUpdateToConfig(
+                classAndMethod,
+                currentState = currentGlobalState
             )
+            lastEmittedState = newState
+            emit(newState)
         }
-        if (state.flagFailure) return@flow
+        if (lastEmittedState!!.flagFailure) return@flow
         updateTableSection(
             sizeAll = sizeAllUpdate,
             count = 4f
         ).collect {
-            state = it.resultUpdateToConfig(classAndMethod)
-            emit(
-                it.resultUpdateToConfig(classAndMethod)
+            val currentGlobalState = _uiState.value
+            val newState = it.resultUpdateToConfig(
+                classAndMethod,
+                currentState = currentGlobalState
             )
+            lastEmittedState = newState
+            emit(newState)
         }
-        if (state.flagFailure) return@flow
+        if (lastEmittedState!!.flagFailure) return@flow
         val result = setFinishUpdateAllTable()
         if (result.isFailure) {
             val error = result.exceptionOrNull()!!
             val failure =
                 "${getClassAndMethod()} -> ${error.message} -> ${error.cause.toString()}"
             Timber.e(failure)
+            lastEmittedState = _uiState.value
             emit(
-                ConfigState(
+                lastEmittedState!!.copy(
                     errors = Errors.EXCEPTION,
                     flagFailure = true,
                     flagDialog = true,
@@ -290,8 +313,9 @@ class ConfigViewModel @Inject constructor(
             )
             return@flow
         }
+        lastEmittedState = _uiState.value
         emit(
-            ConfigState(
+            lastEmittedState.copy(
                 flagDialog = true,
                 flagProgress = true,
                 flagFailure = false,

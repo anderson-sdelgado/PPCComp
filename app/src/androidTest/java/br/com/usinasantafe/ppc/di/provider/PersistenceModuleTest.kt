@@ -10,7 +10,9 @@ import androidx.test.core.app.ApplicationProvider
 import androidx.work.WorkManager
 import br.com.usinasantafe.ppc.external.room.DatabaseRoom
 import br.com.usinasantafe.ppc.utils.CheckNetwork
+import br.com.usinasantafe.ppc.utils.DownloadAndInstallApk
 import br.com.usinasantafe.ppc.utils.ICheckNetwork
+import br.com.usinasantafe.ppc.utils.IDownloadAndInstallApk
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -116,6 +118,12 @@ class PersistenceModuleTest {
         return IFakeCheckNetwork()
     }
 
+    @Provides
+    @Singleton
+    fun provideDownloadAndInstallApk(@ApplicationContext context: Context): DownloadAndInstallApk {
+        return IDownloadAndInstallApk(context)
+    }
+
 }
 
 @Module
@@ -143,7 +151,7 @@ class IFakeCheckNetwork @Inject constructor(
         connected = value
     }
 
-    override fun isConnected(): Boolean {
+    override fun invoke(): Boolean {
         return connected
     }
 }

@@ -26,7 +26,7 @@ class ProcessWorkManager @AssistedInject constructor(
             val failure =
                 "${getClassAndMethod()} -> ${error.message} -> ${error.cause.toString()}"
             Timber.e(failure)
-            return Result.failure()
+            return Result.retry()
         }
         val check = resultCheck.getOrNull()!!
         if(!check) return Result.success()
@@ -36,7 +36,7 @@ class ProcessWorkManager @AssistedInject constructor(
             val failure =
                 "${getClassAndMethod()} -> ${error.message} -> ${error.cause.toString()}"
             Timber.e(failure)
-            return Result.failure()
+            return Result.retry()
         }
         return Result.success()
     }

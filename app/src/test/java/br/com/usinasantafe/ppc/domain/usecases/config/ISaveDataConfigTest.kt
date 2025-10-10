@@ -24,6 +24,7 @@ class ISaveDataConfigTest {
                 password = "12345",
                 version = "1.00",
                 idServ = 1,
+                versionUpdate = "1.00"
             )
             assertEquals(
                 result.isFailure,
@@ -62,7 +63,8 @@ class ISaveDataConfigTest {
                 number = "16997417840",
                 password = "12345",
                 version = "1.00",
-                idServ = 1
+                idServ = 1,
+                versionUpdate = "1.00"
             )
             assertEquals(
                 result.isFailure,
@@ -97,7 +99,8 @@ class ISaveDataConfigTest {
                 number = "16997417840",
                 password = "12345",
                 version = "1.00",
-                idServ = 1
+                idServ = 1,
+                versionUpdate = "1.00"
             )
             assertEquals(
                 result.isSuccess,

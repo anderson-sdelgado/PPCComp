@@ -11,4 +11,6 @@ interface ConfigRepository {
     suspend fun send(entity: Config): Result<Config>
     suspend fun setFlagUpdate(flagUpdate: FlagUpdate): Result<Boolean>
     suspend fun getFlagUpdate(): Result<FlagUpdate>
+    suspend fun checkUpdateApp(version: String): Result<Boolean>
+    suspend fun updateApp(): Result<Boolean>
 }

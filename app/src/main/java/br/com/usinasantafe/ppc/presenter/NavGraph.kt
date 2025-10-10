@@ -116,8 +116,8 @@ fun NavigationGraph(
                 onNavSampleList = {
                     navActions.navigateToSampleList()
                 },
-                onNavInitialMenu = {
-                    navActions.navigateToInitialMenu()
+                onNavSplash = {
+                    navActions.navigateToSplash()
                 }
             )
         }

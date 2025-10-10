@@ -3,11 +3,17 @@ package br.com.usinasantafe.ppc.presenter.view.configuration.initial
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import br.com.usinasantafe.ppc.domain.usecases.config.CheckAccessInitial
+import br.com.usinasantafe.ppc.domain.usecases.config.CheckUpdateApp
+import br.com.usinasantafe.ppc.domain.usecases.config.GetStatusSend
+import br.com.usinasantafe.ppc.domain.usecases.config.UpdateApp
+import br.com.usinasantafe.ppc.presenter.view.header.operator.OperatorState
 import br.com.usinasantafe.ppc.utils.StatusSend
 import br.com.usinasantafe.ppc.utils.getClassAndMethod
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -18,12 +24,16 @@ data class InitialMenuState(
     val flagDialog: Boolean = false,
     val failure: String = "",
     val flagFailure: Boolean = false,
-    val statusSend: StatusSend = StatusSend.STARTED
+    val statusSend: StatusSend = StatusSend.STARTED,
+    val flagCheckUpdate: Boolean = true,
+    val flagUpdate: Boolean = false,
+    val currentProgress: Float = 0f,
 )
 
 @HiltViewModel
 class InitialMenuViewModel @Inject constructor(
-    private val checkAccessInitial: CheckAccessInitial
+    private val checkAccessInitial: CheckAccessInitial,
+    private val getStatusSend: GetStatusSend,
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(InitialMenuState())
@@ -35,10 +45,18 @@ class InitialMenuViewModel @Inject constructor(
         }
     }
 
-
-    fun recoverStatusSend() {
+    init {
         viewModelScope.launch {
-
+            getStatusSend()
+                .collect { result ->
+                    if (result.isFailure) {
+                        val error = result.exceptionOrNull()!!
+                        val failure = "${getClassAndMethod()} -> ${error.message} -> ${error.cause}"
+                        _uiState.update { it.copy(failure = failure) }
+                    } else {
+                        _uiState.update { it.copy(statusSend = result.getOrNull()!!) }
+                    }
+                }
         }
     }
 

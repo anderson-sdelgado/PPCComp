@@ -44,7 +44,7 @@ class IStartWorkManager @Inject constructor(
                 2, TimeUnit.MINUTES
             )
             .build()
-        workManager.enqueueUniqueWork("WORK-MANAGER-CMM", ExistingWorkPolicy.REPLACE, workRequest)
+        workManager.enqueueUniqueWork("WORK-MANAGER-PPC", ExistingWorkPolicy.REPLACE, workRequest)
     }
 
 }

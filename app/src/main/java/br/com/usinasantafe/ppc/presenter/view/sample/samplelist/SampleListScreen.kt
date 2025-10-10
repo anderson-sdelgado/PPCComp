@@ -184,6 +184,7 @@ fun SampleListContent(
                     onTypeState(TypeStateSampleList.FINISH)
                     onDialogCheck(true)
                 },
+                enabled = sampleList.isNotEmpty(),
                 modifier = Modifier.weight(1f)
             ) {
                 TextButtonDesign(

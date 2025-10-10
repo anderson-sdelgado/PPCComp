@@ -11,7 +11,8 @@ interface SaveDataConfig {
         number: String,
         password: String,
         version: String,
-        idServ: Int
+        idServ: Int,
+        versionUpdate: String
     ): Result<Boolean>
 }
 
@@ -23,7 +24,8 @@ class ISaveDataConfig @Inject constructor(
         number: String,
         password: String,
         version: String,
-        idServ: Int
+        idServ: Int,
+        versionUpdate: String
     ): Result<Boolean> {
         try {
             val entity = Config(
@@ -31,6 +33,7 @@ class ISaveDataConfig @Inject constructor(
                 password = password,
                 version = version,
                 idServ = idServ,
+                versionUpdate = versionUpdate
             )
             val result = configRepository.save(entity)
             if (result.isFailure) {

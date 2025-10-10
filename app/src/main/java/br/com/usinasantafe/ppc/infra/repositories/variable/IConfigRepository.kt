@@ -11,6 +11,7 @@ import br.com.usinasantafe.ppc.infra.models.sharedpreferences.variable.entityToS
 import br.com.usinasantafe.ppc.infra.models.sharedpreferences.variable.sharedPreferencesModelToEntity
 import br.com.usinasantafe.ppc.utils.FlagUpdate
 import br.com.usinasantafe.ppc.utils.getClassAndMethod
+import java.net.SocketTimeoutException
 import javax.inject.Inject
 
 class IConfigRepository @Inject constructor(
@@ -118,6 +119,54 @@ class IConfigRepository @Inject constructor(
             )
         }
         return result
+    }
+
+    override suspend fun checkUpdateApp(version: String): Result<Boolean> {
+        try {
+            val resultGet = configSharedPreferencesDatasource.get()
+            if (resultGet.isFailure) {
+                return resultFailure(
+                    context = getClassAndMethod(),
+                    cause = resultGet.exceptionOrNull()!!
+                )
+            }
+            val sharedPreferencesModel = resultGet.getOrNull()!!
+            val entityOutput = sharedPreferencesModel.sharedPreferencesModelToEntity()
+            if(entityOutput.number == null) return Result.success(false)
+            val resultRecover = configRetrofitDatasource.recoverToken(
+                entityOutput.entityToRetrofitModel()
+            )
+            if(resultRecover.isFailure) {
+                val error = resultRecover.exceptionOrNull()!!
+                if(error.cause is SocketTimeoutException) {
+                    return Result.success(false)
+                }
+                return resultFailure(
+                    context = getClassAndMethod(),
+                    cause = resultRecover.exceptionOrNull()!!
+                )
+            }
+            val configRetrofitModel = resultRecover.getOrNull()!!
+            val entityInput = configRetrofitModel.retrofitToEntity()
+            val resultSet = configSharedPreferencesDatasource.setVersionUpdate(entityInput.versionUpdate!!)
+            if (resultSet.isFailure) {
+                return resultFailure(
+                    context = getClassAndMethod(),
+                    cause = resultSet.exceptionOrNull()!!
+                )
+            }
+            val check = entityInput.versionUpdate != version
+            return Result.success(check)
+        } catch (e: Exception) {
+            return resultFailure(
+                context = getClassAndMethod(),
+                cause = e
+            )
+        }
+    }
+
+    override suspend fun updateApp(): Result<Boolean> {
+        TODO("Not yet implemented")
     }
 
 }

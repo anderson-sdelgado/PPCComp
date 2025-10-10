@@ -131,7 +131,7 @@ fun ObsListContent(
                     )
                     Text(
                         text = stringResource(
-                            id = R.string.text_item_treeStump,
+                            id = R.string.text_item_tree_stump,
                         ),
                         fontSize = 22.sp
                     )

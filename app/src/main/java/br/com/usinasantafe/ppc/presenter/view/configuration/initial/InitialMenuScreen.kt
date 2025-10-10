@@ -25,6 +25,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import br.com.usinasantafe.ppc.BuildConfig
 import br.com.usinasantafe.ppc.R
+import br.com.usinasantafe.ppc.presenter.theme.AlertDialogProgressDesign
+import br.com.usinasantafe.ppc.presenter.theme.AlertDialogProgressIndeterminateDesign
 import br.com.usinasantafe.ppc.presenter.theme.AlertDialogSimpleDesign
 import br.com.usinasantafe.ppc.presenter.theme.ItemListDesign
 import br.com.usinasantafe.ppc.presenter.theme.TitleDesign
@@ -40,6 +42,7 @@ fun InitialMenuScreen(
     PPCTheme {
         Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
             val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+
             InitialMenuContent(
                 statusSend = uiState.statusSend,
                 onCheckAccess = viewModel::onCheckAccess,
@@ -174,6 +177,90 @@ fun InitialMenuContent(
 @Preview(showBackground = true)
 @Composable
 fun InitialMenuPagePreview() {
+    PPCTheme {
+        Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
+            InitialMenuContent(
+                statusSend = StatusSend.STARTED,
+                onCheckAccess = {},
+                setCloseDialog = {},
+                flagAccess = false,
+                flagDialog = false,
+                failure = "",
+                flagFailure = false,
+                onNavPassword = {},
+                onNavHeaderList = {},
+                modifier = Modifier.padding(innerPadding)
+            )
+        }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun InitialMenuPagePreviewBlocked() {
+    PPCTheme {
+        Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
+            InitialMenuContent(
+                statusSend = StatusSend.STARTED,
+                onCheckAccess = {},
+                setCloseDialog = {},
+                flagAccess = false,
+                flagDialog = true,
+                failure = "",
+                flagFailure = false,
+                onNavPassword = {},
+                onNavHeaderList = {},
+                modifier = Modifier.padding(innerPadding)
+            )
+        }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun InitialMenuPagePreviewFailure() {
+    PPCTheme {
+        Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
+            InitialMenuContent(
+                statusSend = StatusSend.STARTED,
+                onCheckAccess = {},
+                setCloseDialog = {},
+                flagAccess = false,
+                flagDialog = true,
+                failure = "Failure",
+                flagFailure = true,
+                onNavPassword = {},
+                onNavHeaderList = {},
+                modifier = Modifier.padding(innerPadding)
+            )
+        }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun InitialMenuPagePreviewCheckUpdate() {
+    PPCTheme {
+        Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
+            InitialMenuContent(
+                statusSend = StatusSend.STARTED,
+                onCheckAccess = {},
+                setCloseDialog = {},
+                flagAccess = false,
+                flagDialog = false,
+                failure = "",
+                flagFailure = false,
+                onNavPassword = {},
+                onNavHeaderList = {},
+                modifier = Modifier.padding(innerPadding)
+            )
+        }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun InitialMenuPagePreviewUpdate() {
     PPCTheme {
         Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
             InitialMenuContent(

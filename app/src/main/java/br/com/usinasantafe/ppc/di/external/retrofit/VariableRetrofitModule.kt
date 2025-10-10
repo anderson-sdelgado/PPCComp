@@ -1,6 +1,7 @@
 package br.com.usinasantafe.ppc.di.external.retrofit
 
 import br.com.usinasantafe.ppc.di.provider.DefaultRetrofit
+import br.com.usinasantafe.ppc.di.provider.ShortTimeoutRetrofit
 import br.com.usinasantafe.ppc.external.retrofit.api.variable.AnalysisApi
 import br.com.usinasantafe.ppc.external.retrofit.api.variable.ConfigApi
 import dagger.Module
@@ -17,7 +18,7 @@ object VariableRetrofitModule {
     @Provides
     @Singleton
     fun configApiRetrofit(
-        @DefaultRetrofit retrofit: Retrofit
+        @ShortTimeoutRetrofit retrofit: Retrofit
     ): ConfigApi = retrofit.create(ConfigApi::class.java)
 
     @Provides

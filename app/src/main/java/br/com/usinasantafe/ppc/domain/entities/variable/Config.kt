@@ -8,6 +8,7 @@ data class Config(
     var password: String? = null,
     var idServ: Int? = null,
     var version: String? = null,
+    var versionUpdate: String? = null,
     var statusSend: StatusSend = StatusSend.STARTED,
     val flagUpdate: FlagUpdate = FlagUpdate.OUTDATED,
 )

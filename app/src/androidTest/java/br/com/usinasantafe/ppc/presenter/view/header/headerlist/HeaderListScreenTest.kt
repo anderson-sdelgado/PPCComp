@@ -13,7 +13,6 @@ import br.com.usinasantafe.ppc.utils.waitUntilTimeout
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import kotlinx.coroutines.test.runTest
-import org.junit.Assert.*
 import org.junit.Rule
 import org.junit.Test
 import java.util.Date
@@ -93,7 +92,7 @@ class HeaderListScreenTest {
         composeTestRule.setContent {
             HeaderListScreen(
                 onNavAuditor = {},
-                onNavInitialMenu = {},
+                onNavSplash = {},
                 onNavSampleList = {}
             )
         }

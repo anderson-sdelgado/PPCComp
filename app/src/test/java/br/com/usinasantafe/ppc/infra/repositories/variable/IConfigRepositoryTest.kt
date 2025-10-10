@@ -6,7 +6,9 @@ import br.com.usinasantafe.ppc.infra.datasource.retrofit.variable.ConfigRetrofit
 import br.com.usinasantafe.ppc.infra.datasource.sharedpreferences.variable.ConfigSharedPreferencesDatasource
 import br.com.usinasantafe.ppc.infra.models.retrofit.variable.ConfigRetrofitModelInput
 import br.com.usinasantafe.ppc.infra.models.retrofit.variable.ConfigRetrofitModelOutput
+import br.com.usinasantafe.ppc.infra.models.retrofit.variable.entityToRetrofitModel
 import br.com.usinasantafe.ppc.infra.models.sharedpreferences.variable.ConfigSharedPreferencesModel
+import br.com.usinasantafe.ppc.infra.models.sharedpreferences.variable.sharedPreferencesModelToEntity
 import br.com.usinasantafe.ppc.utils.FlagUpdate
 import br.com.usinasantafe.ppc.utils.StatusSend
 import kotlinx.coroutines.test.runTest
@@ -14,6 +16,7 @@ import org.junit.Assert.assertEquals
 import org.junit.Test
 import org.mockito.Mockito.mock
 import org.mockito.kotlin.whenever
+import java.net.SocketTimeoutException
 
 class IConfigRepositoryTest {
 
@@ -289,7 +292,8 @@ class IConfigRepositoryTest {
                 version = "1.00"
             )
             val retrofitModelInput = ConfigRetrofitModelInput(
-                idServ = 1
+                idServ = 1,
+                versionUpdate = "1.00"
             )
             val entity = Config(
                 number = 16997417840,
@@ -408,4 +412,197 @@ class IConfigRepositoryTest {
             )
         }
 
+    @Test
+    fun `checkUpdateApp - Check return failure if have error in ConfigSharedPreferencesDatasource get`() =
+        runTest {
+            whenever(
+                configSharedPreferencesDatasource.get()
+            ).thenReturn(
+                resultFailure(
+                    "IConfigSharedPreferencesDatasource.get",
+                    "-",
+                    Exception()
+                )
+            )
+            val result = repository.checkUpdateApp("2.00")
+            assertEquals(
+                result.isFailure,
+                true
+            )
+            assertEquals(
+                result.exceptionOrNull()!!.message,
+                "IConfigRepository.checkUpdateApp -> IConfigSharedPreferencesDatasource.get"
+            )
+            assertEquals(
+                result.exceptionOrNull()!!.cause.toString(),
+                "java.lang.Exception"
+            )
+        }
+
+    @Test
+    fun `checkUpdateApp - Check return false if not have data in config shared preferences`() =
+        runTest {
+            whenever(
+                configSharedPreferencesDatasource.get()
+            ).thenReturn(
+                Result.success(
+                    ConfigSharedPreferencesModel()
+                )
+            )
+            val result = repository.checkUpdateApp("1.00")
+            assertEquals(
+                result.isSuccess,
+                true
+            )
+            assertEquals(
+                result.getOrNull()!!,
+                false
+            )
+        }
+
+    @Test
+    fun `checkUpdateApp - Check return false if error in ConfigRetrofitDatasource recoverToken equal SocketTimeoutException`() =
+        runTest {
+            val sharedPreferencesModel = ConfigSharedPreferencesModel(
+                number = 16997417840,
+                version = "1.00",
+                idServ = 1,
+                password = "12345",
+            )
+            whenever(
+                configSharedPreferencesDatasource.get()
+            ).thenReturn(
+                Result.success(sharedPreferencesModel)
+            )
+            val entity = sharedPreferencesModel.sharedPreferencesModelToEntity().entityToRetrofitModel()
+            whenever(
+                configRetrofitDatasource.recoverToken(entity)
+            ).thenReturn(
+                resultFailure(
+                    "IConfigRetrofitDatasource.recoverToken",
+                    "-",
+                    SocketTimeoutException()
+                )
+            )
+            val result = repository.checkUpdateApp("2.00")
+            assertEquals(
+                result.isSuccess,
+                true
+            )
+            assertEquals(
+                result.getOrNull()!!,
+                false
+            )
+        }
+
+    @Test
+    fun `checkUpdateApp - Check return failure if have error in ConfigRetrofitDatasource recoverToken`() =
+        runTest {
+            val sharedPreferencesModel = ConfigSharedPreferencesModel(
+                number = 16997417840,
+                version = "1.00",
+                idServ = 1,
+                password = "12345",
+            )
+            whenever(
+                configSharedPreferencesDatasource.get()
+            ).thenReturn(
+                Result.success(sharedPreferencesModel)
+            )
+            val entity = sharedPreferencesModel.sharedPreferencesModelToEntity().entityToRetrofitModel()
+            whenever(
+                configRetrofitDatasource.recoverToken(entity)
+            ).thenReturn(
+                resultFailure(
+                    "IConfigRetrofitDatasource.recoverToken",
+                    "-",
+                    Exception()
+                )
+            )
+            val result = repository.checkUpdateApp("2.00")
+            assertEquals(
+                result.isFailure,
+                true
+            )
+            assertEquals(
+                result.exceptionOrNull()!!.message,
+                "IConfigRepository.checkUpdateApp -> IConfigRetrofitDatasource.recoverToken"
+            )
+            assertEquals(
+                result.exceptionOrNull()!!.cause.toString(),
+                "java.lang.Exception"
+            )
+        }
+
+    @Test
+    fun `checkUpdateApp - Check return false if version server is equals version app`() =
+        runTest {
+            val sharedPreferencesModel = ConfigSharedPreferencesModel(
+                number = 16997417840,
+                version = "1.00",
+                idServ = 1,
+                password = "12345",
+            )
+            whenever(
+                configSharedPreferencesDatasource.get()
+            ).thenReturn(
+                Result.success(sharedPreferencesModel)
+            )
+            val entity = sharedPreferencesModel.sharedPreferencesModelToEntity().entityToRetrofitModel()
+            whenever(
+                configRetrofitDatasource.recoverToken(entity)
+            ).thenReturn(
+                Result.success(
+                    ConfigRetrofitModelInput(
+                        idServ = 1,
+                        versionUpdate = "2.00"
+                    )
+                )
+            )
+            val result = repository.checkUpdateApp("2.00")
+            assertEquals(
+                result.isSuccess,
+                true
+            )
+            assertEquals(
+                result.getOrNull()!!,
+                false
+            )
+        }
+
+    @Test
+    fun `checkUpdateApp - Check return true if version server is different version app`() =
+        runTest {
+            val sharedPreferencesModel = ConfigSharedPreferencesModel(
+                number = 16997417840,
+                version = "1.00",
+                idServ = 1,
+                password = "12345",
+            )
+            whenever(
+                configSharedPreferencesDatasource.get()
+            ).thenReturn(
+                Result.success(sharedPreferencesModel)
+            )
+            val entity = sharedPreferencesModel.sharedPreferencesModelToEntity().entityToRetrofitModel()
+            whenever(
+                configRetrofitDatasource.recoverToken(entity)
+            ).thenReturn(
+                Result.success(
+                    ConfigRetrofitModelInput(
+                        idServ = 1,
+                        versionUpdate = "2.01"
+                    )
+                )
+            )
+            val result = repository.checkUpdateApp("2.00")
+            assertEquals(
+                result.isSuccess,
+                true
+            )
+            assertEquals(
+                result.getOrNull()!!,
+                true
+            )
+        }
 }

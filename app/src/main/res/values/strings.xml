@@ -94,14 +94,16 @@
     <string name="text_title_slivers">LASCAS</string>
     <string name="text_msg_value_invalid">"O PESO DIGITADO ESTA ABAIXO DO PESO TARA. POR FAVOR, VERIFIQUE O VALOR DIGITADO."</string>
     <string name="text_msg_value_null">DESEJA REALMENTE PASSAR O VALOR ZERADO PARA O CAMPO?</string>
-    <string name="text_item_stone">PEDRA</string>
-    <string name="text_item_treeStump">TOCO DE ARVORE</string>
-    <string name="text_item_anthill">FORMIGUEIROS</string>
     <string name="text_title_obs">OBSERVAÇÃO</string>
+    <string name="text_item_stone">PEDRA</string>
+    <string name="text_item_tree_stump">TOCO DE ARVORE</string>
+    <string name="text_item_anthill">FORMIGUEIROS</string>
     <string name="text_item_weed">PLANTAS DANINHAS</string>
     <string name="text_item_guinea_grass">CAPIM-COLONIÃO</string>
     <string name="text_item_castor_oil_plant">MAMONA</string>
     <string name="text_item_signal_grass">CAPIM-BRAQUIÁRIA</string>
     <string name="text_item_mucuna">MUCUNA</string>
     <string name="text_item_silk_grass">GRAMA-SEDA</string>
+    <string name="text_check_update_app">CHECANDO ATUALIZAÇÃO DO APLICATIVO</string>
+    <string name="text_msg_update_app">BAIXANDO NOVA VERSÃO, POR FAVOR AGUARDE A FINALIZAÇÃO DO DOWNLOAD.</string>
 </resources>

@@ -247,7 +247,8 @@ class ConfigViewModelTest {
                     number = "16997417840",
                     password = "12345",
                     version = "1.00",
-                    idServ = 1
+                    idServ = 1,
+                    versionUpdate = "1.00"
                 )
             ).thenReturn(
                 resultFailure(
@@ -318,7 +319,8 @@ class ConfigViewModelTest {
                     number = "16997417840",
                     password = "12345",
                     version = "1.00",
-                    idServ = 1
+                    idServ = 1,
+                    versionUpdate = "1.00"
                 )
             ).thenReturn(
                 Result.success(true)
@@ -590,7 +592,8 @@ class ConfigViewModelTest {
                     number = "16997417840",
                     password = "12345",
                     version = "1.00",
-                    idServ = 1
+                    idServ = 1,
+                    versionUpdate = "1.00"
                 )
             ).thenReturn(
                 Result.success(true)
@@ -658,7 +661,8 @@ class ConfigViewModelTest {
             ).thenReturn(
                 Result.success(
                     Config(
-                        idServ = 1
+                        idServ = 1,
+                        versionUpdate = "1.00"
                     )
                 )
             )
@@ -667,7 +671,8 @@ class ConfigViewModelTest {
                     number = "16997417840",
                     password = "12345",
                     version = "1.00",
-                    idServ = 1
+                    idServ = 1,
+                    versionUpdate = "1.00"
                 )
             ).thenReturn(
                 Result.success(true)

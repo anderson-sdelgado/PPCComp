@@ -2,7 +2,7 @@ package br.com.usinasantafe.ppc.utils
 
 const val BASE_SHARE_PREFERENCES = "ppc"
 const val BASE_DB = "ppc.db"
-const val VERSION_DB = 9999
+const val VERSION_DB = 1
 
 const val BASE_SHARED_PREFERENCES_TABLE_CONFIG = "config"
 const val BASE_SHARED_PREFERENCES_TABLE_HEADER = "header"

@@ -40,7 +40,7 @@ fun HeaderListScreen(
     viewModel: HeaderListViewModel = hiltViewModel(),
     onNavAuditor: () -> Unit,
     onNavSampleList: () -> Unit,
-    onNavInitialMenu: () -> Unit
+    onNavSplash: () -> Unit
 ) {
     PPCTheme {
         Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
@@ -59,7 +59,7 @@ fun HeaderListScreen(
                 failure = uiState.failure,
                 onNavAuditor = onNavAuditor,
                 onNavSampleList = onNavSampleList,
-                onNavInitialMenu = onNavInitialMenu,
+                onNavSplash = onNavSplash,
                 modifier = Modifier.padding(innerPadding)
             )
         }
@@ -76,7 +76,7 @@ fun HeaderListContent(
     failure: String,
     onNavAuditor: () -> Unit,
     onNavSampleList: () -> Unit,
-    onNavInitialMenu: () -> Unit,
+    onNavSplash: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -141,7 +141,7 @@ fun HeaderListContent(
         }
         Spacer(modifier = Modifier.height(8.dp))
         Button(
-            onClick = onNavInitialMenu,
+            onClick = onNavSplash,
             modifier = Modifier.fillMaxWidth(),
         ) {
             TextButtonDesign(
@@ -183,7 +183,7 @@ fun HeaderListPagePreview() {
                 failure = "",
                 onNavAuditor = {},
                 onNavSampleList = {},
-                onNavInitialMenu = {},
+                onNavSplash = {},
                 modifier = Modifier.padding(innerPadding)
             )
         }
@@ -221,7 +221,7 @@ fun HeaderListPagePreviewWithData() {
                 failure = "",
                 onNavAuditor = {},
                 onNavSampleList = {},
-                onNavInitialMenu = {},
+                onNavSplash = {},
                 modifier = Modifier.padding(innerPadding)
             )
         }
@@ -259,7 +259,7 @@ fun HeaderListPagePreviewFailure() {
                 failure = "Failure",
                 onNavAuditor = {},
                 onNavSampleList = {},
-                onNavInitialMenu = {},
+                onNavSplash = {},
                 modifier = Modifier.padding(innerPadding)
             )
         }

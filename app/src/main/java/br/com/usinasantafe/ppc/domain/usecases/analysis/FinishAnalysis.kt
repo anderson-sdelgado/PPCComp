@@ -2,6 +2,7 @@ package br.com.usinasantafe.ppc.domain.usecases.analysis
 
 import br.com.usinasantafe.ppc.domain.errors.resultFailure
 import br.com.usinasantafe.ppc.domain.repositories.variable.AnalysisRepository
+import br.com.usinasantafe.ppc.domain.usecases.background.StartWorkManager
 import br.com.usinasantafe.ppc.utils.Status
 import br.com.usinasantafe.ppc.utils.getClassAndMethod
 import javax.inject.Inject
@@ -11,7 +12,8 @@ interface FinishAnalysis {
 }
 
 class IFinishAnalysis @Inject constructor(
-    private val analysisRepository: AnalysisRepository
+    private val analysisRepository: AnalysisRepository,
+    private val startWorkManager: StartWorkManager
 ): FinishAnalysis {
 
     override suspend fun invoke(): Result<Boolean> {
@@ -34,6 +36,7 @@ class IFinishAnalysis @Inject constructor(
                     cause = resultFinish.exceptionOrNull()!!
                 )
             }
+            startWorkManager()
             return Result.success(true)
         } catch (e: Exception) {
             return resultFailure(

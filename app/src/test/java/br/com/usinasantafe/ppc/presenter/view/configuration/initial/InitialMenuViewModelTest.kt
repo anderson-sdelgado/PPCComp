@@ -3,6 +3,9 @@ package br.com.usinasantafe.ppc.presenter.view.configuration.initial
 import br.com.usinasantafe.ppc.MainCoroutineRule
 import br.com.usinasantafe.ppc.domain.errors.resultFailure
 import br.com.usinasantafe.ppc.domain.usecases.config.CheckAccessInitial
+import br.com.usinasantafe.ppc.domain.usecases.config.CheckUpdateApp
+import br.com.usinasantafe.ppc.domain.usecases.config.GetStatusSend
+import br.com.usinasantafe.ppc.domain.usecases.config.UpdateApp
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.*
@@ -19,8 +22,11 @@ class InitialMenuViewModelTest {
     val mainCoroutineRule = MainCoroutineRule()
 
     private val checkAccessInitial = mock<CheckAccessInitial>()
+    private val getStatusSend = mock<GetStatusSend>()
+
     private val viewModel = InitialMenuViewModel(
-        checkAccessInitial = checkAccessInitial
+        checkAccessInitial = checkAccessInitial,
+        getStatusSend = getStatusSend,
     )
 
     @Test

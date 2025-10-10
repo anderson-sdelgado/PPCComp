@@ -28,7 +28,7 @@ import java.util.Date
         HeaderRoomModel::class,
         SampleRoomModel::class,
     ],
-    version = 1, exportSchema = true,
+    version = VERSION_DB, exportSchema = true,
 )
 @TypeConverters(Converters::class)
 abstract class DatabaseRoom : RoomDatabase() {

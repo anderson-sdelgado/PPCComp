@@ -15,11 +15,11 @@ import dagger.hilt.android.testing.HiltAndroidTest
 import kotlinx.coroutines.test.runTest
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
-import org.junit.Assert.*
 import org.junit.Rule
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import kotlin.test.Test
+import kotlin.test.assertEquals
 import kotlin.time.Duration.Companion.minutes
 
 @HiltAndroidTest
@@ -75,6 +75,7 @@ class ICheckOSTest {
     fun check_true_return_and_os_table_is_empty_if_web_return_failure() =
         runTest {
             hiltRule.inject()
+
             initialRegister()
 
             val resultGetBefore = osSharedPreferencesDatasource.get()

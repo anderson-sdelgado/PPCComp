@@ -33,11 +33,13 @@ class ICheckOS @Inject constructor(
                     cause = resultDelete.exceptionOrNull()!!
                 )
             }
-            if (!checkNetwork.isConnected()) return Result.success(
-                ResultCheckDataWebServiceModel(
-                    statusCon = StatusCon.WITHOUT
+            if (!checkNetwork()) {
+                return Result.success(
+                    ResultCheckDataWebServiceModel(
+                        statusCon = StatusCon.WITHOUT
+                    )
                 )
-            )
+            }
             val resultGetToken = getToken()
             if (resultGetToken.isFailure) {
                 return resultFailure(

@@ -61,7 +61,7 @@ class ICheckOSTest {
                 Result.success(true)
             )
             whenever(
-                checkNetwork.isConnected()
+                checkNetwork()
             ).thenReturn(
                 false
             )
@@ -87,7 +87,7 @@ class ICheckOSTest {
                 Result.success(true)
             )
             whenever(
-                checkNetwork.isConnected()
+                checkNetwork()
             ).thenReturn(
                 true
             )
@@ -124,7 +124,7 @@ class ICheckOSTest {
                 Result.success(true)
             )
             whenever(
-                checkNetwork.isConnected()
+                checkNetwork()
             ).thenReturn(
                 true
             )
@@ -169,7 +169,7 @@ class ICheckOSTest {
                 Result.success(true)
             )
             whenever(
-                checkNetwork.isConnected()
+                checkNetwork()
             ).thenReturn(
                 true
             )
@@ -220,7 +220,7 @@ class ICheckOSTest {
                 Result.success(true)
             )
             whenever(
-                checkNetwork.isConnected()
+                checkNetwork()
             ).thenReturn(
                 true
             )
@@ -266,7 +266,7 @@ class ICheckOSTest {
                 Result.success(true)
             )
             whenever(
-                checkNetwork.isConnected()
+                checkNetwork()
             ).thenReturn(
                 true
             )
@@ -322,7 +322,7 @@ class ICheckOSTest {
                 Result.success(true)
             )
             whenever(
-                checkNetwork.isConnected()
+                checkNetwork()
             ).thenReturn(
                 true
             )

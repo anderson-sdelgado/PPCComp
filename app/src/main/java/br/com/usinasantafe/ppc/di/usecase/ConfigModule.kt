@@ -39,4 +39,16 @@ interface ConfigModule {
     @Singleton
     fun bindGetToken(usecase: IGetToken): GetToken
 
+    @Binds
+    @Singleton
+    fun bindGetStatusSend(usecase: IGetStatusSend): GetStatusSend
+
+    @Binds
+    @Singleton
+    fun bindCheckUpdateApp(usecase: ICheckUpdateApp): CheckUpdateApp
+
+    @Binds
+    @Singleton
+    fun bindUpdateApp(usecase: IUpdateApp): UpdateApp
+
 }

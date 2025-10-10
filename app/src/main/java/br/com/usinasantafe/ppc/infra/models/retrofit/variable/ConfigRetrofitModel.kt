@@ -8,11 +8,13 @@ data class ConfigRetrofitModelOutput(
 )
 
 data class ConfigRetrofitModelInput(
-    val idServ: Int
+    val idServ: Int,
+    val versionUpdate: String,
 )
 
 fun Config.entityToRetrofitModel(): ConfigRetrofitModelOutput {
     require(number != 0L) { "The field 'number' cannot is null." }
+    require(!version.isNullOrEmpty()) { "The field 'version' cannot is null or empty." }
     return ConfigRetrofitModelOutput(
         number = number!!,
         version = version!!
@@ -21,7 +23,9 @@ fun Config.entityToRetrofitModel(): ConfigRetrofitModelOutput {
 
 fun ConfigRetrofitModelInput.retrofitToEntity(): Config {
     require(idServ != 0) { "The field 'idServ' cannot is null." }
+    require(versionUpdate.isNotEmpty()) { "The field 'versionUpdate' cannot is null." }
     return Config(
         idServ = idServ,
+        versionUpdate = versionUpdate
     )
 }

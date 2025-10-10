@@ -1,5 +1,6 @@
 package br.com.usinasantafe.ppc.di.provider
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.SharedPreferences
 import androidx.room.Room
@@ -9,7 +10,9 @@ import br.com.usinasantafe.ppc.external.room.DatabaseRoom
 import br.com.usinasantafe.ppc.utils.BASE_DB
 import br.com.usinasantafe.ppc.utils.BASE_SHARE_PREFERENCES
 import br.com.usinasantafe.ppc.utils.CheckNetwork
+import br.com.usinasantafe.ppc.utils.DownloadAndInstallApk
 import br.com.usinasantafe.ppc.utils.ICheckNetwork
+import br.com.usinasantafe.ppc.utils.IDownloadAndInstallApk
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -19,8 +22,14 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.security.cert.X509Certificate
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
+import javax.net.ssl.SSLContext
+import javax.net.ssl.SSLSocketFactory
+import javax.net.ssl.TrustManager
+import javax.net.ssl.X509TrustManager
+import kotlin.arrayOf
 
 
 @Module
@@ -35,7 +44,7 @@ object PersistenceModule {
         val logging = HttpLoggingInterceptor()
         logging.level = HttpLoggingInterceptor.Level.BODY
 
-        return OkHttpClient.Builder()
+        return createUnsafeHttpClientBuilder()
             .connectTimeout(1, TimeUnit.MINUTES)
             .writeTimeout(1, TimeUnit.MINUTES)
             .readTimeout(1, TimeUnit.MINUTES)
@@ -50,7 +59,7 @@ object PersistenceModule {
         val logging = HttpLoggingInterceptor()
         logging.level = HttpLoggingInterceptor.Level.BODY
 
-        return OkHttpClient.Builder()
+        return createUnsafeHttpClientBuilder()
             .connectTimeout(10, TimeUnit.SECONDS)
             .writeTimeout(10, TimeUnit.SECONDS)
             .readTimeout(10, TimeUnit.SECONDS)
@@ -91,7 +100,6 @@ object PersistenceModule {
             BASE_DB
         )
             .allowMainThreadQueries()
-            .fallbackToDestructiveMigration()
             .build()
     }
 
@@ -113,6 +121,12 @@ object PersistenceModule {
         return ICheckNetwork(context)
     }
 
+    @Provides
+    @Singleton
+    fun provideDownloadAndInstallApk(@ApplicationContext context: Context): DownloadAndInstallApk {
+        return IDownloadAndInstallApk(context)
+    }
+
 }
 
 @Module
@@ -124,3 +138,24 @@ object BaseUrlModule {
     fun provideUrl(@ApplicationContext appContext: Context): String = appContext.getString(R.string.base_url)
 }
 
+fun createUnsafeHttpClientBuilder(): OkHttpClient.Builder {
+    val trustAllCerts = arrayOf<TrustManager>(
+        @SuppressLint("CustomX509TrustManager")
+        object : X509TrustManager {
+            @SuppressLint("TrustAllX509TrustManager")
+            override fun checkClientTrusted(chain: Array<out X509Certificate>?, authType: String?) {}
+            @SuppressLint("TrustAllX509TrustManager")
+            override fun checkServerTrusted(chain: Array<out X509Certificate>?, authType: String?) {}
+            override fun getAcceptedIssuers(): Array<X509Certificate> = arrayOf()
+        }
+    )
+
+    val sslContext = SSLContext.getInstance("SSL")
+    sslContext.init(null, trustAllCerts, java.security.SecureRandom())
+
+    val sslSocketFactory = sslContext.socketFactory
+
+    return OkHttpClient.Builder()
+        .sslSocketFactory(sslSocketFactory, trustAllCerts[0] as X509TrustManager)
+        .hostnameVerifier { _, _ -> true }
+}

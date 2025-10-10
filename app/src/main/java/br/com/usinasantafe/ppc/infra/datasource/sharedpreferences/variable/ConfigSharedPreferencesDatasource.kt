@@ -10,4 +10,5 @@ interface ConfigSharedPreferencesDatasource {
     suspend fun get(): Result<ConfigSharedPreferencesModel>
     suspend fun setFlagUpdate(flagUpdate: FlagUpdate): Result<Boolean>
     suspend fun getFlagUpdate(): Result<FlagUpdate>
+    suspend fun setVersionUpdate(version: String): Result<Boolean>
 }
